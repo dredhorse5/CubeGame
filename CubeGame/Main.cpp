@@ -2,7 +2,7 @@
 #include <glut.h>
 #include <iostream>
 
-float angle = 0.0f;
+float x = 0;
 
 void changeSize(int w, int h) {
 	if (h == 0)
@@ -18,14 +18,24 @@ void changeSize(int w, int h) {
 
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushMatrix();
+	x += 0.01;
+	glRotatef(x, 0, 0, 1);
+
+	
 	glBegin(GL_QUADS);
 	glVertex3f(-0.5, -0.5, 0.0);
 	glVertex3f(0.5, -0.5, 0.0);
 	glVertex3f(0.5, 0.5, 0.0);
 	glVertex3f(-0.5, 0.5, 0.0);
 	glEnd();
-
+	
+	if (x > 180) x = 0;
+	glutPostRedisplay();
+	glPopMatrix();
+	glFinish();
 	glutSwapBuffers();
+	
 }
 
 int main(int argc, char* argv[]) {

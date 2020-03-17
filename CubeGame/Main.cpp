@@ -14,7 +14,7 @@ void changeSize(int w, int h) {
 	glViewport(0, 0, w, h);
 	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
 	glMatrixMode(GL_MODELVIEW);
-	///////////////// THE KOSTYIA IS SLEEPING /////////////////////////
+	///////////////// THE KOSTYA IS SLEEPING /////////////////////////
 }
 
 void renderScene(void) {

@@ -9,16 +9,12 @@ void changeSize(int w, int h) {
 	if (h == 0)
 		h = 1;
 	float ratio = w * 1.0 / h;
-	// èñïîëüçóåì ìàòðèöó ïðîåêöèè
 	glMatrixMode(GL_PROJECTION);
-	// îáíóëÿåì ìàòðèöó
 	glLoadIdentity();
-	// óñòàíîâèòü ïàðàìåòðû âüþïîðòà
 	glViewport(0, 0, w, h);
-	// óñòàíîâèòü êîððåêòíóþ ïåðñïåêòèâó
 	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-	// âåðíóòüñÿ ê ìàòðèöå ïðîåêöèè
 	glMatrixMode(GL_MODELVIEW);
+	///////////////// THE KOSTYIA IS SLEEPING /////////////////////////
 }
 
 void renderScene(void) {

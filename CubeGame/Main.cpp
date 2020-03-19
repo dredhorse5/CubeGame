@@ -19,8 +19,8 @@ void changeSize(int w, int h) {
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	x += 0.01;
-	glRotatef(x, 0, 0, 1);
+	x += 0.5;
+	glRotatef(x, 1, 0, 0);
 
 	
 	glBegin(GL_QUADS);

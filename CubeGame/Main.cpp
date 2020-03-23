@@ -2,7 +2,7 @@
 #include <glut.h>
 #include <iostream>
 
-float angle = 0.0f;
+float x = 0;
 
 void changeSize(int w, int h) {
 	if (h == 0)
@@ -13,17 +13,29 @@ void changeSize(int w, int h) {
 	glViewport(0, 0, w, h);
 	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
 	glMatrixMode(GL_MODELVIEW);
-	///////////////// THE KOSTYIA IS SLEEPING /////////////////////////
+	///////////////// THE KOSTYA IS SLEEPING /////////////////////////
 }
 
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glBegin(GL_TRIANGLES);
-	glVertex3f(-0.9, -0.9, 0.0);
-	glVertex3f(0.0, 0.5, 0.0);
-	glVertex3f(0.5, -0.9, 0.0);
+	glPushMatrix();
+	x += 0.5;
+	glRotatef(x, 1, 0, 0);
+
+	
+	glBegin(GL_QUADS);
+	glVertex3f(-0.5, -0.5, 0.0);
+	glVertex3f(0.5, -0.5, 0.0);
+	glVertex3f(0.5, 0.5, 0.0);
+	glVertex3f(-0.5, 0.5, 0.0);
 	glEnd();
+	
+	if (x > 180) x = 0;
+	glutPostRedisplay();
+	glPopMatrix();
+	glFinish();
 	glutSwapBuffers();
+	
 }
 
 int main(int argc, char* argv[]) {

@@ -1,53 +1,107 @@
-﻿//#include <SOIL.h>
+﻿#include <iostream>
 #include <glut.h>
-#include <iostream>
+#include <gl/GLU.h>
 
-float x = 0;
+void display();
+void reshape(int, int);
+void timer(int);
 
-void changeSize(int w, int h) {
-	if (h == 0)
-		h = 1;
-	float ratio = w * 1.0 / h;
+void init()
+{////
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glEnable(GL_DEPTH_TEST);
+}
+
+int main(int argc, char** argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+
+	glutInitWindowPosition(200, 100);
+	glutInitWindowSize(500, 500);
+
+	glutCreateWindow("Cube");
+
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+	glutTimerFunc(0, timer, 0);
+	init();
+	//////////
+	glutMainLoop();
+}
+
+float angle = 0.0;
+//////////////////
+void display()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+	glTranslatef(0.0, 0.0, -8.0);
+	glRotatef(angle, 1.0, 1.0, 0.0);
+	glRotatef(angle, 0.0, 1.0, 0.0);
+	glRotatef(angle, 0.0, 0.0, 1.0);
+
+	//draw
+	glBegin(GL_QUADS);
+	//front
+	glColor3f(1.0, 0.0, 0.0);
+	glVertex3f(-1.0, 1.0, 1.0);
+	glVertex3f(-1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	//back
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(1.0, 1.0, -1.0);
+	glVertex3f(1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, 1.0, -1.0);
+	//right
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	glVertex3f(1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, -1.0);
+	glVertex3f(1.0, 1.0, -1.0);
+	//left
+	glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(-1.0, 1.0, -1.0);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0, 1.0);
+	glVertex3f(-1.0, 1.0, 1.0);
+	//top
+	glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(-1.0, 1.0, -1.0);
+	glVertex3f(-1.0, 1.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	glVertex3f(1.0, 1.0, -1.0);
+	//bottom
+	glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, -1.0);
+
+	glEnd();
+
+	glutSwapBuffers();
+}
+
+void reshape(int w, int h)
+{
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glViewport(0, 0, w, h);
-	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
+	gluPerspective(60, 1, 2.0, 50.0);
 	glMatrixMode(GL_MODELVIEW);
-	///////////////// THE KOSTYA IS SLEEPING /////////////////////////
-}
-///////////////////////////////
-void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPushMatrix();
-	x += 0.5;
-	glRotatef(x, 1, 0, 0);
 
-	
-	glBegin(GL_QUADS);
-	glVertex3f(-0.5, -0.5, 0.0);
-	glVertex3f(0.5, -0.5, 0.0);
-	glVertex3f(0.5, 0.5, 0.0);
-	glVertex3f(-0.5, 0.5, 0.0);
-	glEnd();
-	
-	if (x > 180) x = 0;
+}
+///////////////////
+void timer(int)
+{////////////
 	glutPostRedisplay();
-	glPopMatrix();
-	glFinish();
-	glutSwapBuffers();
-	
-}
-// // create//////////////
-int main(int argc, char* argv[]) {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(400, 400);
-	glutCreateWindow("Óðîê 1");
-
-	glutDisplayFunc(renderScene);
-
-	glutMainLoop();
-
-	return 1;
+	glutTimerFunc(1000 / 60, timer, 0);
+	///I am so tired)))), but happy///
+	angle += 0.8 * 4;
+	if (angle > 360.0)
+		angle = angle - 360.0;
 }

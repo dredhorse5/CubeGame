@@ -15,7 +15,7 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 	///////////////// THE KOSTYA IS SLEEPING /////////////////////////
 }
-//////////////////////////
+///////////////////////////////
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();

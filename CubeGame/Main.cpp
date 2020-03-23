@@ -15,7 +15,7 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 	///////////////// THE KOSTYA IS SLEEPING /////////////////////////
 }
-///
+//////////////////////////
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
@@ -37,7 +37,7 @@ void renderScene(void) {
 	glutSwapBuffers();
 	
 }
-// // create
+// // create////
 int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);

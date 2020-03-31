@@ -99,10 +99,15 @@ void display()
 	glRotatef(angle, 1.0, 2.0, 0.5);
 
 
-	Draw_cubes();
+	///Draw_cubes();
+	for (int x = 0; x < 5; x++)
+		{
+			glTranslatef(x*angle*2, 0, 0);
+			glTranslatef(-x*angle*2, 0, 0);
+		}
 	
 	
-	angle += 0.8 * 4;
+	///angle += 0.8 * 4;
 	if (angle > 360.0)
 		angle = angle - 360.0;
 

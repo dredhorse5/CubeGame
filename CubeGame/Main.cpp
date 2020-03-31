@@ -107,7 +107,7 @@ void display()
 		}
 	
 	
-	///angle += 0.8 * 4;
+	angle += 0.8 * 4;
 	if (angle > 360.0)
 		angle = angle - 360.0;
 

@@ -99,7 +99,6 @@ void display()
 	glTranslatef(0.0, 0.0, -5.0);
 	glRotatef(angle, 1.0, 2.0, 0.5);
 
-	Draw_cubes();
 
 	for (int x = 0; x < 3; x++)
 		for (int y = 0; y < 3; y++)

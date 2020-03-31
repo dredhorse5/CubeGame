@@ -11,6 +11,7 @@ GLuint dirt[1];
 int View = 90; // angle of view
 int FPS = 60; // 60
 float angle = 0.0f;
+int size = 1;
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &dirt[0]);
@@ -98,12 +99,13 @@ void display()
 	glTranslatef(0.0, 0.0, -5.0);
 	glRotatef(angle, 1.0, 2.0, 0.5);
 
+	Draw_cubes();
 
-	///Draw_cubes();
 	for (int x = 0; x < 5; x++)
 		{
-			glTranslatef(x*angle*2, 0, 0);
-			glTranslatef(-x*angle*2, 0, 0);
+			glTranslatef(x*size*2, 0, 0);
+			Draw_cubes();
+			glTranslatef(-x*size*2, 0, 0);
 		}
 	
 	

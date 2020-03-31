@@ -101,11 +101,13 @@ void display()
 
 	Draw_cubes();
 
-	for (int x = 0; x < 5; x++)
+	for (int x = 0; x < 3; x++)
+		for (int y = 0; y < 3; y++)
+			for (int z = 0; z < 3; z++)
 		{
-			glTranslatef(x*size*2, 0, 0);
+			glTranslatef(x*size*2, y*size*2, z*size*2);
 			Draw_cubes();
-			glTranslatef(-x*size*2, 0, 0);
+			glTranslatef(-x*size*2, -y*size*2, -z*size*2);
 		}
 	
 	

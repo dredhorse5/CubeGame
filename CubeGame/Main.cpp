@@ -11,8 +11,8 @@ GLuint dirt[1];
 int View = 90; // angle of view
 int FPS = 60; // 60
 float angle = 0.0f;
-float angls = 0;
-float angln = 0;
+float angls = 0.0f;
+float angln = 0.0f;
 int size = 1;
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
@@ -99,12 +99,12 @@ void display()
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	//=======================================DRAW================================================
 	glTranslatef(0.0, 0.0, -10.0);
-	glRotatef(1*angle, 1*angls, 1*angln, 0.5);
+	glRotatef(angle, angls, angln, 0.5);
 
 
-	for (int x = 0; x < 3; x++)
-		for (int y = 0; y < 3; y++)
-			for (int z = 0; z < 3; z++)
+	for (int x = 0; x < 2; x++)
+		for (int y = 0; y < 2; y++)
+			for (int z = 0; z < 2; z++)
 		{
 			glTranslatef(x*size*2, y*size*2, z*size*2);
 			Draw_cubes();
@@ -113,9 +113,9 @@ void display()
 	
 	
 	
-	//angle += 0.8 * 4;
-	//if (angle > 360.0)
-		//angle = angle - 360.0;
+	angle += 0.8 * 4;
+	if (angle > 360.0)
+		angle = angle - 360.0;
 
 
 	//=======================================DRAW================================================
@@ -125,24 +125,24 @@ void display()
 
 void processNormalKeys(unsigned char key, int x, int y)
 {
-	if (key = GLUT_KEY_LEFT) {
-		angle = 20.2;
+	if (key == 'a') {
+		angle = 10.2;
 	}
 	else {
-		angle = 0;
+		angle = 2.2;
 	}
 	
 
-	if (key = GLUT_KEY_RIGHT) {
-		angls = 20.2;
+	if (key == 'd') {
+		angls = 0.2;
 	}
 	else {
 		angls = 0;
 	}
 		
 
-	if (key = GLUT_KEY_UP) {
-		angln = 20.2;
+	if (key == 'w') {
+		angln = 180.2;
 	}
 	else {
 		angln = 0;

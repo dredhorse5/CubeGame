@@ -96,7 +96,7 @@ void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	//glClearColor(1.0, 1.0, 1.0, 1.0);
 	//=======================================DRAW================================================
 	glTranslatef(0.0, 0.0, -10.0);
 	glRotatef(angle, angls, angln, 0.5);
@@ -116,6 +116,8 @@ void display()
 	angle += 0.8 * 4;
 	if (angle > 360.0)
 		angle = angle - 360.0;
+	
+
 
 
 	//=======================================DRAW================================================
@@ -129,12 +131,15 @@ void processNormalKeys(unsigned char key, int x, int y)
 		angle = 10.2;
 	}
 	else {
-		angle = 2.2;
+		angle = 0;
 	}
 	
 
 	if (key == 'd') {
-		angls = 0.2;
+		angls += 0.8 * 4;
+		if (angls > 360.0)
+			angls = angls - 360.0;
+
 	}
 	else {
 		angls = 0;
@@ -142,7 +147,11 @@ void processNormalKeys(unsigned char key, int x, int y)
 		
 
 	if (key == 'w') {
-		angln = 180.2;
+		angln += 0.8 * 4;
+		if (angln > 360.0)
+			angln = angln - 360.0;
+
+
 	}
 	else {
 		angln = 0;

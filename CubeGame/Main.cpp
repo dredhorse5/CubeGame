@@ -11,6 +11,8 @@ GLuint dirt[1];
 int View = 90; // angle of view
 int FPS = 60; // 60
 float angle = 0.0f;
+float angls = 0;
+float angln = 0;
 int size = 1;
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
@@ -94,10 +96,10 @@ void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	//glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 	//=======================================DRAW================================================
-	glTranslatef(0.0, 0.0, -5.0);
-	glRotatef(angle, 1.0, 2.0, 0.5);
+	glTranslatef(0.0, 0.0, -10.0);
+	glRotatef(1*angle, 1*angls, 1*angln, 0.5);
 
 
 	for (int x = 0; x < 3; x++)
@@ -110,16 +112,46 @@ void display()
 		}
 	
 	
-	angle += 0.8 * 4;
-	if (angle > 360.0)
-		angle = angle - 360.0;
+	
+	//angle += 0.8 * 4;
+	//if (angle > 360.0)
+		//angle = angle - 360.0;
 
 
 	//=======================================DRAW================================================
 	glPopMatrix();
 	glutSwapBuffers();
 }
-int main(int argc, char* argv[]) {
+
+void processNormalKeys(unsigned char key, int x, int y)
+{
+	if (key = GLUT_KEY_LEFT) {
+		angle = 20.2;
+	}
+	else {
+		angle = 0;
+	}
+	
+
+	if (key = GLUT_KEY_RIGHT) {
+		angls = 20.2;
+	}
+	else {
+		angls = 0;
+	}
+		
+
+	if (key = GLUT_KEY_UP) {
+		angln = 20.2;
+	}
+	else {
+		angln = 0;
+	}		
+		
+}
+
+int main(int argc, char* argv[]) 
+{
 	glutInit(&argc, argv);
 	glutInitWindowSize(500, 500);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
@@ -135,10 +167,8 @@ int main(int argc, char* argv[]) {
 	glutTimerFunc(0, timer, 0);
 
 	dirtTextures(500, 500);
-
+	glutKeyboardFunc(processNormalKeys);
 
 	glutMainLoop();
 	return 0;
 }
-
-

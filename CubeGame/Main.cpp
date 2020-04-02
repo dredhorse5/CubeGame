@@ -1,16 +1,38 @@
-﻿#include <iostream>
+﻿#include <Math.h>
+#include <stdio.h>
+#include <iostream>
 #include <glut.h>
-#include <gl/GLU.h>
+#include <SOIL.h>
+//#include "load_texures.hpp"
+#pragma comment(lib, "SOIL.lib")
+//#define GL_CLAMP_TO_EDGE 0x812F
 
-void display();
-void reshape(int, int);
-void timer(int);
+GLuint dirt[1];
+int View = 90; // angle of view
+int FPS = 60; // 60
+float angle = 0.0f;
+int size = 1;
+void dirtTextures(int W, int H) {
+	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
+	glGenTextures(1, &dirt[0]);
+	glBindTexture(GL_TEXTURE_2D, dirt[0]);
 
-void init()
-{////
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glEnable(GL_DEPTH_TEST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, W, H, 0, GL_RGB, GL_UNSIGNED_BYTE, topу);
+	SOIL_free_image_data(topу);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
+void reshape(int w, int h){
+	float ratio = w * 1.0 / h;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0, 0, w, h);
+	gluPerspective(View, ratio, 0.1f, 360.0f);
+	glMatrixMode(GL_MODELVIEW);
 
 int main(int argc, char** argv)
 {
@@ -32,135 +54,55 @@ int main(int argc, char** argv)
 
 float angle = 0.0;
 //////////////////
-
-glutKeyboardFunc(processNormalKeysDOWN);
-glutKeyboardUpFunc(processNormalKeysUP);
-
-void processNormalKeysDOWN(unsigned char key, int x, int y) {
-	switch (key) {
-	case 'w':
-	case 'W':
-		KeyFront = 1.0;
-		break;
-	case 's':
-	case 'S':
-		KeyFront = -1.0;
-		break;
-	case 'a':
-	case 'A':
-		KeySide = -1.0;
-		break;
-	case 'd':
-	case 'D':
-		KeySide = 1.0;
-		break;
-	case 'b':
-		steve.PlayerX = 1 / 2 + 0.5;
-		steve.PlayerY = (20);
-		steve.PlayerZ = 1 / 2 + 0.5;
-		steve.dy = 0;
-		break;
-	case 'f':
-		IDblocks++;
-		if (IDblocks > blocks) IDblocks = 0;
-		break;
-
-	case 32:
-		steve.jump();
-		break;
-
-	case 27: {
-		exit(0);
-	}
-	}
-
-void processNormalKeysUP(unsigned char key, int x, int y) {
-	switch (key) {
-	case 'w':
-	case 'W':
-	case 's':
-	case 'S':
-		KeyFront = 0;
-		break;
-	case 'a':
-	case 'A':
-	case 'd':
-	case 'D':
-		KeySide = 0;
-		break;
-}
-}
-
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+	glPushMatrix();
+	//glClearColor(1.0, 1.0, 1.0, 1.0);
+	//=======================================DRAW================================================
+	glTranslatef(0.0, 0.0, -5.0);
+	glRotatef(angle, 1.0, 2.0, 0.5);
 
-	glTranslatef(0.0, 0.0, -8.0);
-	glRotatef(angle, 1.0, 1.0, 0.0);
-	glRotatef(angle, 0.0, 1.0, 0.0);
-	glRotatef(angle, 0.0, 0.0, 1.0);
 
-	//draw
-	glBegin(GL_QUADS);
-	//front
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f(-1.0, 1.0, 1.0);
-	glVertex3f(-1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, 1.0);
-	glVertex3f(1.0, 1.0, 1.0);
-	//back
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(1.0, 1.0, -1.0);
-	glVertex3f(1.0, -1.0, -1.0);
-	glVertex3f(-1.0, -1.0, -1.0);
-	glVertex3f(-1.0, 1.0, -1.0);
-	//right
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(1.0, 1.0, 1.0);
-	glVertex3f(1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, -1.0);
-	glVertex3f(1.0, 1.0, -1.0);
-	//left
-	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(-1.0, 1.0, -1.0);
-	glVertex3f(-1.0, -1.0, -1.0);
-	glVertex3f(-1.0, -1.0, 1.0);
-	glVertex3f(-1.0, 1.0, 1.0);
-	//top
-	glColor3f(0.0, 1.0, 1.0);
-	glVertex3f(-1.0, 1.0, -1.0);
-	glVertex3f(-1.0, 1.0, 1.0);
-	glVertex3f(1.0, 1.0, 1.0);
-	glVertex3f(1.0, 1.0, -1.0);
-	//bottom
-	glColor3f(1.0, 0.0, 1.0);
-	glVertex3f(-1.0, -1.0, -1.0);
-	glVertex3f(-1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, -1.0);
-
-	glEnd();
-
-	glutSwapBuffers();
-}
-
-void reshape(int w, int h)
-{
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60, 1, 2.0, 50.0);
-	glMatrixMode(GL_MODELVIEW);
-
-}
-///////////////////
-void timer(int)
-{////////////
-	glutPostRedisplay();
-	glutTimerFunc(1000 / 60, timer, 0);
-	///I am so tired)))), but happy///
+	for (int x = 0; x < 3; x++)
+		for (int y = 0; y < 3; y++)
+			for (int z = 0; z < 3; z++)
+		{
+			glTranslatef(x*size*2, y*size*2, z*size*2);
+			Draw_cubes();
+			glTranslatef(-x*size*2, -y*size*2, -z*size*2);
+		}
+	
+	
 	angle += 0.8 * 4;
 	if (angle > 360.0)
 		angle = angle - 360.0;
+
+
+	//=======================================DRAW================================================
+	glPopMatrix();
+	glutSwapBuffers();
 }
+int main(int argc, char* argv[]) {
+	glutInit(&argc, argv);
+	glutInitWindowSize(500, 500);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+	glutCreateWindow("cubes");
+	glEnable(GL_DEPTH_TEST);
+	glutTimerFunc(1000 / FPS, timer, 0); // limit fps
+	glEnable(GL_TEXTURE_2D);
+	
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_FRONT);
+	glutDisplayFunc(display);
+	glutReshapeFunc(reshape);
+	glutTimerFunc(0, timer, 0);
+
+	dirtTextures(500, 500);
+
+
+	glutMainLoop();
+	return 0;
+}
+
+

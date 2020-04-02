@@ -34,26 +34,62 @@ void reshape(int w, int h){
 	gluPerspective(View, ratio, 0.1f, 360.0f);
 	glMatrixMode(GL_MODELVIEW);
 
-int main(int argc, char** argv)
-{
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-
-	glutInitWindowPosition(200, 100);
-	glutInitWindowSize(500, 500);
-
-	glutCreateWindow("Cube");
-
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-	glutTimerFunc(0, timer, 0);
-	init();
-	//////////
-	glutMainLoop();
 }
-
-float angle = 0.0;
-//////////////////
+void timer(int) {
+	glutPostRedisplay();
+	glutTimerFunc(1000 / 60, timer, 0);
+	///I am so tired)))), but happy///
+}
+void Draw_cubes() {
+    glBindTexture(GL_TEXTURE_2D, dirt[0]);
+	glColor3f(1.0, 1.0, 1.0);
+    ///задняя
+        glBegin(GL_POLYGON);
+        glTexCoord2d(1, 1); glVertex3f(1, -1, 1);
+        glTexCoord2d(0, 1); glVertex3f(-1, -1, 1);
+        glTexCoord2d(0, 0); glVertex3f(-1, 1, 1);
+        glTexCoord2d(1, 0); glVertex3f(1, 1, 1);
+        glEnd();
+    //передняя
+        glBegin(GL_POLYGON);
+        glTexCoord2d(1, 1); glVertex3f(-1, -1, -1);
+        glTexCoord2d(0, 1); glVertex3f(1, -1, -1);
+        glTexCoord2d(0, 0); glVertex3f(1, 1, -1);
+        glTexCoord2d(1, 0); glVertex3f(-1, 1, -1);
+        glEnd();
+    
+    //ПРАВАЯ
+        glBegin(GL_POLYGON);
+        glTexCoord2d(1, 1); glVertex3f(1, -1, -1);
+        glTexCoord2d(0, 1); glVertex3f(1, -1, 1);
+        glTexCoord2d(0, 0); glVertex3f(1, 1, 1);
+        glTexCoord2d(1, 0); glVertex3f(1, 1, -1);
+        glEnd();
+    
+    //ЛЕВАЯ
+        glBegin(GL_POLYGON);
+        glTexCoord2d(1, 1); glVertex3f(-1, -1, 1);
+        glTexCoord2d(0, 1); glVertex3f(-1, -1, -1);
+        glTexCoord2d(0, 0); glVertex3f(-1, 1, -1);
+        glTexCoord2d(1, 0); glVertex3f(-1, 1, 1);
+        glEnd();
+    //НИЖНЯЯ
+        glBegin(GL_POLYGON);
+        glTexCoord2d(1, 1); glVertex3f(-1, -1, 1);
+        glTexCoord2d(0, 1); glVertex3f(1, -1, 1);
+        glTexCoord2d(0, 0); glVertex3f(1, -1, -1);
+        glTexCoord2d(1, 0); glVertex3f(-1, -1, -1);
+        glEnd();
+    
+    //ВЕРХНЯЯ
+        glBegin(GL_POLYGON);
+        glTexCoord2d(1, 1); glVertex3f(-1, 1, -1);
+        glTexCoord2d(0, 1); glVertex3f(1, 1, -1);
+        glTexCoord2d(0, 0); glVertex3f(1, 1, 1);
+        glTexCoord2d(1, 0); glVertex3f(-1, 1, 1);
+        glEnd();
+    
+}
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

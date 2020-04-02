@@ -32,6 +32,65 @@ int main(int argc, char** argv)
 
 float angle = 0.0;
 //////////////////
+
+glutKeyboardFunc(processNormalKeysDOWN);
+glutKeyboardUpFunc(processNormalKeysUP);
+
+void processNormalKeysDOWN(unsigned char key, int x, int y) {
+	switch (key) {
+	case 'w':
+	case 'W':
+		KeyFront = 1.0;
+		break;
+	case 's':
+	case 'S':
+		KeyFront = -1.0;
+		break;
+	case 'a':
+	case 'A':
+		KeySide = -1.0;
+		break;
+	case 'd':
+	case 'D':
+		KeySide = 1.0;
+		break;
+	case 'b':
+		steve.PlayerX = 1 / 2 + 0.5;
+		steve.PlayerY = (20);
+		steve.PlayerZ = 1 / 2 + 0.5;
+		steve.dy = 0;
+		break;
+	case 'f':
+		IDblocks++;
+		if (IDblocks > blocks) IDblocks = 0;
+		break;
+
+	case 32:
+		steve.jump();
+		break;
+
+	case 27: {
+		exit(0);
+	}
+	}
+
+void processNormalKeysUP(unsigned char key, int x, int y) {
+	switch (key) {
+	case 'w':
+	case 'W':
+	case 's':
+	case 'S':
+		KeyFront = 0;
+		break;
+	case 'a':
+	case 'A':
+	case 'd':
+	case 'D':
+		KeySide = 0;
+		break;
+}
+}
+
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -102,17 +102,17 @@ void display()
 	glRotatef(angle, angls, angln, 0.5);
 
 
-	for (int x = 0; x < 2; x++)
-		for (int y = 0; y < 2; y++)
-			for (int z = 0; z < 2; z++)
-		{
-			glTranslatef(x*size*2, y*size*2, z*size*2);
-			Draw_cubes();
-			glTranslatef(-x*size*2, -y*size*2, -z*size*2);
-		}
+	//for (int x = 0; x < 1; x++)
+		//for (int y = 0; y < 1; y++)
+			//for (int z = 0; z < 1; z++)
+	//	{
+		//	glTranslatef(x*size*2, y*size*2, z*size*2);
+			//Draw_cubes();
+			//glTranslatef(-x*size*2, -y*size*2, -z*size*2);
+		//}
 	
 	
-	
+	Draw_cubes();
 	angle += 0.8 * 4;
 	if (angle > 360.0)
 		angle = angle - 360.0;
@@ -128,7 +128,10 @@ void display()
 void processNormalKeys(unsigned char key, int x, int y)
 {
 	if (key == 'a') {
-		angle = 10.2;
+		angle += 0.8 * 4;
+		if (angle > 360.0) {
+			angle = angle - 360.0;
+		}
 	}
 	else {
 		angle = 0;
@@ -137,8 +140,9 @@ void processNormalKeys(unsigned char key, int x, int y)
 
 	if (key == 'd') {
 		angls += 0.8 * 4;
-		if (angls > 360.0)
+		if (angls > 360.0) {
 			angls = angls - 360.0;
+		}
 
 	}
 	else {
@@ -148,8 +152,9 @@ void processNormalKeys(unsigned char key, int x, int y)
 
 	if (key == 'w') {
 		angln += 0.8 * 4;
-		if (angln > 360.0)
+		if (angln > 360.0) {
 			angln = angln - 360.0;
+		}
 
 
 	}

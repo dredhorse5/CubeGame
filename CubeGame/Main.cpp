@@ -37,6 +37,30 @@ void reshape(int w, int h){
 	glMatrixMode(GL_MODELVIEW);
 
 }
+
+void processNormalKeys(unsigned char key, int x, int y) {
+
+	if (key == 27)
+		exit(0);
+}
+
+//////////////
+
+void processSpecialKeys(int key, int x, int y) {
+
+	switch (key) {
+	case GLUT_KEY_UP:
+		break;
+	case GLUT_KEY_DOWN:
+		break;
+	case GLUT_KEY_LEFT:
+		break;
+	case GLUT_KEY_RIGHT:
+		break;
+
+	}
+}
+
 void timer(int) {
 	glutPostRedisplay();
 	glutTimerFunc(1000 / 60, timer, 0);
@@ -181,7 +205,10 @@ int main(int argc, char* argv[])
 	glutTimerFunc(0, timer, 0);
 
 	dirtTextures(500, 500);
-	glutKeyboardFunc(processNormalKeys);
+	
+        glutKeyboardFunc(processNormalKeys);
+	glutSpecialFunc(processSpecialKeys);
+
 
 	glutMainLoop();
 	return 0;

@@ -3,17 +3,17 @@
 #include <iostream>
 #include <glut.h>
 #include <SOIL.h>
-//#include "load_texures.hpp"
 #pragma comment(lib, "SOIL.lib")
-//#define GL_CLAMP_TO_EDGE 0x812F
 
 GLuint dirt[1];
 int View = 90; // angle of view
 int FPS = 60; // 60
-float angle = 0.0f;
-float angls = 0.0f;
-float angln = 0.0f;
-int size = 1;
+const int width = 1280, height = 720; // размер окна
+float lx = 1.0f, lz = 0.0f, ly = 0.0f; // единичные вектора камеры
+float angleX = 0.0f, angleY = 5.0f; // угол наклона камеры
+int mouseXOld = 1, mouseYOld = 1; // старые коориднаты  мышки
+int size = 1; // размер куба
+
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &dirt[0]);
@@ -38,29 +38,39 @@ void reshape(int w, int h){
 
 }
 
+
 void processNormalKeys(unsigned char key, int x, int y) {
-
-	if (key == 27)
-		exit(0);
+    switch(key) {
+    case 27:
+        exit(0);
+    }
 }
 
-//////////////
+void mouseMove(int x, int y) {
+    if (mouseXOld != 0 or mouseYOld != 0) {
+        angleX -= mouseXOld * 0.001f;
+        angleY -= mouseYOld * 0.001f;
 
-void processSpecialKeys(int key, int x, int y) {
+        if (angleY > 3.14 / 2) angleY = 3.14 / 2;
+        if (angleY < -3.14 / 2) angleY = -3.14 / 2;
 
-	switch (key) {
-	case GLUT_KEY_UP:
-		break;
-	case GLUT_KEY_DOWN:
-		break;
-	case GLUT_KEY_LEFT:
-		break;
-	case GLUT_KEY_RIGHT:
-		break;
+        mouseXOld = 0; mouseYOld = 0;
 
-	}
+        // update camera's direction
+        lx = float(sin(angleX));
+        lz = float(-cos(angleX));
+        ly = float(-tan(angleY));
+
+    }
+    else {
+
+        mouseXOld = (width / 2) - x;
+        mouseYOld = (height / 2) - y;
+        glutWarpPointer((width / 2), (height / 2));
+    }
+
+
 }
-
 void timer(int) {
 	glutPostRedisplay();
 	glutTimerFunc(1000 / 60, timer, 0);
@@ -120,26 +130,24 @@ void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	//glClearColor(1.0, 1.0, 1.0, 1.0);
+    gluLookAt(0,         5,      0,       // координаты игрока
+              0 + lx,    5+ly,   0 + lz,  // координаты единичного вектора камеры
+              0.0f,      1.0f,   0.0f   );// координаты нормального вектора камеры. не трогаем. 
+
+	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
 	//=======================================DRAW================================================
-	glTranslatef(0.0, 0.0, -10.0);
-	glRotatef(angle, angls, angln, 0.5);
 
 
-	//for (int x = 0; x < 1; x++)
-		//for (int y = 0; y < 1; y++)
-			//for (int z = 0; z < 1; z++)
-	//	{
-		//	glTranslatef(x*size*2, y*size*2, z*size*2);
-			//Draw_cubes();
-			//glTranslatef(-x*size*2, -y*size*2, -z*size*2);
-		//}
+
+	for (int x = -10; x < 10; x++)
+		for (int y = 0; y < 1; y++)
+			for (int z = -10; z < 10; z++){
+			    glTranslatef(x*size*2, y*size*2, z*size*2);
+			    Draw_cubes();
+			    glTranslatef(-x*size*2, -y*size*2, -z*size*2);
+            }
 	
 	
-	Draw_cubes();
-	angle += 0.8 * 4;
-	if (angle > 360.0)
-		angle = angle - 360.0;
 	
 
 
@@ -149,66 +157,30 @@ void display()
 	glutSwapBuffers();
 }
 
-void processNormalKeys(unsigned char key, int x, int y)
-{
-	if (key == 'a') {
-		angle += 0.8 * 4;
-		if (angle > 360.0) {
-			angle = angle - 360.0;
-		}
-	}
-	else {
-		angle = 0;
-	}
+
+
+int main() {
 	
-
-	if (key == 'd') {
-		angls += 0.8 * 4;
-		if (angls > 360.0) {
-			angls = angls - 360.0;
-		}
-
-	}
-	else {
-		angls = 0;
-	}
-		
-
-	if (key == 'w') {
-		angln += 0.8 * 4;
-		if (angln > 360.0) {
-			angln = angln - 360.0;
-		}
-
-
-	}
-	else {
-		angln = 0;
-	}		
-		
-}
-
-int main(int argc, char* argv[]) 
-{
-	glutInit(&argc, argv);
-	glutInitWindowSize(500, 500);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-	glutCreateWindow("cubes");
-	glEnable(GL_DEPTH_TEST);
-	glutTimerFunc(1000 / FPS, timer, 0); // limit fps
-	glEnable(GL_TEXTURE_2D);
+	glutInitWindowSize(width, height); // задает размеры окна
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE); // включаем цвет RGBA и двойную буферизацию
+	glutCreateWindow("cubes"); // создаем окно
+	glEnable(GL_DEPTH_TEST); // включаем тест глубины 
+	glutTimerFunc(1000 / FPS, timer, 0); // ограничение FPS
+	glEnable(GL_TEXTURE_2D); // включаем 2D текстуры
 	
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_FRONT);
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-	glutTimerFunc(0, timer, 0);
-
-	dirtTextures(500, 500);
+    glEnable(GL_CULL_FACE); // включаем режим, в котором мы рисуем стороны куба либо по часовой, либо против часовой стрелки
+    glFrontFace(GL_CCW);  // говорим, что идем против часовой стрелки.
+	glCullFace(GL_FRONT); // не рисуем переднюю часть. будет видна только задняя. почему отсекаем передню, а не заднюю? легче было так сделать)
 	
-        glutKeyboardFunc(processNormalKeys);
-	glutSpecialFunc(processSpecialKeys);
+    glutDisplayFunc(display); // основная функция рисования
+	glutReshapeFunc(reshape); // функция, вызываеая при обновлении окна. нужна для правильного показа окна
+	glutPassiveMotionFunc(mouseMove); //функция, которая отслеживает мышку в НЕ нажатом состоянии
+	glutMotionFunc(mouseMove); // функция, которая отслеживает мышку в нажатом состоянии
 
+	dirtTextures(width, height); // загружаем текстуру
+	
+    glutKeyboardFunc(processNormalKeys);
+	
 
 	glutMainLoop();
 	return 0;

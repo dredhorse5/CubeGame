@@ -13,6 +13,7 @@ float lx = 1.0f, lz = 0.0f, ly = 0.0f; // единичные вектора ка
 float angleX = 0.0f, angleY = 5.0f; // угол наклона камеры
 int mouseXOld = 1, mouseYOld = 1; // старые коориднаты  мышки
 int size = 1; // размер куба
+int mass[20][20][20];
 
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
@@ -130,7 +131,7 @@ void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-    gluLookAt(0,         5,      0,       // координаты игрока
+    gluLookAt(30,         40,     40,       // координаты игрока
               0 + lx,    5+ly,   0 + lz,  // координаты единичного вектора камеры
               0.0f,      1.0f,   0.0f   );// координаты нормального вектора камеры. не трогаем. 
 
@@ -139,12 +140,18 @@ void display()
 
 
 
-	for (int x = -10; x < 10; x++)
-		for (int y = 0; y < 1; y++)
-			for (int z = -10; z < 10; z++){
-			    glTranslatef(x*size*2, y*size*2, z*size*2);
-			    Draw_cubes();
-			    glTranslatef(-x*size*2, -y*size*2, -z*size*2);
+	for (int x = 0; x < 20; x++)
+		for (int y = 0; y < 20; y++)
+			for (int z = 0; z < 20; z++){
+
+
+				if (mass[x][y][z] == 1){
+					glTranslatef(x * size * 2, y * size * 2, z * size * 2);
+					Draw_cubes();
+					glTranslatef(-x * size * 2, -y * size * 2, -z * size * 2);
+			
+				}
+					
             }
 	
 	
@@ -181,6 +188,16 @@ int main() {
 	
     glutKeyboardFunc(processNormalKeys);
 	
+	for(int x = 0; x < 20; x++)
+		for(int y = 0; y < 20; y++)
+			for (int z = 0; z < 20; z++) {
+				if( (y == 5) or (rand() % 10 == 1)) {
+					mass[x][y][z] = 1;
+				}
+				else {
+					mass[x][y][z] = 0;
+				}
+			}
 
 	glutMainLoop();
 	return 0;

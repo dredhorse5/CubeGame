@@ -3,6 +3,7 @@
 #include <iostream>
 #include <glut.h>
 #include <SOIL.h>
+#include <ctime>
 #pragma comment(lib, "SOIL.lib")
 
 GLuint dirt[1];

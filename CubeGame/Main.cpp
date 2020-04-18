@@ -19,8 +19,11 @@ int mouseXOld = 1, mouseYOld = 1; // старые коориднаты  мышк
 float KeyFront = 0, KeySide = 0; // ключ к изменению перемещения вперед/назад
 int cube_size = 2; // размер куба
 int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z];
-
-
+float deltaAngle = 0.0f;
+float deltaMove = 0;
+float x;
+float angle;
+float z;
 
 class Player {
 public:
@@ -49,6 +52,34 @@ public:
         return mass[x][y][z];
 
     }
+
+
+
+	void processNormalKeysDOWN(unsigned char key, int x, int y) {
+		switch (key) {
+		case 'W':
+		case 'w':
+			KeyFront = 1;
+			break;
+		case 'S':
+		case 's':
+			KeyFront = -1;
+			break;
+		default:
+			KeyFront = 0;
+			break;
+		}
+
+
+
+
+
+
+
+
+
+
+
     void update(float time) {
 
         if (PlayerY < 0) { // если игрок провалился под землю, то телепортируем его наверх
@@ -107,7 +138,7 @@ public:
         }
     }
 };
-Player steve(quantity_cubes_x / 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &dirt[0]);
@@ -278,7 +309,7 @@ int main() {
 	dirtTextures(width, height); // загружаем текстуру
 	
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
-	
+
     // цикл для заполнения массива 
 	for(int x = 0; x < quantity_cubes_x; x++)
 		for(int y = 0; y < quantity_cubes_y; y++)

@@ -107,7 +107,7 @@ public:
         }
     }
 };
-Player steve(quantity_cubes_x / 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+Player steve(quantity_cubes_x / 2 + 4, 60, quantity_cubes_z / 2); // создаем обьект
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &dirt[0]);
@@ -238,7 +238,7 @@ void display(){
 
 
 				if (mass[x][y][z] == 1){ // если в этом месте есть блок, то рисуем его
-					glTranslatef(x * cube_size , y * cube_size , z * cube_size );
+					glTranslatef(x * cube_size  , y * cube_size , z * cube_size );
 					Draw_cubes();
                     glTranslatef(-x * cube_size, -y * cube_size, -z * cube_size);
 				}

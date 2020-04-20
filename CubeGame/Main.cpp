@@ -52,34 +52,6 @@ public:
         return mass[x][y][z];
 
     }
-
-
-
-	void processNormalKeysDOWN(unsigned char key, int x, int y) {
-		switch (key) {
-		case 'W':
-		case 'w':
-			KeyFront = 1;
-			break;
-		case 'S':
-		case 's':
-			KeyFront = -1;
-			break;
-		default:
-			KeyFront = 0;
-			break;
-		}
-
-
-
-
-
-
-
-
-
-
-
     void update(float time) {
 
         if (PlayerY < 0) { // если игрок провалился под землю, то телепортируем его наверх
@@ -163,7 +135,21 @@ void reshape(int w, int h){
 
 }
 
-
+void processNormalKeysDOWN(unsigned char key, int x, int y) {
+    switch (key) {
+    case 'W':
+    case 'w':
+        KeyFront = 1;
+        break;
+    case 'S':
+    case 's':
+        KeyFront = -1;
+        break;
+    default:
+        KeyFront = 0;
+        break;
+    }
+}
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
     case 27: // если клавиша esc(27) нажата, то выходим из программы

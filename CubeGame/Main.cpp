@@ -52,6 +52,13 @@ public:
         return mass[x][y][z];
 
     }
+
+
+
+
+
+
+
     void update(float time) {
 
         if (PlayerY < 0) { // если игрок провалился под землю, то телепортируем его наверх
@@ -135,26 +142,53 @@ void reshape(int w, int h){
 
 }
 
-void processNormalKeysDOWN(unsigned char key, int x, int y) {
-    switch (key) {
-    case 'W':
-    case 'w':
-        KeyFront = 1;
-        break;
-    case 'S':
-    case 's':
-        KeyFront = -1;
-        break;
-    default:
-        KeyFront = 0;
-        break;
-    }
-}
+
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
     case 27: // если клавиша esc(27) нажата, то выходим из программы
         exit(0);
+	case 'W':
+	case 'w':
+		KeyFront = 1;
+		break;
+	case 'S':
+	case 's':
+		KeyFront = -1;
+		break;
+	case 'D':
+	case 'd':
+		KeySide = 1;
+		break;
+	case 'A':
+	case 'a':
+		KeySide = -1;
+		break;
+	default:
+		KeyFront = 0;
+		KeySide = 0;
+		break;
     }
+}
+
+void processNormalKeysUP(unsigned char key, int x, int y) {
+	switch (key) {
+	case 'W':
+	case 'w':
+		KeyFront = 0;
+		break;
+	case 'S':
+	case 's':
+		KeyFront = 0;
+		break;
+	case 'D':
+	case 'd':
+		KeySide = 0;
+		break;
+	case 'A':
+	case 'a':
+		KeySide = 0;
+		break;
+	}
 }
 
 void mouseMove(int x, int y) {
@@ -295,7 +329,7 @@ int main() {
 	dirtTextures(width, height); // загружаем текстуру
 	
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
-
+	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 
 	for(int x = 0; x < quantity_cubes_x; x++)
 		for(int y = 0; y < quantity_cubes_y; y++)

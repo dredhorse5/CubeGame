@@ -73,8 +73,8 @@ public:
         }
         if (KeySide) {// если активно движение вперед- идем
             dSideX = -lz * speed * KeySide * time / 50;
-            dSideZ = lx * speed * KeySide * time / 50;
         }
+            dSideZ = lx * speed * KeySide * time / 50;
 
         dy -= 0.12 * (time / 50); // падения, независимое от счетчика FPS
         onGround = 0;

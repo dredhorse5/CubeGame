@@ -21,9 +21,8 @@ int cube_size = 2; // размер куба
 int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z];
 float deltaAngle = 0.0f;
 float deltaMove = 0;
-float x;
+bool mLeft = 0, mRight = 0; // mouse bottons
 float angle;
-float z;
 
 class Player {
 public:
@@ -45,55 +44,112 @@ public:
         onGround = false;
         View = 90; // угол обзора
     }
-    bool check(int x, int y, int z) { // функция для проверки столкновения
+    bool check(int x, int y, int z) {
         if ((x < 0) or (x > quantity_cubes_x) or
             (y < 0) or (y > quantity_cubes_y) or
             (z < 0) or (z > quantity_cubes_z)) return false;
         return mass[x][y][z];
 
+
     }
-
-
-
-
-
-
-
     void update(float time) {
 
-        if (PlayerY < 0) { // если игрок провалился под землю, то телепортируем его наверх
+        if (PlayerY < 0) {
             PlayerY = 20 * cube_size;
             dy = 0;
         }
 
+        mousePressed();
 
-        if (KeyFront) { // если активно движение вперед- идем
+        if (KeyFront) {
             dFrontX = lx * speed * KeyFront * time / 50;
             dFrontZ = lz * speed * KeyFront * time / 50;
         }
-        if (KeySide) {// если активно движение вперед- идем
+        if (KeySide) {
             dSideX = -lz * speed * KeySide * time / 50;
             dSideZ = lx * speed * KeySide * time / 50;
         }
 
-        dy -= 0.12 * (time / 50); // падения, независимое от счетчика FPS
+        dy -= 0.12 * (time / 50);
         onGround = 0;
 
-        dx = dSideX + dFrontX; // получаем общую скорость 
-        PlayerX += dx; // обновляем координаты игрока
-        //std::thread one(Player::*collision, dx, 0, 0);
-        collision(dx, 0, 0); // проверяем столкновение по скорости dx
-        PlayerY += dy * (time / 50);// обновляем координаты игрока
-        collision(0, dy, 0);// проверяем столкновение по скорости dy
-        dz = dSideZ + dFrontZ;// получаем общую скорость 
-        PlayerZ += dz;// обновляем координаты игрока
-        collision(0, 0, dz);// проверяем столкновение по скорости dz
+        dx = dSideX + dFrontX;
+        PlayerX += dx;
+        collision(dx, 0, 0);
+        PlayerY += dy * (time / 50);
+        collision(0, dy, 0);
+        dz = dSideZ + dFrontZ;
+        PlayerZ += dz;
+        collision(0, 0, dz);
+        //one.join();
 
 
-        dx = dz = dSideX = dSideZ = dFrontX = dFrontZ = 0; // Обнуляем скорости
+        dx = dz = dSideX = dSideZ = dFrontX = dFrontZ = 0;
     }
-    
-    void collision(float Dx, float Dy, float Dz) { // функция для взаимодействия игрока с коллизией
+    void mousePressed() { // обрабатываем нажатие кнопки 
+        //if (mRight or mLeft) {
+        float mousex = PlayerX;
+        float mousey = PlayerY + h / 2;
+        float mousez = PlayerZ;
+        int  X = 0, Y = 0, Z = 0;
+        int oldX = 0, oldY = 0, oldZ = 0;
+        float dist = 0.0f;
+
+        while (dist < 80) {
+            dist += 0.2; // пускаем луч из головы , пока он не коснется какого-нибудь блока
+            mousex += lx / 50; X = mousex / cube_size;
+            mousey += ly / 50; Y = mousey / cube_size;
+            mousez += lz / 50; Z = mousez / cube_size;
+
+            if (check(X, Y, Z)) {
+                //draw_lines_cubes(cube_size, X, Y, Z);
+
+                if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
+                if (mRight) { // если правая кнопка- ставим блок
+                    // перед этим проверяем, чтобы блоки не поставились в "игроке"
+                    mass[oldX][oldY][oldZ] = 1; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
+                    mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+
+                    mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
+                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
+
+                    break;
+                }
+                break;
+            }
+
+            oldX = X; oldY = Y; oldZ = Z; // записываем старые координаты луча
+        }
+        //}
+        mLeft = mRight = false;
+    }
+    void collision(float Dx, float Dy, float Dz) {
         for (int X = (PlayerX - w) / cube_size; X < (PlayerX + w) / cube_size; X++)
             for (int Y = (PlayerY - h) / cube_size; Y < (PlayerY + h) / cube_size; Y++)
                 for (int Z = (PlayerZ - d) / cube_size; Z < (PlayerZ + d) / cube_size; Z++)
@@ -110,7 +166,7 @@ public:
 
                     }
     }
-    void jump() { // прыжок
+    void jump() {
         if (onGround) {
             onGround = false;
             dy = 0.8;
@@ -142,7 +198,30 @@ void reshape(int w, int h){
 
 }
 
+void mouseButton(int button, int state, int x, int y) {
+    if (button == GLUT_LEFT_BUTTON) {
+        switch (state) {
+        case GLUT_DOWN:		//Если нажата
+            mLeft = true;
+            break;
+        case GLUT_UP:      // если опущена
+            mLeft = false;
+            break;
+        }
+    }
 
+    if (button == GLUT_RIGHT_BUTTON) {
+        switch (state) {
+        case GLUT_DOWN:		//Если нажата
+            mRight = true;
+            break;
+        case GLUT_UP:      // если опущена
+            mRight = false;
+            break;
+        }
+    }
+    //if (button == GLUT_WHEEL_DOWN)
+}
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
     case 27: // если клавиша esc(27) нажата, то выходим из программы
@@ -163,10 +242,9 @@ void processNormalKeys(unsigned char key, int x, int y) {
 	case 'a':
 		KeySide = -1;
 		break;
-	default:
-		KeyFront = 0;
-		KeySide = 0;
-		break;
+    case 32:
+        steve.jump();
+        break;
     }
 }
 
@@ -274,8 +352,8 @@ void Draw_cubes() {
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix(); // сохраняем систему координат
-    gluLookAt(steve.PlayerX,        steve.PlayerY,      steve.PlayerZ,       // координаты игрока
-              steve.PlayerX + lx,   steve.PlayerY +ly,  steve.PlayerZ + lz,  // координаты единичного вектора камеры
+    gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,// координаты игрока
+        steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,  // координаты единичного вектора камеры
               0.0f,                 1.0f,               0.0f               );// координаты нормального вектора камеры. не трогаем. 
 
 	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
@@ -285,13 +363,13 @@ void display(){
     // цикл для рисования блоков
 	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
 		for (int y = 0; y < 20; y++)
-			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerX/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
 				if (mass[x][y][z] == 1){ // если в этом месте есть блок, то рисуем его
-					glTranslatef(x * cube_size  , y * cube_size , z * cube_size );
+					glTranslatef(x * cube_size + cube_size/2  , y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
 					Draw_cubes();
-                    glTranslatef(-x * cube_size, -y * cube_size, -z * cube_size);
+                    glTranslatef(-x * cube_size - cube_size / 2, -y * cube_size - cube_size / 2, -z * cube_size - cube_size / 2);
 				}
 					
             }
@@ -312,7 +390,7 @@ int main() {
 	
 	glutInitWindowSize(width, height); // задает размеры окна
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE); // включаем цвет RGBA и двойную буферизацию
-	glutCreateWindow("cubes"); // создаем окно
+	glutCreateWindow("mass"); // создаем окно
 	glEnable(GL_DEPTH_TEST); // включаем тест глубины 
 	glutTimerFunc(1000 / FPS, timer, 0); // ограничение FPS
 	glEnable(GL_TEXTURE_2D); // включаем 2D текстуры
@@ -323,11 +401,14 @@ int main() {
 	
     glutDisplayFunc(display); // основная функция рисования
 	glutReshapeFunc(reshape); // функция, вызываеая при обновлении окна. нужна для правильного показа окна
-	glutPassiveMotionFunc(mouseMove); //функция, которая отслеживает мышку в НЕ нажатом состоянии
+	
+    glutPassiveMotionFunc(mouseMove); //функция, которая отслеживает мышку в НЕ нажатом состоянии
 	glutMotionFunc(mouseMove); // функция, которая отслеживает мышку в нажатом состоянии
+    glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
 	dirtTextures(width, height); // загружаем текстуру
 	
+
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 

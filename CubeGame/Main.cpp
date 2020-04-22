@@ -143,11 +143,6 @@ void reshape(int w, int h){
 }
 
 
-
-
-
-
-
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
     case 27: // если клавиша esc(27) нажата, то выходим из программы
@@ -195,15 +190,6 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 		break;
 	}
 }
-
-
-
-
-
-
-
-
-
 
 void mouseMove(int x, int y) {
     if (mouseXOld != 0 or mouseYOld != 0) {

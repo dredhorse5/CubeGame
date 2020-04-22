@@ -1,7 +1,7 @@
 ﻿#include <Math.h>
 #include <stdio.h>
 #include <iostream>
-#include <glut.h>
+#include <glut.h> 
 #include <SOIL.h>
 #include <ctime>
 #pragma comment(lib, "SOIL.lib")

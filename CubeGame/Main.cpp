@@ -102,8 +102,7 @@ public:
             mousez += lz / 50; Z = mousez / cube_size;
 
             if (check(X, Y, Z)) {
-                //draw_lines_cubes(cube_size, X, Y, Z);
-
+				draw_lines_cubes(cube_size, X, Y, Z);
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
@@ -268,6 +267,56 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 		break;
 	}
 }
+
+void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
+	glLineWidth(2);
+	cube_size = cube_size / 2 + 0.004;
+	glTranslatef(X * 2 + 1, Y * 2 + 1, Z * 2 + 1);
+	glBegin(GL_LINES);
+	glColor3d(0, 0, 0);
+
+	glVertex3f(-cube_size, -cube_size, -cube_size);
+	glVertex3f(-cube_size, cube_size, -cube_size);
+
+	glVertex3f(cube_size, -cube_size, -cube_size);
+	glVertex3f(cube_size, cube_size, -cube_size);
+
+	glVertex3f(cube_size, -cube_size, cube_size);
+	glVertex3f(cube_size, cube_size, cube_size);
+
+	glVertex3f(-cube_size, -cube_size, cube_size);
+	glVertex3f(-cube_size, cube_size, cube_size);
+
+	glVertex3f(-cube_size, -cube_size, -cube_size);
+	glVertex3f(cube_size, -cube_size, -cube_size);
+
+	glVertex3f(cube_size, -cube_size, -cube_size);
+	glVertex3f(cube_size, -cube_size, cube_size);
+
+	glVertex3f(cube_size, -cube_size, cube_size);
+	glVertex3f(-cube_size, -cube_size, cube_size);
+
+	glVertex3f(-cube_size, -cube_size, cube_size);
+	glVertex3f(-cube_size, -cube_size, -cube_size);
+
+	glVertex3f(-cube_size, cube_size, -cube_size);
+	glVertex3f(cube_size, cube_size, -cube_size);
+
+	glVertex3f(cube_size, cube_size, -cube_size);
+	glVertex3f(cube_size, cube_size, cube_size);
+
+	glVertex3f(cube_size, cube_size, cube_size);
+	glVertex3f(-cube_size, cube_size, cube_size);
+
+	glVertex3f(-cube_size, cube_size, cube_size);
+	glVertex3f(-cube_size, cube_size, -cube_size);
+
+	glEnd();
+	glTranslatef(-(X * 2) - 1, -Y * 2 - 1, -Z * 2 - 1);
+	glColor3d(1, 1, 1);
+
+}
+
 
 void mouseMove(int x, int y) {
     if (mouseXOld != 0 or mouseYOld != 0) {

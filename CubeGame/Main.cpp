@@ -4,13 +4,14 @@
 #include <glut.h> 
 #include <SOIL.h>
 #include <ctime>
+#include <SFML/Graphics.hpp>
 #pragma comment(lib, "SOIL.lib")
 
 GLuint dirt[1];
 int View = 90; // angle of view
 int FPS = 60; // 60
 const int quantity_cubes_x = 200;
-const int quantity_cubes_y = 20;
+const int quantity_cubes_y = 50;
 const int quantity_cubes_z = 200;
 const int width = 1280, height = 720; // размер окна
 float lx = 1.0f, lz = 0.0f, ly = 0.0f; // единичные вектора камеры
@@ -23,6 +24,54 @@ float deltaAngle = 0.0f;
 float deltaMove = 0;
 bool mLeft = 0, mRight = 0; // mouse bottons
 float angle;
+void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
+    glLineWidth(2);
+    cube_size = cube_size / 2 + 0.004;
+    glTranslatef(X * 2 + 1, Y * 2 + 1, Z * 2 + 1);
+    glBegin(GL_LINES);
+    glColor3d(0, 0, 0);
+
+    glVertex3f(-cube_size, -cube_size, -cube_size);
+    glVertex3f(-cube_size, cube_size, -cube_size);
+
+    glVertex3f(cube_size, -cube_size, -cube_size);
+    glVertex3f(cube_size, cube_size, -cube_size);
+
+    glVertex3f(cube_size, -cube_size, cube_size);
+    glVertex3f(cube_size, cube_size, cube_size);
+
+    glVertex3f(-cube_size, -cube_size, cube_size);
+    glVertex3f(-cube_size, cube_size, cube_size);
+
+    glVertex3f(-cube_size, -cube_size, -cube_size);
+    glVertex3f(cube_size, -cube_size, -cube_size);
+
+    glVertex3f(cube_size, -cube_size, -cube_size);
+    glVertex3f(cube_size, -cube_size, cube_size);
+
+    glVertex3f(cube_size, -cube_size, cube_size);
+    glVertex3f(-cube_size, -cube_size, cube_size);
+
+    glVertex3f(-cube_size, -cube_size, cube_size);
+    glVertex3f(-cube_size, -cube_size, -cube_size);
+
+    glVertex3f(-cube_size, cube_size, -cube_size);
+    glVertex3f(cube_size, cube_size, -cube_size);
+
+    glVertex3f(cube_size, cube_size, -cube_size);
+    glVertex3f(cube_size, cube_size, cube_size);
+
+    glVertex3f(cube_size, cube_size, cube_size);
+    glVertex3f(-cube_size, cube_size, cube_size);
+
+    glVertex3f(-cube_size, cube_size, cube_size);
+    glVertex3f(-cube_size, cube_size, -cube_size);
+
+    glEnd();
+    glTranslatef(-(X * 2) - 1, -Y * 2 - 1, -Z * 2 - 1);
+    glColor3d(1, 1, 1);
+
+}
 
 class Player {
 public:
@@ -268,54 +317,7 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 	}
 }
 
-void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
-	glLineWidth(2);
-	cube_size = cube_size / 2 + 0.004;
-	glTranslatef(X * 2 + 1, Y * 2 + 1, Z * 2 + 1);
-	glBegin(GL_LINES);
-	glColor3d(0, 0, 0);
 
-	glVertex3f(-cube_size, -cube_size, -cube_size);
-	glVertex3f(-cube_size, cube_size, -cube_size);
-
-	glVertex3f(cube_size, -cube_size, -cube_size);
-	glVertex3f(cube_size, cube_size, -cube_size);
-
-	glVertex3f(cube_size, -cube_size, cube_size);
-	glVertex3f(cube_size, cube_size, cube_size);
-
-	glVertex3f(-cube_size, -cube_size, cube_size);
-	glVertex3f(-cube_size, cube_size, cube_size);
-
-	glVertex3f(-cube_size, -cube_size, -cube_size);
-	glVertex3f(cube_size, -cube_size, -cube_size);
-
-	glVertex3f(cube_size, -cube_size, -cube_size);
-	glVertex3f(cube_size, -cube_size, cube_size);
-
-	glVertex3f(cube_size, -cube_size, cube_size);
-	glVertex3f(-cube_size, -cube_size, cube_size);
-
-	glVertex3f(-cube_size, -cube_size, cube_size);
-	glVertex3f(-cube_size, -cube_size, -cube_size);
-
-	glVertex3f(-cube_size, cube_size, -cube_size);
-	glVertex3f(cube_size, cube_size, -cube_size);
-
-	glVertex3f(cube_size, cube_size, -cube_size);
-	glVertex3f(cube_size, cube_size, cube_size);
-
-	glVertex3f(cube_size, cube_size, cube_size);
-	glVertex3f(-cube_size, cube_size, cube_size);
-
-	glVertex3f(-cube_size, cube_size, cube_size);
-	glVertex3f(-cube_size, cube_size, -cube_size);
-
-	glEnd();
-	glTranslatef(-(X * 2) - 1, -Y * 2 - 1, -Z * 2 - 1);
-	glColor3d(1, 1, 1);
-
-}
 
 
 void mouseMove(int x, int y) {
@@ -411,7 +413,7 @@ void display(){
 
     // цикл для рисования блоков
 	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
-		for (int y = 0; y < 20; y++)
+		for (int y = 4; y < quantity_cubes_y; y++)
 			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
@@ -461,16 +463,14 @@ int main() {
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 
-	for(int x = 0; x < quantity_cubes_x; x++)
-		for(int y = 0; y < quantity_cubes_y; y++)
-			for (int z = 0; z < quantity_cubes_z; z++) {
-				if( (y == 5) or (rand() % 10 == 1)) {
-					mass[x][y][z] = 1;
-				}
-				else {
-					mass[x][y][z] = 0;
-				}
-			}
+    sf::Image im; im.loadFromFile("textures/heightmap1.jpg");
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int z = 0; z < quantity_cubes_z; z++) {
+            int c = im.getPixel(x, z).r / 10 + 10;
+            for (int y = 4; y <= c; y++) {
+                mass[x][y][z] = 1;
+            }
+        }
 
 	glutMainLoop(); // говорим, что функция display играется циклично
 	return 0; 

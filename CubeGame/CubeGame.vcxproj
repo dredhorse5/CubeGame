@@ -87,13 +87,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\MyProjects\CubeGame\CubeGame\lib;D:\My projects\CubeGame\CubeGame\lib;D:\CubeGame\CubeGame\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\MyProjects\CubeGame\CubeGame\lib\SFML;C:\MyProjects\CubeGame\CubeGame\lib;D:\My projects\CubeGame\CubeGame\lib;D:\CubeGame\CubeGame\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\MyProjects\CubeGame\CubeGame\lib;D:\My projects\CubeGame\CubeGame\lib;D:\CubeGame\CubeGame\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\MyProjects\CubeGame\CubeGame\lib\lib_SFML;C:\MyProjects\CubeGame\CubeGame\lib;D:\My projects\CubeGame\CubeGame\lib;D:\CubeGame\CubeGame\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

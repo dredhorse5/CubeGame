@@ -1,1 +1,6 @@
-
+CubeGame.sln
+CubeGame.vcxproj.filters
+CubeGame.vcxproj
+dll_files
+build
+.vs

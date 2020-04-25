@@ -13,9 +13,9 @@
 
 # Разработчики
 
-Дмитрий - ник dredhorse5
-Константин - ник ttv-18
-Дарья - ник DaShylia
+0.Дмитрий - ник dredhorse5
+1.Константин - ник konstantin ttv
+2.Дарья - ник DaShylia
 
 
 

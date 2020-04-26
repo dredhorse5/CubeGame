@@ -1,0 +1,452 @@
+\hypertarget{_main_8cpp}{}\doxysection{Файл C\+:/\+My\+Projects/cube\+\_\+game\+\_\+new/\+Cube\+Game/src/\+Main.cpp}
+\label{_main_8cpp}\index{C:/MyProjects/cube\_game\_new/CubeGame/src/Main.cpp@{C:/MyProjects/cube\_game\_new/CubeGame/src/Main.cpp}}
+{\ttfamily \#include $<$Math.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$glut.\+h$>$}\newline
+{\ttfamily \#include $<$S\+O\+I\+L.\+h$>$}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+{\ttfamily \#include $<$S\+F\+M\+L/\+Graphics.\+hpp$>$}\newline
+\doxysubsection*{Классы}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_player}{Player}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_main_8cpp_a0caf1cf7b0e786fac311a3768a8f856c}{draw\+\_\+lines\+\_\+cubes}} (float \mbox{\hyperlink{_main_8cpp_a01283f3e86444d8622f780d8493c2677}{cube\+\_\+size}}, int X, int Y, int Z)
+\begin{DoxyCompactList}\small\item\em функция для подсвечивания кубов \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_a7480102261ce7b1c9d51ceb2845a6ce0}{dirt\+Textures}} (int W, int H)
+\begin{DoxyCompactList}\small\item\em загружает текстуры принимает на вход W и H указатели на int в которые будут помещены размеры изображения -\/ высота и ширина. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_acc1ffe65e6869931318610cae7210078}{reshape}} (int w, int h)
+\begin{DoxyCompactList}\small\item\em функция изменения перспективы при изменении размера окна \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_afeff51853eef24fe859ab6ce174f5992}{mouse\+Button}} (int button, int state, int x, int y)
+\begin{DoxyCompactList}\small\item\em обрабатывает нажатие мыши \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_a921b29eb9802cb833818c43c4b17cb37}{process\+Normal\+Keys}} (unsigned char key, int x, int y)
+\begin{DoxyCompactList}\small\item\em определяет НАЖАТИЕ клавиш клавиатуры \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_ac5825b76136757e092417c743635b74f}{process\+Normal\+Keys\+UP}} (unsigned char key, int x, int y)
+\begin{DoxyCompactList}\small\item\em определяет ОТЖАТИЕ клавиш клавиатуры \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_ad98e38d016ad1258ee8592beffa21c93}{mouse\+Move}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em мониторит координаты мыши в окне \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_a3c3e683a005eace2dd1e4d551056d9b6}{timer}} ()
+\begin{DoxyCompactList}\small\item\em вызывается через определенный промежуток времени \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_adfd953196412a9da0e069cf172a119b5}{Draw\+\_\+cubes}} ()
+\begin{DoxyCompactList}\small\item\em рисует куб \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_main_8cpp_a1e5b20fed15743656bb6d2e6a6ea6269}{display}} ()
+\begin{DoxyCompactList}\small\item\em главная функция программы \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em точка входа в программу \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Переменные}
+\begin{DoxyCompactItemize}
+\item 
+G\+Luint \mbox{\hyperlink{_main_8cpp_a7224ca42e61aa498f8a5d81da4bb46a1}{dirt}} \mbox{[}1\mbox{]}
+\begin{DoxyCompactList}\small\item\em хранит текстуру \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_main_8cpp_a45b3f1043a3b9217256cdb2129b7a0c4}{F\+PS}} = 60
+\begin{DoxyCompactList}\small\item\em ограничение по F\+PS. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}{quantity\+\_\+cubes\+\_\+x}} = 200
+\begin{DoxyCompactList}\small\item\em колличество блоков по оси x. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{_main_8cpp_a6ad7e84d8a9e46d39737bdfabe547538}{quantity\+\_\+cubes\+\_\+y}} = 50
+\begin{DoxyCompactList}\small\item\em колличество блоков по оси y. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{_main_8cpp_aefac3b54073269a9394f9a31a097d005}{quantity\+\_\+cubes\+\_\+z}} = 200
+\begin{DoxyCompactList}\small\item\em колличество блоков по оси z. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{_main_8cpp_a837aabdd54757cb86d0f66387511753f}{width}} = 1280
+\begin{DoxyCompactList}\small\item\em ширина окна \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{_main_8cpp_ad13e9131f5062934438fa82334e4b2ee}{height}} = 720
+\begin{DoxyCompactList}\small\item\em высота окна \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_afb7c4aa8c0b809f0f76628dbb5b6d62b}{lx}} = 1.\+0f
+\begin{DoxyCompactList}\small\item\em x координата единичного вектора направления камеры \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_adeebf705e4120efa9a773e0f52b11be0}{lz}} = 0.\+0f
+\begin{DoxyCompactList}\small\item\em z координата единичного вектора направления камеры \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_aaf431a94974e843174300e4c0fa47fbd}{ly}} = 0.\+0f
+\begin{DoxyCompactList}\small\item\em y координата единичного вектора направления камеры \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_a9a57f322df958dc574c9843c6ab4b1c2}{angleX}} = 0.\+0f
+\begin{DoxyCompactList}\small\item\em угол поворота камеры в плоскости XZ. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_adb82b6f9a59b4ebab80b0ea796dbe066}{angleY}} = 5.\+0f
+\begin{DoxyCompactList}\small\item\em угол поворота камеры по оси Y. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_main_8cpp_ab9fd97076e732e2b6d1bb20bfa11420a}{mouse\+X\+Old}} = 1
+\begin{DoxyCompactList}\small\item\em старая х координата мыши \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_main_8cpp_a5a591940487be9e13a5c47cbea8db0d2}{mouse\+Y\+Old}} = 1
+\begin{DoxyCompactList}\small\item\em старая y координата мыши \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_ad73966a3c98873a1a4d38b77c2c12180}{Key\+Front}} = 0
+\begin{DoxyCompactList}\small\item\em ключ к изменению скорости вперед/назад \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{_main_8cpp_a19dc6e058055eb8bdbc263f98cc11edf}{Key\+Side}} = 0
+\begin{DoxyCompactList}\small\item\em ключ к изменению скорости вбок \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_main_8cpp_a01283f3e86444d8622f780d8493c2677}{cube\+\_\+size}} = 2
+\begin{DoxyCompactList}\small\item\em размер куба \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_main_8cpp_a033741d9d1d22e04f6f5c521b8826a8e}{mass}} \mbox{[}\mbox{\hyperlink{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}{quantity\+\_\+cubes\+\_\+x}}\mbox{]}\mbox{[}\mbox{\hyperlink{_main_8cpp_a6ad7e84d8a9e46d39737bdfabe547538}{quantity\+\_\+cubes\+\_\+y}}\mbox{]}\mbox{[}\mbox{\hyperlink{_main_8cpp_aefac3b54073269a9394f9a31a097d005}{quantity\+\_\+cubes\+\_\+z}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em массив мира, по которому строится сам мир \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_main_8cpp_ab30ebe607767185e11c0be9654050da4}{m\+Left}} = 0
+\begin{DoxyCompactList}\small\item\em состояние левой кнопки мыши \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_main_8cpp_a11ddd60c82ebc949b410e5f1b315fba6}{m\+Right}} = 0
+\begin{DoxyCompactList}\small\item\em состояние правой кнопки мыши \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_player}{Player}} \mbox{\hyperlink{_main_8cpp_a508de4653688ce746037c4036d49db59}{steve}} (\mbox{\hyperlink{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}{quantity\+\_\+cubes\+\_\+x}}/2+2, 60, \mbox{\hyperlink{_main_8cpp_aefac3b54073269a9394f9a31a097d005}{quantity\+\_\+cubes\+\_\+z}}/2)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Функции}
+\mbox{\Hypertarget{_main_8cpp_a7480102261ce7b1c9d51ceb2845a6ce0}\label{_main_8cpp_a7480102261ce7b1c9d51ceb2845a6ce0}} 
+\index{Main.cpp@{Main.cpp}!dirtTextures@{dirtTextures}}
+\index{dirtTextures@{dirtTextures}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{dirtTextures()}{dirtTextures()}}
+{\footnotesize\ttfamily void dirt\+Textures (\begin{DoxyParamCaption}\item[{int}]{W,  }\item[{int}]{H }\end{DoxyParamCaption})}
+
+
+
+загружает текстуры принимает на вход W и H указатели на int в которые будут помещены размеры изображения -\/ высота и ширина. 
+
+\mbox{\Hypertarget{_main_8cpp_a1e5b20fed15743656bb6d2e6a6ea6269}\label{_main_8cpp_a1e5b20fed15743656bb6d2e6a6ea6269}} 
+\index{Main.cpp@{Main.cpp}!display@{display}}
+\index{display@{display}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily void display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+главная функция программы 
+
+циклично вызывается. 1 вызов-\/ 1 кадр. обновляет все, что находится в мире-\/ положение игрока, его угол поворота. так же обновляет каждым разом мир -\/ рисует его \mbox{\Hypertarget{_main_8cpp_adfd953196412a9da0e069cf172a119b5}\label{_main_8cpp_adfd953196412a9da0e069cf172a119b5}} 
+\index{Main.cpp@{Main.cpp}!Draw\_cubes@{Draw\_cubes}}
+\index{Draw\_cubes@{Draw\_cubes}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{Draw\_cubes()}{Draw\_cubes()}}
+{\footnotesize\ttfamily void Draw\+\_\+cubes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+рисует куб 
+
+эта функция рисует куб задняя\mbox{\Hypertarget{_main_8cpp_a0caf1cf7b0e786fac311a3768a8f856c}\label{_main_8cpp_a0caf1cf7b0e786fac311a3768a8f856c}} 
+\index{Main.cpp@{Main.cpp}!draw\_lines\_cubes@{draw\_lines\_cubes}}
+\index{draw\_lines\_cubes@{draw\_lines\_cubes}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{draw\_lines\_cubes()}{draw\_lines\_cubes()}}
+{\footnotesize\ttfamily void draw\+\_\+lines\+\_\+cubes (\begin{DoxyParamCaption}\item[{float}]{cube\+\_\+size,  }\item[{int}]{X,  }\item[{int}]{Y,  }\item[{int}]{Z }\end{DoxyParamCaption})}
+
+
+
+функция для подсвечивания кубов 
+
+Эта функция подсвечивает кубы, получая для этого координаты, блока, на который смотрит игрок Мы увеличиваем немного размер куба локально для этой функции, чтобы линии строились немного поверх куба, в не в нем. Потом с помощью gl\+Translatef() мы подгоняем , где будут рисоваться лини.
+
+
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em cube\+\_\+size} & передаем размер куба, чтобы локально его увеличить \\
+\hline
+\mbox{\texttt{ in}}  & {\em X} & координата X, куда смотрит игрок \\
+\hline
+\mbox{\texttt{ in}}  & {\em Y} & координата Y, куда смотрит игрок \\
+\hline
+\mbox{\texttt{ in}}  & {\em Z} & координата Z, куда смотрит игрок \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{_main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{Main.cpp@{Main.cpp}!main@{main}}
+\index{main@{main}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+точка входа в программу 
+
+устанавливает все настройки библиотеки G\+L\+UT, а так же заполняет массив , по которому будет в дальнейшем строиться мир \mbox{\Hypertarget{_main_8cpp_afeff51853eef24fe859ab6ce174f5992}\label{_main_8cpp_afeff51853eef24fe859ab6ce174f5992}} 
+\index{Main.cpp@{Main.cpp}!mouseButton@{mouseButton}}
+\index{mouseButton@{mouseButton}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mouseButton()}{mouseButton()}}
+{\footnotesize\ttfamily void mouse\+Button (\begin{DoxyParamCaption}\item[{int}]{button,  }\item[{int}]{state,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+обрабатывает нажатие мыши 
+
+
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em button} & определяет, какая именно кнопка нажата-\/ правая, левая или средняя \\
+\hline
+\mbox{\texttt{ in}}  & {\em state} & состояние этой кнопки -\/ нажата или разжата \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & координата x, где произошло нажатие на кнопку \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & координата y, где произошло нажатие на кнопку \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_main_8cpp_ad98e38d016ad1258ee8592beffa21c93}\label{_main_8cpp_ad98e38d016ad1258ee8592beffa21c93}} 
+\index{Main.cpp@{Main.cpp}!mouseMove@{mouseMove}}
+\index{mouseMove@{mouseMove}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mouseMove()}{mouseMove()}}
+{\footnotesize\ttfamily void mouse\+Move (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+мониторит координаты мыши в окне 
+
+функция вызывается при изменении координат мыши, и соотвественно передает их. используется в данном случае для изменения угла поворота камеры \mbox{\Hypertarget{_main_8cpp_a921b29eb9802cb833818c43c4b17cb37}\label{_main_8cpp_a921b29eb9802cb833818c43c4b17cb37}} 
+\index{Main.cpp@{Main.cpp}!processNormalKeys@{processNormalKeys}}
+\index{processNormalKeys@{processNormalKeys}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{processNormalKeys()}{processNormalKeys()}}
+{\footnotesize\ttfamily void process\+Normal\+Keys (\begin{DoxyParamCaption}\item[{unsigned char}]{key,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+определяет НАЖАТИЕ клавиш клавиатуры 
+
+вызывается при НАЖАТОЙ кнопки клавиатуры
+
+
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em key} & передает A\+S\+C\+II код нажатой клавиши \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & положение курсора мыши при нажатии клавиши по оси x \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & положение курсора мыши при нажатии клавиши по оси y \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_main_8cpp_ac5825b76136757e092417c743635b74f}\label{_main_8cpp_ac5825b76136757e092417c743635b74f}} 
+\index{Main.cpp@{Main.cpp}!processNormalKeysUP@{processNormalKeysUP}}
+\index{processNormalKeysUP@{processNormalKeysUP}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{processNormalKeysUP()}{processNormalKeysUP()}}
+{\footnotesize\ttfamily void process\+Normal\+Keys\+UP (\begin{DoxyParamCaption}\item[{unsigned char}]{key,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+определяет ОТЖАТИЕ клавиш клавиатуры 
+
+вызывается при ОТЖАТОЙ кнопки клавиатуры
+
+
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em key} & передает A\+S\+C\+II код нажатой клавиши \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & положение курсора мыши при отжатии клавиши по оси x \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & положение курсора мыши при отжатии клавиши по оси y \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_main_8cpp_acc1ffe65e6869931318610cae7210078}\label{_main_8cpp_acc1ffe65e6869931318610cae7210078}} 
+\index{Main.cpp@{Main.cpp}!reshape@{reshape}}
+\index{reshape@{reshape}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{reshape()}{reshape()}}
+{\footnotesize\ttfamily void reshape (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+
+
+функция изменения перспективы при изменении размера окна 
+
+на вход принимает текущие размеры окна, чтобы по ним определить перспективу \mbox{\Hypertarget{_main_8cpp_a3c3e683a005eace2dd1e4d551056d9b6}\label{_main_8cpp_a3c3e683a005eace2dd1e4d551056d9b6}} 
+\index{Main.cpp@{Main.cpp}!timer@{timer}}
+\index{timer@{timer}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{timer()}{timer()}}
+{\footnotesize\ttfamily void timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+вызывается через определенный промежуток времени 
+
+вызывается через определенный промежуток времени. например, через каждые 10 мс-\/ использовалось для ограничения F\+PS I am so tired)))), but happy///
+
+\doxysubsection{Переменные}
+\mbox{\Hypertarget{_main_8cpp_a9a57f322df958dc574c9843c6ab4b1c2}\label{_main_8cpp_a9a57f322df958dc574c9843c6ab4b1c2}} 
+\index{Main.cpp@{Main.cpp}!angleX@{angleX}}
+\index{angleX@{angleX}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{angleX}{angleX}}
+{\footnotesize\ttfamily float angleX = 0.\+0f}
+
+
+
+угол поворота камеры в плоскости XZ. 
+
+\mbox{\Hypertarget{_main_8cpp_adb82b6f9a59b4ebab80b0ea796dbe066}\label{_main_8cpp_adb82b6f9a59b4ebab80b0ea796dbe066}} 
+\index{Main.cpp@{Main.cpp}!angleY@{angleY}}
+\index{angleY@{angleY}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{angleY}{angleY}}
+{\footnotesize\ttfamily float angleY = 5.\+0f}
+
+
+
+угол поворота камеры по оси Y. 
+
+\mbox{\Hypertarget{_main_8cpp_a01283f3e86444d8622f780d8493c2677}\label{_main_8cpp_a01283f3e86444d8622f780d8493c2677}} 
+\index{Main.cpp@{Main.cpp}!cube\_size@{cube\_size}}
+\index{cube\_size@{cube\_size}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{cube\_size}{cube\_size}}
+{\footnotesize\ttfamily int cube\+\_\+size = 2}
+
+
+
+размер куба 
+
+\mbox{\Hypertarget{_main_8cpp_a7224ca42e61aa498f8a5d81da4bb46a1}\label{_main_8cpp_a7224ca42e61aa498f8a5d81da4bb46a1}} 
+\index{Main.cpp@{Main.cpp}!dirt@{dirt}}
+\index{dirt@{dirt}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{dirt}{dirt}}
+{\footnotesize\ttfamily G\+Luint dirt\mbox{[}1\mbox{]}}
+
+
+
+хранит текстуру 
+
+\mbox{\Hypertarget{_main_8cpp_a45b3f1043a3b9217256cdb2129b7a0c4}\label{_main_8cpp_a45b3f1043a3b9217256cdb2129b7a0c4}} 
+\index{Main.cpp@{Main.cpp}!FPS@{FPS}}
+\index{FPS@{FPS}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{FPS}{FPS}}
+{\footnotesize\ttfamily int F\+PS = 60}
+
+
+
+ограничение по F\+PS. 
+
+\mbox{\Hypertarget{_main_8cpp_ad13e9131f5062934438fa82334e4b2ee}\label{_main_8cpp_ad13e9131f5062934438fa82334e4b2ee}} 
+\index{Main.cpp@{Main.cpp}!height@{height}}
+\index{height@{height}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{height}{height}}
+{\footnotesize\ttfamily const int height = 720}
+
+
+
+высота окна 
+
+\mbox{\Hypertarget{_main_8cpp_ad73966a3c98873a1a4d38b77c2c12180}\label{_main_8cpp_ad73966a3c98873a1a4d38b77c2c12180}} 
+\index{Main.cpp@{Main.cpp}!KeyFront@{KeyFront}}
+\index{KeyFront@{KeyFront}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{KeyFront}{KeyFront}}
+{\footnotesize\ttfamily float Key\+Front = 0}
+
+
+
+ключ к изменению скорости вперед/назад 
+
+\mbox{\Hypertarget{_main_8cpp_a19dc6e058055eb8bdbc263f98cc11edf}\label{_main_8cpp_a19dc6e058055eb8bdbc263f98cc11edf}} 
+\index{Main.cpp@{Main.cpp}!KeySide@{KeySide}}
+\index{KeySide@{KeySide}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{KeySide}{KeySide}}
+{\footnotesize\ttfamily float Key\+Side = 0}
+
+
+
+ключ к изменению скорости вбок 
+
+\mbox{\Hypertarget{_main_8cpp_afb7c4aa8c0b809f0f76628dbb5b6d62b}\label{_main_8cpp_afb7c4aa8c0b809f0f76628dbb5b6d62b}} 
+\index{Main.cpp@{Main.cpp}!lx@{lx}}
+\index{lx@{lx}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{lx}{lx}}
+{\footnotesize\ttfamily float lx = 1.\+0f}
+
+
+
+x координата единичного вектора направления камеры 
+
+\mbox{\Hypertarget{_main_8cpp_aaf431a94974e843174300e4c0fa47fbd}\label{_main_8cpp_aaf431a94974e843174300e4c0fa47fbd}} 
+\index{Main.cpp@{Main.cpp}!ly@{ly}}
+\index{ly@{ly}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{ly}{ly}}
+{\footnotesize\ttfamily float ly = 0.\+0f}
+
+
+
+y координата единичного вектора направления камеры 
+
+\mbox{\Hypertarget{_main_8cpp_adeebf705e4120efa9a773e0f52b11be0}\label{_main_8cpp_adeebf705e4120efa9a773e0f52b11be0}} 
+\index{Main.cpp@{Main.cpp}!lz@{lz}}
+\index{lz@{lz}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{lz}{lz}}
+{\footnotesize\ttfamily float lz = 0.\+0f}
+
+
+
+z координата единичного вектора направления камеры 
+
+\mbox{\Hypertarget{_main_8cpp_a033741d9d1d22e04f6f5c521b8826a8e}\label{_main_8cpp_a033741d9d1d22e04f6f5c521b8826a8e}} 
+\index{Main.cpp@{Main.cpp}!mass@{mass}}
+\index{mass@{mass}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mass}{mass}}
+{\footnotesize\ttfamily int mass\mbox{[}\mbox{\hyperlink{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}{quantity\+\_\+cubes\+\_\+x}}\mbox{]}\mbox{[}\mbox{\hyperlink{_main_8cpp_a6ad7e84d8a9e46d39737bdfabe547538}{quantity\+\_\+cubes\+\_\+y}}\mbox{]}\mbox{[}\mbox{\hyperlink{_main_8cpp_aefac3b54073269a9394f9a31a097d005}{quantity\+\_\+cubes\+\_\+z}}\mbox{]}}
+
+
+
+массив мира, по которому строится сам мир 
+
+\mbox{\Hypertarget{_main_8cpp_ab30ebe607767185e11c0be9654050da4}\label{_main_8cpp_ab30ebe607767185e11c0be9654050da4}} 
+\index{Main.cpp@{Main.cpp}!mLeft@{mLeft}}
+\index{mLeft@{mLeft}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mLeft}{mLeft}}
+{\footnotesize\ttfamily bool m\+Left = 0}
+
+
+
+состояние левой кнопки мыши 
+
+\mbox{\Hypertarget{_main_8cpp_ab9fd97076e732e2b6d1bb20bfa11420a}\label{_main_8cpp_ab9fd97076e732e2b6d1bb20bfa11420a}} 
+\index{Main.cpp@{Main.cpp}!mouseXOld@{mouseXOld}}
+\index{mouseXOld@{mouseXOld}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mouseXOld}{mouseXOld}}
+{\footnotesize\ttfamily int mouse\+X\+Old = 1}
+
+
+
+старая х координата мыши 
+
+\mbox{\Hypertarget{_main_8cpp_a5a591940487be9e13a5c47cbea8db0d2}\label{_main_8cpp_a5a591940487be9e13a5c47cbea8db0d2}} 
+\index{Main.cpp@{Main.cpp}!mouseYOld@{mouseYOld}}
+\index{mouseYOld@{mouseYOld}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mouseYOld}{mouseYOld}}
+{\footnotesize\ttfamily int mouse\+Y\+Old = 1}
+
+
+
+старая y координата мыши 
+
+\mbox{\Hypertarget{_main_8cpp_a11ddd60c82ebc949b410e5f1b315fba6}\label{_main_8cpp_a11ddd60c82ebc949b410e5f1b315fba6}} 
+\index{Main.cpp@{Main.cpp}!mRight@{mRight}}
+\index{mRight@{mRight}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{mRight}{mRight}}
+{\footnotesize\ttfamily bool m\+Right = 0}
+
+
+
+состояние правой кнопки мыши 
+
+\mbox{\Hypertarget{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}\label{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}} 
+\index{Main.cpp@{Main.cpp}!quantity\_cubes\_x@{quantity\_cubes\_x}}
+\index{quantity\_cubes\_x@{quantity\_cubes\_x}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{quantity\_cubes\_x}{quantity\_cubes\_x}}
+{\footnotesize\ttfamily const int quantity\+\_\+cubes\+\_\+x = 200}
+
+
+
+колличество блоков по оси x. 
+
+\mbox{\Hypertarget{_main_8cpp_a6ad7e84d8a9e46d39737bdfabe547538}\label{_main_8cpp_a6ad7e84d8a9e46d39737bdfabe547538}} 
+\index{Main.cpp@{Main.cpp}!quantity\_cubes\_y@{quantity\_cubes\_y}}
+\index{quantity\_cubes\_y@{quantity\_cubes\_y}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{quantity\_cubes\_y}{quantity\_cubes\_y}}
+{\footnotesize\ttfamily const int quantity\+\_\+cubes\+\_\+y = 50}
+
+
+
+колличество блоков по оси y. 
+
+\mbox{\Hypertarget{_main_8cpp_aefac3b54073269a9394f9a31a097d005}\label{_main_8cpp_aefac3b54073269a9394f9a31a097d005}} 
+\index{Main.cpp@{Main.cpp}!quantity\_cubes\_z@{quantity\_cubes\_z}}
+\index{quantity\_cubes\_z@{quantity\_cubes\_z}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{quantity\_cubes\_z}{quantity\_cubes\_z}}
+{\footnotesize\ttfamily const int quantity\+\_\+cubes\+\_\+z = 200}
+
+
+
+колличество блоков по оси z. 
+
+\mbox{\Hypertarget{_main_8cpp_a508de4653688ce746037c4036d49db59}\label{_main_8cpp_a508de4653688ce746037c4036d49db59}} 
+\index{Main.cpp@{Main.cpp}!steve@{steve}}
+\index{steve@{steve}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{steve}{steve}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_player}{Player}} steve(\mbox{\hyperlink{_main_8cpp_abe8f533bc23beee8f709630d1343a5da}{quantity\+\_\+cubes\+\_\+x}}/2+2, 60, \mbox{\hyperlink{_main_8cpp_aefac3b54073269a9394f9a31a097d005}{quantity\+\_\+cubes\+\_\+z}}/2)}
+
+\mbox{\Hypertarget{_main_8cpp_a837aabdd54757cb86d0f66387511753f}\label{_main_8cpp_a837aabdd54757cb86d0f66387511753f}} 
+\index{Main.cpp@{Main.cpp}!width@{width}}
+\index{width@{width}!Main.cpp@{Main.cpp}}
+\doxysubsubsection{\texorpdfstring{width}{width}}
+{\footnotesize\ttfamily const int width = 1280}
+
+
+
+ширина окна 
+

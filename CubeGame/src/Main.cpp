@@ -7,23 +7,38 @@
 #include <SFML/Graphics.hpp>
 #pragma comment(lib, "SOIL.lib")
 
-GLuint dirt[1];
-int View = 90; // angle of view
-int FPS = 60; // 60
-const int quantity_cubes_x = 200;
-const int quantity_cubes_y = 50;
-const int quantity_cubes_z = 200;
-const int width = 1280, height = 720; // размер окна
-float lx = 1.0f, lz = 0.0f, ly = 0.0f; // единичные вектора камеры
-float angleX = 0.0f, angleY = 5.0f; // угол наклона камеры
-int mouseXOld = 1, mouseYOld = 1; // старые коориднаты  мышки
-float KeyFront = 0, KeySide = 0; // ключ к изменению перемещения вперед/назад
-int cube_size = 2; // размер куба
-int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z];
-float deltaAngle = 0.0f;
-float deltaMove = 0;
-bool mLeft = 0, mRight = 0; // mouse bottons
-float angle;
+GLuint dirt[1]; ///< хранит текстуру
+int FPS = 60; ///< ограничение по FPS
+const int quantity_cubes_x = 200; ///< колличество блоков по оси x
+const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
+const int quantity_cubes_z = 200; ///< колличество блоков по оси z
+const int width = 1280; ///< ширина окна
+const int height = 720; ///< высота окна
+float lx = 1.0f; ///< x координата единичного вектора направления камеры
+float lz = 0.0f; ///< z координата единичного вектора направления камеры
+float ly = 0.0f; ///< y координата единичного вектора направления камеры
+float angleX = 0.0f; ///< угол поворота камеры в плоскости XZ
+float angleY = 5.0f; ///< угол поворота камеры по оси Y
+int mouseXOld = 1; ///< старая х координата мыши
+int mouseYOld = 1; ///< старая y координата мыши
+float KeyFront = 0; ///< ключ к изменению скорости вперед/назад
+float KeySide = 0; ///< ключ к изменению скорости вбок
+int cube_size = 2; ///< размер куба
+int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z]; ///< массив мира, по которому строится сам мир
+bool mLeft = 0; ///< состояние левой кнопки мыши
+bool mRight = 0; ///< состояние правой кнопки мыши
+/**
+    \brief функция для подсвечивания кубов
+
+    Эта функция подсвечивает кубы, получая для этого координаты, блока, на который смотрит игрок
+    Мы увеличиваем немного размер куба локально для этой функции, чтобы линии строились немного поверх куба, в не в нем. 
+    Потом с помощью   glTranslatef() мы подгоняем , где будут рисоваться лини.
+
+    \param[in] cube_size передаем размер куба, чтобы локально его увеличить
+    \param[in] X координата X, куда смотрит игрок
+    \param[in] Y координата Y, куда смотрит игрок
+    \param[in] Z координата Z, куда смотрит игрок
+*/
 void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glLineWidth(2);
     cube_size = cube_size / 2 + 0.004;
@@ -75,15 +90,30 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
 
 class Player {
 public:
-    float PlayerX, PlayerY, PlayerZ;
-    float dx, dy, dz;
-    float dSideX, dSideZ;
-    float dFrontX, dFrontZ;
-    float w, h, d;
-    bool onGround;
-    float speed;
-    float View; // угол обзора
+    float PlayerX; ///< Координата игрока по оси X
+    float PlayerY; ///< Координата игрока по оси Y
+    float PlayerZ; ///< Координата игрока по оси Z
+    float dx;      ///< Общая скорость игрока по оси x
+    float dy;      ///< Общая скорость игрока по оси y
+    float dz;      ///< Общая скорость игрока по оси z
+    float dSideX;  ///< поперечная скорость по оси x
+    float dSideZ;  ///< поперечная скорость по оси z
+    float dFrontX; ///< продольная скорость по оси x
+    float dFrontZ; ///< продольная скорость по оси z
+    float w;       ///< ширина игрока
+    float h;       ///< высота игрока
+    float d;       ///< Глубина игрока
+    bool onGround; ///< определяет, косаетесь ли вы пола
+    float speed;   ///< скорость игрока
+    float View;    ///< угол обзора
 
+    /** 
+        \brief Конструктор класса
+
+        \param[in] x0 координата спавна игрока по оси x
+        \param[in] y0 координата спавна игрока по оси y
+        \param[in] z0 координата спавна игрока по оси z
+    */
     Player(float x0, float y0, float z0) {
         PlayerX = x0; PlayerY = y0; PlayerZ = z0;
         dx = 0; dy = 0; dz = 0;
@@ -93,6 +123,9 @@ public:
         onGround = false;
         View = 90; // угол обзора
     }
+    /**
+        \brief проверяет на столкновение
+    */
     bool check(int x, int y, int z) {
         if ((x < 0) or (x > quantity_cubes_x) or
             (y < 0) or (y > quantity_cubes_y) or
@@ -101,6 +134,11 @@ public:
 
 
     }
+    /**
+        \brief основаня функцию обновления игрока
+
+        \param[in] time время 1 кадра
+    */
     void update(float time) {
 
         if (PlayerY < 0) {
@@ -135,7 +173,13 @@ public:
 
         dx = dz = dSideX = dSideZ = dFrontX = dFrontZ = 0;
     }
-    void mousePressed() { // обрабатываем нажатие кнопки 
+    /**
+        \brief обрабатывает нажатие мыши
+
+        эта функция понимает, какая кнопка мыши нажата и за счет этого либо ставит, либо разрушает блоки
+
+    */
+    void mousePressed() { 
         //if (mRight or mLeft) {
         float mousex = PlayerX;
         float mousey = PlayerY + h / 2;
@@ -197,6 +241,11 @@ public:
         //}
         mLeft = mRight = false;
     }
+    /**
+        \brief определяет поведение при столкновении с колизией 
+
+        эта функция принимает на вход скорости по осям игрока, и при столкновении с клизией определяет, как должен вести себя игрок
+    */
     void collision(float Dx, float Dy, float Dz) {
         for (int X = (PlayerX - w) / cube_size; X < (PlayerX + w) / cube_size; X++)
             for (int Y = (PlayerY - h) / cube_size; Y < (PlayerY + h) / cube_size; Y++)
@@ -214,6 +263,8 @@ public:
 
                     }
     }
+    
+    /// прыжок игрока
     void jump() {
         if (onGround) {
             onGround = false;
@@ -222,6 +273,11 @@ public:
     }
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+/**
+    \brief загружает текстуры
+    принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.
+
+*/
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &dirt[0]);
@@ -236,6 +292,11 @@ void dirtTextures(int W, int H) {
 	SOIL_free_image_data(topу);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+/**
+    \brief функция изменения перспективы при изменении размера окна
+
+    на вход принимает текущие размеры окна, чтобы по ним определить перспективу
+*/
 void reshape(int w, int h){
 	float ratio = w * 1.0 / h;
 	glMatrixMode(GL_PROJECTION);
@@ -245,7 +306,15 @@ void reshape(int w, int h){
 	glMatrixMode(GL_MODELVIEW);
 
 }
+/**
+    \brief обрабатывает нажатие мыши
 
+    \param[in] button определяет, какая именно кнопка нажата- правая, левая или средняя
+    \param[in] state состояние этой кнопки - нажата или разжата
+    \param[in] x координата x, где произошло нажатие на кнопку
+    \param[in] y координата y, где произошло нажатие на кнопку
+    
+*/
 void mouseButton(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON) {
         switch (state) {
@@ -270,6 +339,16 @@ void mouseButton(int button, int state, int x, int y) {
     }
     //if (button == GLUT_WHEEL_DOWN)
 }
+/**
+    \brief определяет НАЖАТИЕ клавиш клавиатуры
+
+    вызывается при НАЖАТОЙ кнопки клавиатуры
+
+    \param[in] key передает ASCII код нажатой клавиши
+    \param[in] x положение курсора мыши при нажатии клавиши по оси x 
+    \param[in] y положение курсора мыши при нажатии клавиши по оси y
+
+*/
 void processNormalKeys(unsigned char key, int x, int y) {
     switch(key) {
     case 27: // если клавиша esc(27) нажата, то выходим из программы
@@ -295,7 +374,16 @@ void processNormalKeys(unsigned char key, int x, int y) {
         break;
     }
 }
+/**
+    \brief определяет ОТЖАТИЕ клавиш клавиатуры
 
+    вызывается при ОТЖАТОЙ кнопки клавиатуры
+
+    \param[in] key передает ASCII код нажатой клавиши
+    \param[in] x положение курсора мыши при отжатии клавиши по оси x
+    \param[in] y положение курсора мыши при отжатии клавиши по оси y
+
+*/
 void processNormalKeysUP(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'W':
@@ -319,7 +407,13 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 
 
 
+/**
+    \brief мониторит координаты мыши в окне
 
+    функция вызывается при изменении координат мыши, и соотвественно передает их. используется в данном случае для изменения
+    угла поворота камеры
+
+*/
 void mouseMove(int x, int y) {
     if (mouseXOld != 0 or mouseYOld != 0) {
         angleX -= mouseXOld * 0.001f;
@@ -345,11 +439,23 @@ void mouseMove(int x, int y) {
 
 
 }
-void timer(int) {
+/**
+    \brief вызывается через определенный промежуток времени
+
+    вызывается через определенный промежуток времени. например, через каждые 10 мс- использовалось для ограничения FPS
+
+*/
+void timer() {
 	glutPostRedisplay();
 	glutTimerFunc(1000 / 60, timer, 0);
 	///I am so tired)))), but happy///
 }
+/**
+    \brief рисует куб 
+
+    эта функция рисует куб
+
+*/
 void Draw_cubes() {
     glBindTexture(GL_TEXTURE_2D, dirt[0]);
 	glColor3f(1.0, 1.0, 1.0);
@@ -400,6 +506,13 @@ void Draw_cubes() {
         glEnd();
     
 }
+/**
+    \brief главная функция программы
+
+    циклично вызывается. 1 вызов- 1 кадр. обновляет все, что находится в мире- положение игрока, его угол поворота. так же 
+    обновляет каждым разом мир - рисует его
+
+*/
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix(); // сохраняем систему координат
@@ -436,7 +549,12 @@ void display(){
 }
 
 
+/**
+    \brief точка входа в программу
 
+    устанавливает все настройки библиотеки GLUT, а так же заполняет массив , по которому будет в дальнейшем строиться мир
+
+*/
 int main() {
 	
 	glutInitWindowSize(width, height); // задает размеры окна

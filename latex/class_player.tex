@@ -1,0 +1,300 @@
+\hypertarget{class_player}{}\doxysection{Класс Player}
+\label{class_player}\index{Player@{Player}}
+\doxysubsection*{Открытые члены}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_player_ae0d3602cdd48afcb0d5efee322c6557d}{Player}} (float x0, float y0, float z0)
+\begin{DoxyCompactList}\small\item\em Конструктор класса \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_aa9eb8f26de47362248ae46351f81f7c1}{check}} (int x, int y, int z)
+\begin{DoxyCompactList}\small\item\em проверяет на столкновение \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a194b7082791d882887071d8d2893c5e4}{update}} (float time)
+\begin{DoxyCompactList}\small\item\em основаня функцию обновления игрока \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_adfa0bf2532ed2cdb2db862c742151f4f}{mouse\+Pressed}} ()
+\begin{DoxyCompactList}\small\item\em обрабатывает нажатие мыши \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_ad3aed408b96b3eabaed55f705c51739d}{collision}} (float Dx, float Dy, float Dz)
+\begin{DoxyCompactList}\small\item\em определяет поведение при столкновении с колизией \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_a70e21ca98281b7d72f105f2693113d7e}{jump}} ()
+\begin{DoxyCompactList}\small\item\em прыжок игрока \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Открытые атрибуты}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_player_aa236df11fc00f7c338b03b061b480d67}{PlayerX}}
+\begin{DoxyCompactList}\small\item\em Координата игрока по оси X. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_afa5e305b377d914da490da1aa0d6503b}{PlayerY}}
+\begin{DoxyCompactList}\small\item\em Координата игрока по оси Y. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a3fe624c14e2d04c851229e7c52a47b9d}{PlayerZ}}
+\begin{DoxyCompactList}\small\item\em Координата игрока по оси Z. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a52250846ba4e8545f3083cf338ea96ff}{dx}}
+\begin{DoxyCompactList}\small\item\em Общая скорость игрока по оси x. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a4ae67f5a41deee73002718c3f8d0594d}{dy}}
+\begin{DoxyCompactList}\small\item\em Общая скорость игрока по оси y. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_adc0798fa136ca3e5212260771a98c975}{dz}}
+\begin{DoxyCompactList}\small\item\em Общая скорость игрока по оси z. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_aad71855c90f6051bd443a4ca7ee34421}{d\+SideX}}
+\begin{DoxyCompactList}\small\item\em поперечная скорость по оси x. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a3f85e737e8042fe2a1c5b419448e8b22}{d\+SideZ}}
+\begin{DoxyCompactList}\small\item\em поперечная скорость по оси z. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_aa129f82fe2034539cb7444902af35912}{d\+FrontX}}
+\begin{DoxyCompactList}\small\item\em продольная скорость по оси x. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_abd949edd4cdb17565bc1469b7ace0ff8}{d\+FrontZ}}
+\begin{DoxyCompactList}\small\item\em продольная скорость по оси z. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a764cd401a89a45b3dec74b110d612a59}{w}}
+\begin{DoxyCompactList}\small\item\em ширина игрока \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_afa3667f91d696d17733dbf1cce688037}{h}}
+\begin{DoxyCompactList}\small\item\em высота игрока \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a3f62d17991f2da3417ac49ccf9e13021}{d}}
+\begin{DoxyCompactList}\small\item\em Глубина игрока \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_a12c8bb2a50785eeb6ce4cc3fdafe0c63}{on\+Ground}}
+\begin{DoxyCompactList}\small\item\em определяет, косаетесь ли вы пола \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a770942101eff683b030edde9f730d537}{speed}}
+\begin{DoxyCompactList}\small\item\em скорость игрока \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_a8cde07d9d7b3c469f977894e021a4173}{View}}
+\begin{DoxyCompactList}\small\item\em угол обзора \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Конструктор(ы)}
+\mbox{\Hypertarget{class_player_ae0d3602cdd48afcb0d5efee322c6557d}\label{class_player_ae0d3602cdd48afcb0d5efee322c6557d}} 
+\index{Player@{Player}!Player@{Player}}
+\index{Player@{Player}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{Player()}{Player()}}
+{\footnotesize\ttfamily Player\+::\+Player (\begin{DoxyParamCaption}\item[{float}]{x0,  }\item[{float}]{y0,  }\item[{float}]{z0 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Конструктор класса 
+
+
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em x0} & координата спавна игрока по оси x \\
+\hline
+\mbox{\texttt{ in}}  & {\em y0} & координата спавна игрока по оси y \\
+\hline
+\mbox{\texttt{ in}}  & {\em z0} & координата спавна игрока по оси z \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Методы}
+\mbox{\Hypertarget{class_player_aa9eb8f26de47362248ae46351f81f7c1}\label{class_player_aa9eb8f26de47362248ae46351f81f7c1}} 
+\index{Player@{Player}!check@{check}}
+\index{check@{check}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{check()}{check()}}
+{\footnotesize\ttfamily bool Player\+::check (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+проверяет на столкновение 
+
+\mbox{\Hypertarget{class_player_ad3aed408b96b3eabaed55f705c51739d}\label{class_player_ad3aed408b96b3eabaed55f705c51739d}} 
+\index{Player@{Player}!collision@{collision}}
+\index{collision@{collision}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{collision()}{collision()}}
+{\footnotesize\ttfamily void Player\+::collision (\begin{DoxyParamCaption}\item[{float}]{Dx,  }\item[{float}]{Dy,  }\item[{float}]{Dz }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+определяет поведение при столкновении с колизией 
+
+эта функция принимает на вход скорости по осям игрока, и при столкновении с клизией определяет, как должен вести себя игрок \mbox{\Hypertarget{class_player_a70e21ca98281b7d72f105f2693113d7e}\label{class_player_a70e21ca98281b7d72f105f2693113d7e}} 
+\index{Player@{Player}!jump@{jump}}
+\index{jump@{jump}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{jump()}{jump()}}
+{\footnotesize\ttfamily void Player\+::jump (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+прыжок игрока 
+
+\mbox{\Hypertarget{class_player_adfa0bf2532ed2cdb2db862c742151f4f}\label{class_player_adfa0bf2532ed2cdb2db862c742151f4f}} 
+\index{Player@{Player}!mousePressed@{mousePressed}}
+\index{mousePressed@{mousePressed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{mousePressed()}{mousePressed()}}
+{\footnotesize\ttfamily void Player\+::mouse\+Pressed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+обрабатывает нажатие мыши 
+
+эта функция понимает, какая кнопка мыши нажата и за счет этого либо ставит, либо разрушает блоки \mbox{\Hypertarget{class_player_a194b7082791d882887071d8d2893c5e4}\label{class_player_a194b7082791d882887071d8d2893c5e4}} 
+\index{Player@{Player}!update@{update}}
+\index{update@{update}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Player\+::update (\begin{DoxyParamCaption}\item[{float}]{time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+основаня функцию обновления игрока 
+
+
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em time} & время 1 кадра \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Данные класса}
+\mbox{\Hypertarget{class_player_a3f62d17991f2da3417ac49ccf9e13021}\label{class_player_a3f62d17991f2da3417ac49ccf9e13021}} 
+\index{Player@{Player}!d@{d}}
+\index{d@{d}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{d}{d}}
+{\footnotesize\ttfamily float Player\+::d}
+
+
+
+Глубина игрока 
+
+\mbox{\Hypertarget{class_player_aa129f82fe2034539cb7444902af35912}\label{class_player_aa129f82fe2034539cb7444902af35912}} 
+\index{Player@{Player}!dFrontX@{dFrontX}}
+\index{dFrontX@{dFrontX}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dFrontX}{dFrontX}}
+{\footnotesize\ttfamily float Player\+::d\+FrontX}
+
+
+
+продольная скорость по оси x. 
+
+\mbox{\Hypertarget{class_player_abd949edd4cdb17565bc1469b7ace0ff8}\label{class_player_abd949edd4cdb17565bc1469b7ace0ff8}} 
+\index{Player@{Player}!dFrontZ@{dFrontZ}}
+\index{dFrontZ@{dFrontZ}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dFrontZ}{dFrontZ}}
+{\footnotesize\ttfamily float Player\+::d\+FrontZ}
+
+
+
+продольная скорость по оси z. 
+
+\mbox{\Hypertarget{class_player_aad71855c90f6051bd443a4ca7ee34421}\label{class_player_aad71855c90f6051bd443a4ca7ee34421}} 
+\index{Player@{Player}!dSideX@{dSideX}}
+\index{dSideX@{dSideX}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dSideX}{dSideX}}
+{\footnotesize\ttfamily float Player\+::d\+SideX}
+
+
+
+поперечная скорость по оси x. 
+
+\mbox{\Hypertarget{class_player_a3f85e737e8042fe2a1c5b419448e8b22}\label{class_player_a3f85e737e8042fe2a1c5b419448e8b22}} 
+\index{Player@{Player}!dSideZ@{dSideZ}}
+\index{dSideZ@{dSideZ}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dSideZ}{dSideZ}}
+{\footnotesize\ttfamily float Player\+::d\+SideZ}
+
+
+
+поперечная скорость по оси z. 
+
+\mbox{\Hypertarget{class_player_a52250846ba4e8545f3083cf338ea96ff}\label{class_player_a52250846ba4e8545f3083cf338ea96ff}} 
+\index{Player@{Player}!dx@{dx}}
+\index{dx@{dx}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dx}{dx}}
+{\footnotesize\ttfamily float Player\+::dx}
+
+
+
+Общая скорость игрока по оси x. 
+
+\mbox{\Hypertarget{class_player_a4ae67f5a41deee73002718c3f8d0594d}\label{class_player_a4ae67f5a41deee73002718c3f8d0594d}} 
+\index{Player@{Player}!dy@{dy}}
+\index{dy@{dy}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dy}{dy}}
+{\footnotesize\ttfamily float Player\+::dy}
+
+
+
+Общая скорость игрока по оси y. 
+
+\mbox{\Hypertarget{class_player_adc0798fa136ca3e5212260771a98c975}\label{class_player_adc0798fa136ca3e5212260771a98c975}} 
+\index{Player@{Player}!dz@{dz}}
+\index{dz@{dz}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{dz}{dz}}
+{\footnotesize\ttfamily float Player\+::dz}
+
+
+
+Общая скорость игрока по оси z. 
+
+\mbox{\Hypertarget{class_player_afa3667f91d696d17733dbf1cce688037}\label{class_player_afa3667f91d696d17733dbf1cce688037}} 
+\index{Player@{Player}!h@{h}}
+\index{h@{h}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily float Player\+::h}
+
+
+
+высота игрока 
+
+\mbox{\Hypertarget{class_player_a12c8bb2a50785eeb6ce4cc3fdafe0c63}\label{class_player_a12c8bb2a50785eeb6ce4cc3fdafe0c63}} 
+\index{Player@{Player}!onGround@{onGround}}
+\index{onGround@{onGround}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{onGround}{onGround}}
+{\footnotesize\ttfamily bool Player\+::on\+Ground}
+
+
+
+определяет, косаетесь ли вы пола 
+
+\mbox{\Hypertarget{class_player_aa236df11fc00f7c338b03b061b480d67}\label{class_player_aa236df11fc00f7c338b03b061b480d67}} 
+\index{Player@{Player}!PlayerX@{PlayerX}}
+\index{PlayerX@{PlayerX}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{PlayerX}{PlayerX}}
+{\footnotesize\ttfamily float Player\+::\+PlayerX}
+
+
+
+Координата игрока по оси X. 
+
+\mbox{\Hypertarget{class_player_afa5e305b377d914da490da1aa0d6503b}\label{class_player_afa5e305b377d914da490da1aa0d6503b}} 
+\index{Player@{Player}!PlayerY@{PlayerY}}
+\index{PlayerY@{PlayerY}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{PlayerY}{PlayerY}}
+{\footnotesize\ttfamily float Player\+::\+PlayerY}
+
+
+
+Координата игрока по оси Y. 
+
+\mbox{\Hypertarget{class_player_a3fe624c14e2d04c851229e7c52a47b9d}\label{class_player_a3fe624c14e2d04c851229e7c52a47b9d}} 
+\index{Player@{Player}!PlayerZ@{PlayerZ}}
+\index{PlayerZ@{PlayerZ}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{PlayerZ}{PlayerZ}}
+{\footnotesize\ttfamily float Player\+::\+PlayerZ}
+
+
+
+Координата игрока по оси Z. 
+
+\mbox{\Hypertarget{class_player_a770942101eff683b030edde9f730d537}\label{class_player_a770942101eff683b030edde9f730d537}} 
+\index{Player@{Player}!speed@{speed}}
+\index{speed@{speed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily float Player\+::speed}
+
+
+
+скорость игрока 
+
+\mbox{\Hypertarget{class_player_a8cde07d9d7b3c469f977894e021a4173}\label{class_player_a8cde07d9d7b3c469f977894e021a4173}} 
+\index{Player@{Player}!View@{View}}
+\index{View@{View}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{View}{View}}
+{\footnotesize\ttfamily float Player\+::\+View}
+
+
+
+угол обзора 
+
+\mbox{\Hypertarget{class_player_a764cd401a89a45b3dec74b110d612a59}\label{class_player_a764cd401a89a45b3dec74b110d612a59}} 
+\index{Player@{Player}!w@{w}}
+\index{w@{w}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily float Player\+::w}
+
+
+
+ширина игрока 
+
+
+
+Объявления и описания членов класса находятся в файле\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+My\+Projects/cube\+\_\+game\+\_\+new/\+Cube\+Game/src/\mbox{\hyperlink{_main_8cpp}{Main.\+cpp}}\end{DoxyCompactItemize}

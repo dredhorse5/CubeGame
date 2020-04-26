@@ -1,0 +1,921 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CubeGame: Файл C:/MyProjects/cube_game_new/CubeGame/src/Main.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">CubeGame
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('_main_8cpp.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Классы</a> &#124;
+<a href="#func-members">Функции</a> &#124;
+<a href="#var-members">Переменные</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл Main.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;Math.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;glut.h&gt;</code><br />
+<code>#include &lt;SOIL.h&gt;</code><br />
+<code>#include &lt;ctime&gt;</code><br />
+<code>#include &lt;SFML/Graphics.hpp&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Классы</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_player.html">Player</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a0caf1cf7b0e786fac311a3768a8f856c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a0caf1cf7b0e786fac311a3768a8f856c">draw_lines_cubes</a> (float <a class="el" href="_main_8cpp.html#a01283f3e86444d8622f780d8493c2677">cube_size</a>, int X, int Y, int Z)</td></tr>
+<tr class="memdesc:a0caf1cf7b0e786fac311a3768a8f856c"><td class="mdescLeft">&#160;</td><td class="mdescRight">функция для подсвечивания кубов  <a href="_main_8cpp.html#a0caf1cf7b0e786fac311a3768a8f856c">Подробнее...</a><br /></td></tr>
+<tr class="separator:a0caf1cf7b0e786fac311a3768a8f856c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7480102261ce7b1c9d51ceb2845a6ce0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a7480102261ce7b1c9d51ceb2845a6ce0">dirtTextures</a> (int W, int H)</td></tr>
+<tr class="memdesc:a7480102261ce7b1c9d51ceb2845a6ce0"><td class="mdescLeft">&#160;</td><td class="mdescRight">загружает текстуры принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.  <a href="_main_8cpp.html#a7480102261ce7b1c9d51ceb2845a6ce0">Подробнее...</a><br /></td></tr>
+<tr class="separator:a7480102261ce7b1c9d51ceb2845a6ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc1ffe65e6869931318610cae7210078"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#acc1ffe65e6869931318610cae7210078">reshape</a> (int w, int h)</td></tr>
+<tr class="memdesc:acc1ffe65e6869931318610cae7210078"><td class="mdescLeft">&#160;</td><td class="mdescRight">функция изменения перспективы при изменении размера окна  <a href="_main_8cpp.html#acc1ffe65e6869931318610cae7210078">Подробнее...</a><br /></td></tr>
+<tr class="separator:acc1ffe65e6869931318610cae7210078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeff51853eef24fe859ab6ce174f5992"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#afeff51853eef24fe859ab6ce174f5992">mouseButton</a> (int button, int state, int x, int y)</td></tr>
+<tr class="memdesc:afeff51853eef24fe859ab6ce174f5992"><td class="mdescLeft">&#160;</td><td class="mdescRight">обрабатывает нажатие мыши  <a href="_main_8cpp.html#afeff51853eef24fe859ab6ce174f5992">Подробнее...</a><br /></td></tr>
+<tr class="separator:afeff51853eef24fe859ab6ce174f5992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a921b29eb9802cb833818c43c4b17cb37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a921b29eb9802cb833818c43c4b17cb37">processNormalKeys</a> (unsigned char key, int x, int y)</td></tr>
+<tr class="memdesc:a921b29eb9802cb833818c43c4b17cb37"><td class="mdescLeft">&#160;</td><td class="mdescRight">определяет НАЖАТИЕ клавиш клавиатуры  <a href="_main_8cpp.html#a921b29eb9802cb833818c43c4b17cb37">Подробнее...</a><br /></td></tr>
+<tr class="separator:a921b29eb9802cb833818c43c4b17cb37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5825b76136757e092417c743635b74f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ac5825b76136757e092417c743635b74f">processNormalKeysUP</a> (unsigned char key, int x, int y)</td></tr>
+<tr class="memdesc:ac5825b76136757e092417c743635b74f"><td class="mdescLeft">&#160;</td><td class="mdescRight">определяет ОТЖАТИЕ клавиш клавиатуры  <a href="_main_8cpp.html#ac5825b76136757e092417c743635b74f">Подробнее...</a><br /></td></tr>
+<tr class="separator:ac5825b76136757e092417c743635b74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad98e38d016ad1258ee8592beffa21c93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ad98e38d016ad1258ee8592beffa21c93">mouseMove</a> (int x, int y)</td></tr>
+<tr class="memdesc:ad98e38d016ad1258ee8592beffa21c93"><td class="mdescLeft">&#160;</td><td class="mdescRight">мониторит координаты мыши в окне  <a href="_main_8cpp.html#ad98e38d016ad1258ee8592beffa21c93">Подробнее...</a><br /></td></tr>
+<tr class="separator:ad98e38d016ad1258ee8592beffa21c93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c3e683a005eace2dd1e4d551056d9b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a3c3e683a005eace2dd1e4d551056d9b6">timer</a> ()</td></tr>
+<tr class="memdesc:a3c3e683a005eace2dd1e4d551056d9b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">вызывается через определенный промежуток времени  <a href="_main_8cpp.html#a3c3e683a005eace2dd1e4d551056d9b6">Подробнее...</a><br /></td></tr>
+<tr class="separator:a3c3e683a005eace2dd1e4d551056d9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfd953196412a9da0e069cf172a119b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#adfd953196412a9da0e069cf172a119b5">Draw_cubes</a> ()</td></tr>
+<tr class="memdesc:adfd953196412a9da0e069cf172a119b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">рисует куб  <a href="_main_8cpp.html#adfd953196412a9da0e069cf172a119b5">Подробнее...</a><br /></td></tr>
+<tr class="separator:adfd953196412a9da0e069cf172a119b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e5b20fed15743656bb6d2e6a6ea6269"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a1e5b20fed15743656bb6d2e6a6ea6269">display</a> ()</td></tr>
+<tr class="memdesc:a1e5b20fed15743656bb6d2e6a6ea6269"><td class="mdescLeft">&#160;</td><td class="mdescRight">главная функция программы  <a href="_main_8cpp.html#a1e5b20fed15743656bb6d2e6a6ea6269">Подробнее...</a><br /></td></tr>
+<tr class="separator:a1e5b20fed15743656bb6d2e6a6ea6269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">точка входа в программу  <a href="_main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">Подробнее...</a><br /></td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Переменные</h2></td></tr>
+<tr class="memitem:a7224ca42e61aa498f8a5d81da4bb46a1"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a7224ca42e61aa498f8a5d81da4bb46a1">dirt</a> [1]</td></tr>
+<tr class="memdesc:a7224ca42e61aa498f8a5d81da4bb46a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">хранит текстуру  <a href="_main_8cpp.html#a7224ca42e61aa498f8a5d81da4bb46a1">Подробнее...</a><br /></td></tr>
+<tr class="separator:a7224ca42e61aa498f8a5d81da4bb46a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45b3f1043a3b9217256cdb2129b7a0c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a45b3f1043a3b9217256cdb2129b7a0c4">FPS</a> = 60</td></tr>
+<tr class="memdesc:a45b3f1043a3b9217256cdb2129b7a0c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">ограничение по FPS.  <a href="_main_8cpp.html#a45b3f1043a3b9217256cdb2129b7a0c4">Подробнее...</a><br /></td></tr>
+<tr class="separator:a45b3f1043a3b9217256cdb2129b7a0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe8f533bc23beee8f709630d1343a5da"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#abe8f533bc23beee8f709630d1343a5da">quantity_cubes_x</a> = 200</td></tr>
+<tr class="memdesc:abe8f533bc23beee8f709630d1343a5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">колличество блоков по оси x.  <a href="_main_8cpp.html#abe8f533bc23beee8f709630d1343a5da">Подробнее...</a><br /></td></tr>
+<tr class="separator:abe8f533bc23beee8f709630d1343a5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ad7e84d8a9e46d39737bdfabe547538"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a6ad7e84d8a9e46d39737bdfabe547538">quantity_cubes_y</a> = 50</td></tr>
+<tr class="memdesc:a6ad7e84d8a9e46d39737bdfabe547538"><td class="mdescLeft">&#160;</td><td class="mdescRight">колличество блоков по оси y.  <a href="_main_8cpp.html#a6ad7e84d8a9e46d39737bdfabe547538">Подробнее...</a><br /></td></tr>
+<tr class="separator:a6ad7e84d8a9e46d39737bdfabe547538"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefac3b54073269a9394f9a31a097d005"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#aefac3b54073269a9394f9a31a097d005">quantity_cubes_z</a> = 200</td></tr>
+<tr class="memdesc:aefac3b54073269a9394f9a31a097d005"><td class="mdescLeft">&#160;</td><td class="mdescRight">колличество блоков по оси z.  <a href="_main_8cpp.html#aefac3b54073269a9394f9a31a097d005">Подробнее...</a><br /></td></tr>
+<tr class="separator:aefac3b54073269a9394f9a31a097d005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a837aabdd54757cb86d0f66387511753f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a837aabdd54757cb86d0f66387511753f">width</a> = 1280</td></tr>
+<tr class="memdesc:a837aabdd54757cb86d0f66387511753f"><td class="mdescLeft">&#160;</td><td class="mdescRight">ширина окна  <a href="_main_8cpp.html#a837aabdd54757cb86d0f66387511753f">Подробнее...</a><br /></td></tr>
+<tr class="separator:a837aabdd54757cb86d0f66387511753f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad13e9131f5062934438fa82334e4b2ee"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ad13e9131f5062934438fa82334e4b2ee">height</a> = 720</td></tr>
+<tr class="memdesc:ad13e9131f5062934438fa82334e4b2ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">высота окна  <a href="_main_8cpp.html#ad13e9131f5062934438fa82334e4b2ee">Подробнее...</a><br /></td></tr>
+<tr class="separator:ad13e9131f5062934438fa82334e4b2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb7c4aa8c0b809f0f76628dbb5b6d62b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#afb7c4aa8c0b809f0f76628dbb5b6d62b">lx</a> = 1.0f</td></tr>
+<tr class="memdesc:afb7c4aa8c0b809f0f76628dbb5b6d62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">x координата единичного вектора направления камеры  <a href="_main_8cpp.html#afb7c4aa8c0b809f0f76628dbb5b6d62b">Подробнее...</a><br /></td></tr>
+<tr class="separator:afb7c4aa8c0b809f0f76628dbb5b6d62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeebf705e4120efa9a773e0f52b11be0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#adeebf705e4120efa9a773e0f52b11be0">lz</a> = 0.0f</td></tr>
+<tr class="memdesc:adeebf705e4120efa9a773e0f52b11be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">z координата единичного вектора направления камеры  <a href="_main_8cpp.html#adeebf705e4120efa9a773e0f52b11be0">Подробнее...</a><br /></td></tr>
+<tr class="separator:adeebf705e4120efa9a773e0f52b11be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf431a94974e843174300e4c0fa47fbd"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#aaf431a94974e843174300e4c0fa47fbd">ly</a> = 0.0f</td></tr>
+<tr class="memdesc:aaf431a94974e843174300e4c0fa47fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">y координата единичного вектора направления камеры  <a href="_main_8cpp.html#aaf431a94974e843174300e4c0fa47fbd">Подробнее...</a><br /></td></tr>
+<tr class="separator:aaf431a94974e843174300e4c0fa47fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a57f322df958dc574c9843c6ab4b1c2"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a9a57f322df958dc574c9843c6ab4b1c2">angleX</a> = 0.0f</td></tr>
+<tr class="memdesc:a9a57f322df958dc574c9843c6ab4b1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">угол поворота камеры в плоскости XZ.  <a href="_main_8cpp.html#a9a57f322df958dc574c9843c6ab4b1c2">Подробнее...</a><br /></td></tr>
+<tr class="separator:a9a57f322df958dc574c9843c6ab4b1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb82b6f9a59b4ebab80b0ea796dbe066"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#adb82b6f9a59b4ebab80b0ea796dbe066">angleY</a> = 5.0f</td></tr>
+<tr class="memdesc:adb82b6f9a59b4ebab80b0ea796dbe066"><td class="mdescLeft">&#160;</td><td class="mdescRight">угол поворота камеры по оси Y.  <a href="_main_8cpp.html#adb82b6f9a59b4ebab80b0ea796dbe066">Подробнее...</a><br /></td></tr>
+<tr class="separator:adb82b6f9a59b4ebab80b0ea796dbe066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9fd97076e732e2b6d1bb20bfa11420a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ab9fd97076e732e2b6d1bb20bfa11420a">mouseXOld</a> = 1</td></tr>
+<tr class="memdesc:ab9fd97076e732e2b6d1bb20bfa11420a"><td class="mdescLeft">&#160;</td><td class="mdescRight">старая х координата мыши  <a href="_main_8cpp.html#ab9fd97076e732e2b6d1bb20bfa11420a">Подробнее...</a><br /></td></tr>
+<tr class="separator:ab9fd97076e732e2b6d1bb20bfa11420a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a591940487be9e13a5c47cbea8db0d2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a5a591940487be9e13a5c47cbea8db0d2">mouseYOld</a> = 1</td></tr>
+<tr class="memdesc:a5a591940487be9e13a5c47cbea8db0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">старая y координата мыши  <a href="_main_8cpp.html#a5a591940487be9e13a5c47cbea8db0d2">Подробнее...</a><br /></td></tr>
+<tr class="separator:a5a591940487be9e13a5c47cbea8db0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad73966a3c98873a1a4d38b77c2c12180"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ad73966a3c98873a1a4d38b77c2c12180">KeyFront</a> = 0</td></tr>
+<tr class="memdesc:ad73966a3c98873a1a4d38b77c2c12180"><td class="mdescLeft">&#160;</td><td class="mdescRight">ключ к изменению скорости вперед/назад  <a href="_main_8cpp.html#ad73966a3c98873a1a4d38b77c2c12180">Подробнее...</a><br /></td></tr>
+<tr class="separator:ad73966a3c98873a1a4d38b77c2c12180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19dc6e058055eb8bdbc263f98cc11edf"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a19dc6e058055eb8bdbc263f98cc11edf">KeySide</a> = 0</td></tr>
+<tr class="memdesc:a19dc6e058055eb8bdbc263f98cc11edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">ключ к изменению скорости вбок  <a href="_main_8cpp.html#a19dc6e058055eb8bdbc263f98cc11edf">Подробнее...</a><br /></td></tr>
+<tr class="separator:a19dc6e058055eb8bdbc263f98cc11edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01283f3e86444d8622f780d8493c2677"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a01283f3e86444d8622f780d8493c2677">cube_size</a> = 2</td></tr>
+<tr class="memdesc:a01283f3e86444d8622f780d8493c2677"><td class="mdescLeft">&#160;</td><td class="mdescRight">размер куба  <a href="_main_8cpp.html#a01283f3e86444d8622f780d8493c2677">Подробнее...</a><br /></td></tr>
+<tr class="separator:a01283f3e86444d8622f780d8493c2677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a033741d9d1d22e04f6f5c521b8826a8e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a033741d9d1d22e04f6f5c521b8826a8e">mass</a> [<a class="el" href="_main_8cpp.html#abe8f533bc23beee8f709630d1343a5da">quantity_cubes_x</a>][<a class="el" href="_main_8cpp.html#a6ad7e84d8a9e46d39737bdfabe547538">quantity_cubes_y</a>][<a class="el" href="_main_8cpp.html#aefac3b54073269a9394f9a31a097d005">quantity_cubes_z</a>]</td></tr>
+<tr class="memdesc:a033741d9d1d22e04f6f5c521b8826a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">массив мира, по которому строится сам мир  <a href="_main_8cpp.html#a033741d9d1d22e04f6f5c521b8826a8e">Подробнее...</a><br /></td></tr>
+<tr class="separator:a033741d9d1d22e04f6f5c521b8826a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab30ebe607767185e11c0be9654050da4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#ab30ebe607767185e11c0be9654050da4">mLeft</a> = 0</td></tr>
+<tr class="memdesc:ab30ebe607767185e11c0be9654050da4"><td class="mdescLeft">&#160;</td><td class="mdescRight">состояние левой кнопки мыши  <a href="_main_8cpp.html#ab30ebe607767185e11c0be9654050da4">Подробнее...</a><br /></td></tr>
+<tr class="separator:ab30ebe607767185e11c0be9654050da4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11ddd60c82ebc949b410e5f1b315fba6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a11ddd60c82ebc949b410e5f1b315fba6">mRight</a> = 0</td></tr>
+<tr class="memdesc:a11ddd60c82ebc949b410e5f1b315fba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">состояние правой кнопки мыши  <a href="_main_8cpp.html#a11ddd60c82ebc949b410e5f1b315fba6">Подробнее...</a><br /></td></tr>
+<tr class="separator:a11ddd60c82ebc949b410e5f1b315fba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a508de4653688ce746037c4036d49db59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_player.html">Player</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#a508de4653688ce746037c4036d49db59">steve</a> (<a class="el" href="_main_8cpp.html#abe8f533bc23beee8f709630d1343a5da">quantity_cubes_x</a>/2+2, 60, <a class="el" href="_main_8cpp.html#aefac3b54073269a9394f9a31a097d005">quantity_cubes_z</a>/2)</td></tr>
+<tr class="separator:a508de4653688ce746037c4036d49db59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Функции</h2>
+<a id="a7480102261ce7b1c9d51ceb2845a6ce0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7480102261ce7b1c9d51ceb2845a6ce0">&#9670;&nbsp;</a></span>dirtTextures()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dirtTextures </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>W</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>H</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>загружает текстуры принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина. </p>
+
+</div>
+</div>
+<a id="a1e5b20fed15743656bb6d2e6a6ea6269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e5b20fed15743656bb6d2e6a6ea6269">&#9670;&nbsp;</a></span>display()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void display </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>главная функция программы </p>
+<p>циклично вызывается. 1 вызов- 1 кадр. обновляет все, что находится в мире- положение игрока, его угол поворота. так же обновляет каждым разом мир - рисует его </p>
+
+</div>
+</div>
+<a id="adfd953196412a9da0e069cf172a119b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfd953196412a9da0e069cf172a119b5">&#9670;&nbsp;</a></span>Draw_cubes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Draw_cubes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>рисует куб </p>
+<p>эта функция рисует куб </p>
+<p>задняя</p>
+
+</div>
+</div>
+<a id="a0caf1cf7b0e786fac311a3768a8f856c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0caf1cf7b0e786fac311a3768a8f856c">&#9670;&nbsp;</a></span>draw_lines_cubes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_lines_cubes </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>cube_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>функция для подсвечивания кубов </p>
+<p>Эта функция подсвечивает кубы, получая для этого координаты, блока, на который смотрит игрок Мы увеличиваем немного размер куба локально для этой функции, чтобы линии строились немного поверх куба, в не в нем. Потом с помощью glTranslatef() мы подгоняем , где будут рисоваться лини.</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cube_size</td><td>передаем размер куба, чтобы локально его увеличить </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">X</td><td>координата X, куда смотрит игрок </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Y</td><td>координата Y, куда смотрит игрок </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>координата Z, куда смотрит игрок </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>точка входа в программу </p>
+<p>устанавливает все настройки библиотеки GLUT, а так же заполняет массив , по которому будет в дальнейшем строиться мир </p>
+
+</div>
+</div>
+<a id="afeff51853eef24fe859ab6ce174f5992"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeff51853eef24fe859ab6ce174f5992">&#9670;&nbsp;</a></span>mouseButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mouseButton </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>обрабатывает нажатие мыши </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">button</td><td>определяет, какая именно кнопка нажата- правая, левая или средняя </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">state</td><td>состояние этой кнопки - нажата или разжата </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>координата x, где произошло нажатие на кнопку </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>координата y, где произошло нажатие на кнопку </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad98e38d016ad1258ee8592beffa21c93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad98e38d016ad1258ee8592beffa21c93">&#9670;&nbsp;</a></span>mouseMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mouseMove </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>мониторит координаты мыши в окне </p>
+<p>функция вызывается при изменении координат мыши, и соотвественно передает их. используется в данном случае для изменения угла поворота камеры </p>
+
+</div>
+</div>
+<a id="a921b29eb9802cb833818c43c4b17cb37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a921b29eb9802cb833818c43c4b17cb37">&#9670;&nbsp;</a></span>processNormalKeys()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void processNormalKeys </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>определяет НАЖАТИЕ клавиш клавиатуры </p>
+<p>вызывается при НАЖАТОЙ кнопки клавиатуры</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>передает ASCII код нажатой клавиши </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>положение курсора мыши при нажатии клавиши по оси x </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>положение курсора мыши при нажатии клавиши по оси y </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac5825b76136757e092417c743635b74f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5825b76136757e092417c743635b74f">&#9670;&nbsp;</a></span>processNormalKeysUP()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void processNormalKeysUP </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>определяет ОТЖАТИЕ клавиш клавиатуры </p>
+<p>вызывается при ОТЖАТОЙ кнопки клавиатуры</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>передает ASCII код нажатой клавиши </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>положение курсора мыши при отжатии клавиши по оси x </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>положение курсора мыши при отжатии клавиши по оси y </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acc1ffe65e6869931318610cae7210078"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc1ffe65e6869931318610cae7210078">&#9670;&nbsp;</a></span>reshape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reshape </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>h</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>функция изменения перспективы при изменении размера окна </p>
+<p>на вход принимает текущие размеры окна, чтобы по ним определить перспективу </p>
+
+</div>
+</div>
+<a id="a3c3e683a005eace2dd1e4d551056d9b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c3e683a005eace2dd1e4d551056d9b6">&#9670;&nbsp;</a></span>timer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void timer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>вызывается через определенный промежуток времени </p>
+<p>вызывается через определенный промежуток времени. например, через каждые 10 мс- использовалось для ограничения FPS </p>
+<p>I am so tired)))), but happy///</p>
+
+</div>
+</div>
+<h2 class="groupheader">Переменные</h2>
+<a id="a9a57f322df958dc574c9843c6ab4b1c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a57f322df958dc574c9843c6ab4b1c2">&#9670;&nbsp;</a></span>angleX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float angleX = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>угол поворота камеры в плоскости XZ. </p>
+
+</div>
+</div>
+<a id="adb82b6f9a59b4ebab80b0ea796dbe066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb82b6f9a59b4ebab80b0ea796dbe066">&#9670;&nbsp;</a></span>angleY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float angleY = 5.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>угол поворота камеры по оси Y. </p>
+
+</div>
+</div>
+<a id="a01283f3e86444d8622f780d8493c2677"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01283f3e86444d8622f780d8493c2677">&#9670;&nbsp;</a></span>cube_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int cube_size = 2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>размер куба </p>
+
+</div>
+</div>
+<a id="a7224ca42e61aa498f8a5d81da4bb46a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7224ca42e61aa498f8a5d81da4bb46a1">&#9670;&nbsp;</a></span>dirt</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLuint dirt[1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>хранит текстуру </p>
+
+</div>
+</div>
+<a id="a45b3f1043a3b9217256cdb2129b7a0c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b3f1043a3b9217256cdb2129b7a0c4">&#9670;&nbsp;</a></span>FPS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int FPS = 60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ограничение по FPS. </p>
+
+</div>
+</div>
+<a id="ad13e9131f5062934438fa82334e4b2ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad13e9131f5062934438fa82334e4b2ee">&#9670;&nbsp;</a></span>height</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int height = 720</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>высота окна </p>
+
+</div>
+</div>
+<a id="ad73966a3c98873a1a4d38b77c2c12180"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad73966a3c98873a1a4d38b77c2c12180">&#9670;&nbsp;</a></span>KeyFront</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float KeyFront = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ключ к изменению скорости вперед/назад </p>
+
+</div>
+</div>
+<a id="a19dc6e058055eb8bdbc263f98cc11edf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19dc6e058055eb8bdbc263f98cc11edf">&#9670;&nbsp;</a></span>KeySide</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float KeySide = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ключ к изменению скорости вбок </p>
+
+</div>
+</div>
+<a id="afb7c4aa8c0b809f0f76628dbb5b6d62b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb7c4aa8c0b809f0f76628dbb5b6d62b">&#9670;&nbsp;</a></span>lx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float lx = 1.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>x координата единичного вектора направления камеры </p>
+
+</div>
+</div>
+<a id="aaf431a94974e843174300e4c0fa47fbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf431a94974e843174300e4c0fa47fbd">&#9670;&nbsp;</a></span>ly</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ly = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>y координата единичного вектора направления камеры </p>
+
+</div>
+</div>
+<a id="adeebf705e4120efa9a773e0f52b11be0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeebf705e4120efa9a773e0f52b11be0">&#9670;&nbsp;</a></span>lz</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float lz = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>z координата единичного вектора направления камеры </p>
+
+</div>
+</div>
+<a id="a033741d9d1d22e04f6f5c521b8826a8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a033741d9d1d22e04f6f5c521b8826a8e">&#9670;&nbsp;</a></span>mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int mass[<a class="el" href="_main_8cpp.html#abe8f533bc23beee8f709630d1343a5da">quantity_cubes_x</a>][<a class="el" href="_main_8cpp.html#a6ad7e84d8a9e46d39737bdfabe547538">quantity_cubes_y</a>][<a class="el" href="_main_8cpp.html#aefac3b54073269a9394f9a31a097d005">quantity_cubes_z</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>массив мира, по которому строится сам мир </p>
+
+</div>
+</div>
+<a id="ab30ebe607767185e11c0be9654050da4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab30ebe607767185e11c0be9654050da4">&#9670;&nbsp;</a></span>mLeft</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mLeft = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>состояние левой кнопки мыши </p>
+
+</div>
+</div>
+<a id="ab9fd97076e732e2b6d1bb20bfa11420a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9fd97076e732e2b6d1bb20bfa11420a">&#9670;&nbsp;</a></span>mouseXOld</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int mouseXOld = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>старая х координата мыши </p>
+
+</div>
+</div>
+<a id="a5a591940487be9e13a5c47cbea8db0d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a591940487be9e13a5c47cbea8db0d2">&#9670;&nbsp;</a></span>mouseYOld</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int mouseYOld = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>старая y координата мыши </p>
+
+</div>
+</div>
+<a id="a11ddd60c82ebc949b410e5f1b315fba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11ddd60c82ebc949b410e5f1b315fba6">&#9670;&nbsp;</a></span>mRight</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mRight = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>состояние правой кнопки мыши </p>
+
+</div>
+</div>
+<a id="abe8f533bc23beee8f709630d1343a5da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe8f533bc23beee8f709630d1343a5da">&#9670;&nbsp;</a></span>quantity_cubes_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int quantity_cubes_x = 200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>колличество блоков по оси x. </p>
+
+</div>
+</div>
+<a id="a6ad7e84d8a9e46d39737bdfabe547538"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ad7e84d8a9e46d39737bdfabe547538">&#9670;&nbsp;</a></span>quantity_cubes_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int quantity_cubes_y = 50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>колличество блоков по оси y. </p>
+
+</div>
+</div>
+<a id="aefac3b54073269a9394f9a31a097d005"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefac3b54073269a9394f9a31a097d005">&#9670;&nbsp;</a></span>quantity_cubes_z</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int quantity_cubes_z = 200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>колличество блоков по оси z. </p>
+
+</div>
+</div>
+<a id="a508de4653688ce746037c4036d49db59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a508de4653688ce746037c4036d49db59">&#9670;&nbsp;</a></span>steve</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_player.html">Player</a> steve(<a class="el" href="_main_8cpp.html#abe8f533bc23beee8f709630d1343a5da">quantity_cubes_x</a>/2+2, 60, <a class="el" href="_main_8cpp.html#aefac3b54073269a9394f9a31a097d005">quantity_cubes_z</a>/2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a837aabdd54757cb86d0f66387511753f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a837aabdd54757cb86d0f66387511753f">&#9670;&nbsp;</a></span>width</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int width = 1280</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ширина окна </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4dff1a13f66e48c189275e5d55d65fb6.html">MyProjects</a></li><li class="navelem"><a class="el" href="dir_5bbf22bba87007c779079617641cbc41.html">cube_game_new</a></li><li class="navelem"><a class="el" href="dir_0327f3c8d8d5c341a089a653b5f9bf90.html">CubeGame</a></li><li class="navelem"><a class="el" href="dir_f56a04036bb4d853d3255fcb1407ce01.html">src</a></li><li class="navelem"><a class="el" href="_main_8cpp.html">Main.cpp</a></li>
+    <li class="footer">Создано системой
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

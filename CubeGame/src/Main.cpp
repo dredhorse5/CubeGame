@@ -1,17 +1,18 @@
 ﻿#include <Math.h>
 #include <stdio.h>
 #include <iostream>
-#include <glut.h> 
-#include <SOIL.h>
+#include "glut.h" 
+#include "SOIL.h"
 #include <ctime>
 #include <SFML/Graphics.hpp>
+//#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
 
-GLuint dirt[1]; ///< хранит текстуру
+GLuint dirt; ///< хранит текстуру
 int FPS = 60; ///< ограничение по FPS
-const int quantity_cubes_x = 200; ///< колличество блоков по оси x
+const int quantity_cubes_x = 250; ///< колличество блоков по оси x
 const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
-const int quantity_cubes_z = 200; ///< колличество блоков по оси z
+const int quantity_cubes_z = 250; ///< колличество блоков по оси z
 const int width = 1280; ///< ширина окна
 const int height = 720; ///< высота окна
 float lx = 1.0f; ///< x координата единичного вектора направления камеры
@@ -127,9 +128,9 @@ public:
         \brief проверяет на столкновение
     */
     bool check(int x, int y, int z) {
-        if ((x < 0) or (x > quantity_cubes_x) or
-            (y < 0) or (y > quantity_cubes_y) or
-            (z < 0) or (z > quantity_cubes_z)) return false;
+        if ((x < 0) || (x > quantity_cubes_x) ||
+            (y < 0) || (y > quantity_cubes_y) ||
+            (z < 0) || (z > quantity_cubes_z)) return false;
         return mass[x][y][z];
 
 
@@ -280,8 +281,8 @@ Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создае
 */
 void dirtTextures(int W, int H) {
 	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
-	glGenTextures(1, &dirt[0]);
-	glBindTexture(GL_TEXTURE_2D, dirt[0]);
+	glGenTextures(1, &dirt);
+	glBindTexture(GL_TEXTURE_2D, dirt);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -302,7 +303,7 @@ void reshape(int w, int h){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, w, h);
-	gluPerspective(View, ratio, 0.1f, 360.0f);
+	gluPerspective(steve.View, ratio, 0.1f, 360.0f);
 	glMatrixMode(GL_MODELVIEW);
 
 }
@@ -395,7 +396,7 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 		KeyFront = 0;
 		break;
 	case 'D':
-	case 'd':
+	case 'd': 
 		KeySide = 0;
 		break;
 	case 'A':
@@ -415,7 +416,7 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 
 */
 void mouseMove(int x, int y) {
-    if (mouseXOld != 0 or mouseYOld != 0) {
+    if (mouseXOld != 0 || mouseYOld != 0) {
         angleX -= mouseXOld * 0.001f;
         angleY -= mouseYOld * 0.001f;
 
@@ -445,11 +446,11 @@ void mouseMove(int x, int y) {
     вызывается через определенный промежуток времени. например, через каждые 10 мс- использовалось для ограничения FPS
 
 */
-void timer() {
-	glutPostRedisplay();
-	glutTimerFunc(1000 / 60, timer, 0);
-	///I am so tired)))), but happy///
-}
+//void timer() {
+//	glutPostRedisplay();
+//	glutTimerFunc(1000 / 60, timer, 0);
+//	///I am so tired)))), but happy///
+//}
 /**
     \brief рисует куб 
 
@@ -457,7 +458,7 @@ void timer() {
 
 */
 void Draw_cubes() {
-    glBindTexture(GL_TEXTURE_2D, dirt[0]);
+    glBindTexture(GL_TEXTURE_2D, dirt);
 	glColor3f(1.0, 1.0, 1.0);
     ///задняя
         glBegin(GL_POLYGON);
@@ -525,9 +526,9 @@ void display(){
 
 
     // цикл для рисования блоков
-	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+	for (int x = steve.PlayerX/2 - 20; x < steve.PlayerX/2 + 20; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
 		for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+			for (int z = steve.PlayerZ/2 - 20; z < steve.PlayerZ/2 + 20; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
 				if (mass[x][y][z] == 1){ // если в этом месте есть блок, то рисуем его
@@ -537,7 +538,7 @@ void display(){
 				}
 					
             }
-	
+    std::cout << "sss";
 	
 	
 
@@ -545,7 +546,10 @@ void display(){
     steve.update(10); // функция обновления обьекта
 	//=======================================DRAW================================================
 	glPopMatrix(); // загружаем систему коориднат
-	glutSwapBuffers(); // меняем буфера
+    glutPostRedisplay();
+	//glutSwapBuffers(); // меняем буфера
+    
+    glFlush();
 }
 
 
@@ -555,13 +559,13 @@ void display(){
     устанавливает все настройки библиотеки GLUT, а так же заполняет массив , по которому будет в дальнейшем строиться мир
 
 */
-int main() {
-	
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
 	glutInitWindowSize(width, height); // задает размеры окна
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE); // включаем цвет RGBA и двойную буферизацию
+	glutInitDisplayMode(GLUT_RGBA /*| GLUT_DOUBLE*/); // включаем цвет RGBA и двойную буферизацию
 	glutCreateWindow("mass"); // создаем окно
 	glEnable(GL_DEPTH_TEST); // включаем тест глубины 
-	glutTimerFunc(1000 / FPS, timer, 0); // ограничение FPS
+	//glutTimerFunc(1000 / FPS, timer, 0); // ограничение FPS
 	glEnable(GL_TEXTURE_2D); // включаем 2D текстуры
 	
     glEnable(GL_CULL_FACE); // включаем режим, в котором мы рисуем стороны куба либо по часовой, либо против часовой стрелки
@@ -582,10 +586,11 @@ int main() {
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 
     sf::Image im; im.loadFromFile("textures/heightmap1.jpg");
+
     for (int x = 0; x < quantity_cubes_x; x++)
         for (int z = 0; z < quantity_cubes_z; z++) {
             int c = im.getPixel(x, z).r / 10 + 10;
-            for (int y = 4; y <= c; y++) {
+            for (int y = 0; y <= c; y++) {
                 mass[x][y][z] = 1;
             }
         }

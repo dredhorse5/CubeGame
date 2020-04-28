@@ -3,15 +3,16 @@ project(NoMinecraft)
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 include_directories("${PROJECT_SOURCE_DIR}/lib")
+include_directories("${PROJECT_SOURCE_DIR}/lib/SFML")
 
-add_library(netutil STATIC IMPORTED)
-set_property(TARGET netutil PROPERTY
-             IMPORTED_LOCATION lib/glut32.lib)
+#add_library(netutil STATIC IMPORTED)
+#set_property(TARGET netutil PROPERTY
+#             IMPORTED_LOCATION lib/glut32.lib)
 
-add_executable(NoMinecraft main.cpp)
-target_link_libraries(NoMinecraft netutil)
-find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
-include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+add_executable(NoMinecraft src/main.cpp)
+#target_link_libraries(NoMinecraft netutil)
+#find_package(OpenGL REQUIRED)
+#find_package(GLUT REQUIRED)
+#include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
 
-target_link_libraries(netutil  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
+#target_link_libraries(netutil  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )

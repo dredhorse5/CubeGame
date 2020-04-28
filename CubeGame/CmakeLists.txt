@@ -8,7 +8,7 @@ add_library(glut INTERFACE IMPORTED)
 set_property(TARGET glut PROPERTY
              INTERFACE_LIBRARY lib/glut32.lib)
 
-add_executable(NoMinecraft src/main.cpp)
+add_executable(NoMinecraft src/Main.cpp)
 find_package(OpenGL REQUIRED)
 include_directories( ${OPENGL_INCLUDE_DIRS})
 

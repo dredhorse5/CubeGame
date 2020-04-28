@@ -1,4 +1,4 @@
-﻿#include <Math.h>
+﻿#include <cmath>
 #include <stdio.h>
 #include <iostream>
 #include "glut.h" 
@@ -42,8 +42,8 @@ bool mRight = 0; ///< состояние правой кнопки мыши
 */
 void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glLineWidth(2);
+    glTranslatef(X * cube_size + cube_size/2, Y * cube_size + cube_size / 2, Z * cube_size + cube_size / 2);
     cube_size = cube_size / 2 + 0.004;
-    glTranslatef(X * 2 + 1, Y * 2 + 1, Z * 2 + 1);
     glBegin(GL_LINES);
     glColor3d(0, 0, 0);
 
@@ -84,7 +84,7 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glVertex3f(-cube_size, cube_size, -cube_size);
 
     glEnd();
-    glTranslatef(-(X * 2) - 1, -Y * 2 - 1, -Z * 2 - 1);
+    glTranslatef(-X * cube_size - cube_size / 2, -Y * cube_size - cube_size / 2, -Z * cube_size - cube_size / 2);
     glColor3d(1, 1, 1);
 
 }
@@ -155,9 +155,8 @@ public:
         }
         if (KeySide) {
             dSideX = -lz * speed * KeySide * time / 50;
-        }
             dSideZ = lx * speed * KeySide * time / 50;
-
+        }
         dy -= 0.12 * (time / 50);
         onGround = 0;
 
@@ -202,21 +201,21 @@ public:
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
                     mass[oldX][oldY][oldZ] = 1; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
-                    mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
-                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    //mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
 
-                    mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
-                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    //mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -226,11 +225,11 @@ public:
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
-                    mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
-                    mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
+                    //mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
+                    //mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
+                    //mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
 
                     break;
                 }
@@ -280,7 +279,7 @@ Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создае
 
 */
 void dirtTextures(int W, int H) {
-	unsigned char* topу = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
+	unsigned char* top = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
 	glGenTextures(1, &dirt);
 	glBindTexture(GL_TEXTURE_2D, dirt);
 
@@ -289,8 +288,8 @@ void dirtTextures(int W, int H) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, W, H, 0, GL_RGB, GL_UNSIGNED_BYTE, topу);
-	SOIL_free_image_data(topу);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, W, H, 0, GL_RGB, GL_UNSIGNED_BYTE, top);
+	SOIL_free_image_data(top);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 /**
@@ -338,7 +337,7 @@ void mouseButton(int button, int state, int x, int y) {
             break;
         }
     }
-    //if (button == GLUT_WHEEL_DOWN)
+
 }
 /**
     \brief определяет НАЖАТИЕ клавиш клавиатуры
@@ -360,7 +359,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
 		break;
 	case 'S':
 	case 's':
-		KeyFront = -1;
+		KeyFront = -1; 
 		break;
 	case 'D':
 	case 'd':
@@ -441,17 +440,6 @@ void mouseMove(int x, int y) {
 
 }
 /**
-    \brief вызывается через определенный промежуток времени
-
-    вызывается через определенный промежуток времени. например, через каждые 10 мс- использовалось для ограничения FPS
-
-*/
-//void timer() {
-//	glutPostRedisplay();
-//	glutTimerFunc(1000 / 60, timer, 0);
-//	///I am so tired)))), but happy///
-//}
-/**
     \brief рисует куб 
 
     эта функция рисует куб
@@ -517,28 +505,26 @@ void Draw_cubes() {
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix(); // сохраняем систему координат
-    gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,// координаты игрока
-        steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,  // координаты единичного вектора камеры
-              0.0f,                 1.0f,               0.0f               );// координаты нормального вектора камеры. не трогаем. 
+    gluLookAt(  steve.PlayerX,          steve.PlayerY + steve.h / 2,        steve.PlayerZ,// координаты игрока
+                steve.PlayerX + lx,     steve.PlayerY + ly + steve.h / 2,   steve.PlayerZ + lz,  // координаты единичного вектора камеры
+                0.0f,                   1.0f,                               0.0f               );// координаты нормального вектора камеры. не трогаем. 
 
 	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
 	//=======================================DRAW================================================
 
 
     // цикл для рисования блоков
-	for (int x = steve.PlayerX/2 - 20; x < steve.PlayerX/2 + 20; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
 		for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ/2 - 20; z < steve.PlayerZ/2 + 20; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+                if (mass[x][y][z] == 0) continue;
 
-
-				if (mass[x][y][z] == 1){ // если в этом месте есть блок, то рисуем его
 					glTranslatef(x * cube_size + cube_size/2  , y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
 					Draw_cubes();
                     glTranslatef(-x * cube_size - cube_size / 2, -y * cube_size - cube_size / 2, -z * cube_size - cube_size / 2);
-				}
+				
 					
             }
-    std::cout << "sss";
 	
 	
 
@@ -565,7 +551,6 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_RGBA /*| GLUT_DOUBLE*/); // включаем цвет RGBA и двойную буферизацию
 	glutCreateWindow("mass"); // создаем окно
 	glEnable(GL_DEPTH_TEST); // включаем тест глубины 
-	//glutTimerFunc(1000 / FPS, timer, 0); // ограничение FPS
 	glEnable(GL_TEXTURE_2D); // включаем 2D текстуры
 	
     glEnable(GL_CULL_FACE); // включаем режим, в котором мы рисуем стороны куба либо по часовой, либо против часовой стрелки

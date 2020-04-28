@@ -8,6 +8,7 @@
 //#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
 
+
 GLuint dirt; ///< хранит текстуру
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
@@ -28,6 +29,9 @@ int cube_size = 2; ///< размер куба
 int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z]; ///< массив мира, по которому строится сам мир
 bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
+time_t oldtime = 1;
+time_t newtime = 1;
+
 /**
     \brief функция для подсвечивания кубов
 
@@ -155,8 +159,8 @@ public:
         }
         if (KeySide) {
             dSideX = -lz * speed * KeySide * time / 50;
-        }
             dSideZ = lx * speed * KeySide * time / 50;
+        }
 
         dy -= 0.12 * (time / 50);
         onGround = 0;
@@ -515,6 +519,8 @@ void Draw_cubes() {
 
 */
 void display(){
+    float times;
+        
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix(); // сохраняем систему координат
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,// координаты игрока
@@ -523,12 +529,16 @@ void display(){
 
 	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
 	//=======================================DRAW================================================
+    newtime = clock();
+    times = newtime - oldtime;
+    oldtime = clock();
+
 
 
     // цикл для рисования блоков
-	for (int x = steve.PlayerX/2 - 20; x < steve.PlayerX/2 + 20; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
 		for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ/2 - 20; z < steve.PlayerZ/2 + 20; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
 				if (mass[x][y][z] == 1){ // если в этом месте есть блок, то рисуем его
@@ -538,12 +548,12 @@ void display(){
 				}
 					
             }
-    std::cout << "sss";
+   
 	
 	
 
 
-    steve.update(10); // функция обновления обьекта
+    steve.update(times); // функция обновления обьекта
 	//=======================================DRAW================================================
 	glPopMatrix(); // загружаем систему коориднат
     glutPostRedisplay();
@@ -551,7 +561,6 @@ void display(){
     
     glFlush();
 }
-
 
 /**
     \brief точка входа в программу

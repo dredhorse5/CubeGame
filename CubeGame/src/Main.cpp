@@ -8,6 +8,7 @@
 //#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
 
+
 GLuint dirt; ///< хранит текстуру
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
@@ -28,6 +29,9 @@ int cube_size = 2; ///< размер куба
 int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z]; ///< массив мира, по которому строится сам мир
 bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
+time_t oldtime = 1;
+time_t newtime = 1;
+
 /**
     \brief функция для подсвечивания кубов
 
@@ -503,6 +507,8 @@ void Draw_cubes() {
 
 */
 void display(){
+    float times;
+        
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix(); // сохраняем систему координат
     gluLookAt(  steve.PlayerX,          steve.PlayerY + steve.h / 2,        steve.PlayerZ,// координаты игрока
@@ -511,6 +517,10 @@ void display(){
 
 	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
 	//=======================================DRAW================================================
+    newtime = clock();
+    times = newtime - oldtime;
+    oldtime = clock();
+
 
 
     // цикл для рисования блоков
@@ -525,11 +535,12 @@ void display(){
 				
 					
             }
+    std::cout << "sss";
 	
 	
 
 
-    steve.update(10); // функция обновления обьекта
+    steve.update(times); // функция обновления обьекта
 	//=======================================DRAW================================================
 	glPopMatrix(); // загружаем систему коориднат
     glutPostRedisplay();
@@ -537,7 +548,6 @@ void display(){
     
     glFlush();
 }
-
 
 /**
     \brief точка входа в программу

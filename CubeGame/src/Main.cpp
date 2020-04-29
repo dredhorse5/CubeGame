@@ -203,7 +203,7 @@ public:
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
-                    mass[oldX][oldY][oldZ] = 2; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    mass[oldX][oldY][oldZ] = 1; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -429,7 +429,7 @@ void Draw_cubes(int X, int Y, int Z) {
         glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
     }
     //передняя
-    if (!mass[X][Y][Z - 1]) { // Z == 0 or  { // Z == 0 or 
+    if (!mass[X][Y][Z - 1]) {  
         glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
         glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
         glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
@@ -444,7 +444,7 @@ void Draw_cubes(int X, int Y, int Z) {
         glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
     }
     //ЛЕВАЯ
-    if (!mass[X - 1][Y][Z]) { // X == 0 or 
+    if (!mass[X - 1][Y][Z]) { 
         glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
         glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
         glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
@@ -476,7 +476,7 @@ void Draw_cubes() {
         for (int y = 4; y < quantity_cubes_y; y++)
             for (int z = steve.PlayerZ / 2 - 20; z < steve.PlayerZ / 2 + 20; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
                 
-                if (mass[x][y][z] == 0 || mass[x][y][z] == 2) continue;
+                if (mass[x][y][z] == 0) continue;
                 if (x < 0 || x > quantity_cubes_x) continue;
                 if (z < 0 || z > quantity_cubes_z) continue;
 

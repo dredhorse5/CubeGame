@@ -203,7 +203,7 @@ public:
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
-                    mass[oldX][oldY][oldZ] = 1; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    mass[oldX][oldY][oldZ] = 2; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -412,6 +412,129 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 
 
 /**
+    \brief рисует куб 
+
+    эта функция рисует куб
+
+*/
+void Draw_cubes(int X, int Y, int Z) {
+    glBindTexture(GL_TEXTURE_2D, dirt);
+    glBegin(GL_QUADS);
+    ///задняя
+    glColor3f(0.8, 0.8, 0.8);
+    if (!mass[X][Y][Z + 1]) {
+        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    //передняя
+    if (!mass[X][Y][Z - 1]) { // Z == 0 or  { // Z == 0 or 
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+    }
+    //ПРАВАЯ
+    glColor3f(0.7, 0.7, 0.7);
+    if (!mass[X + 1][Y][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+    }
+    //ЛЕВАЯ
+    if (!mass[X - 1][Y][Z]) { // X == 0 or 
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    glColor3f(0.5, 0.5, 0.5);
+    //НИЖНЯЯ
+    if (!mass[X][Y - 1][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+    }
+    glColor3f(1, 1, 1);
+    //ВЕРХНЯЯ
+    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    glEnd();
+}
+
+
+void Draw_cubes() {
+    // цикл для рисования блоков
+    for (int x = steve.PlayerX / 2 - 20; x < steve.PlayerX / 2 + 20; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+        for (int y = 4; y < quantity_cubes_y; y++)
+            for (int z = steve.PlayerZ / 2 - 20; z < steve.PlayerZ / 2 + 20; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+                
+                if (mass[x][y][z] == 0 || mass[x][y][z] == 2) continue;
+                if (x < 0 || x > quantity_cubes_x) continue;
+                if (z < 0 || z > quantity_cubes_z) continue;
+
+
+                glPushMatrix();
+
+                glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
+                Draw_cubes(x, y, z);
+
+                glPopMatrix();
+
+            }
+}
+/**
+    \brief главная функция программы
+
+    циклично вызывается. 1 вызов- 1 кадр. обновляет все, что находится в мире- положение игрока, его угол поворота. так же
+    обновляет каждым разом мир - рисует его
+
+*/
+void display(){
+    double times;
+        
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
+    glPushMatrix();
+
+    gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
+        steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
+        0.0f, 1.0f, 0.0f);
+
+    newtime = clock();
+    times = newtime - oldtime;
+    oldtime = clock();
+    std::cout << 1000/times << std::endl;
+
+     
+    //===============================начало основного цикла================================================================================
+
+
+    Draw_cubes();
+
+     
+     
+
+    
+
+
+    steve.update(times);
+
+
+    //=================================конец основного цикла===================================================================================
+    glPopMatrix();
+
+    glutPostRedisplay();
+    glFinish();
+}
+
+/**
     \brief мониторит координаты мыши в окне
 
     функция вызывается при изменении координат мыши, и соотвественно передает их. используется в данном случае для изменения
@@ -440,115 +563,7 @@ void mouseMove(int x, int y) {
         mouseYOld = (height / 2) - y;
         glutWarpPointer((width / 2), (height / 2));
     }
-
-
 }
-/**
-    \brief рисует куб 
-
-    эта функция рисует куб
-
-*/
-void Draw_cubes() {
-    glBindTexture(GL_TEXTURE_2D, dirt);
-	glColor3f(1.0, 1.0, 1.0);
-    ///задняя
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(1, -1, 1);
-        glTexCoord2d(0, 1); glVertex3f(-1, -1, 1);
-        glTexCoord2d(0, 0); glVertex3f(-1, 1, 1);
-        glTexCoord2d(1, 0); glVertex3f(1, 1, 1);
-        glEnd();
-    //передняя
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, -1, -1);
-        glTexCoord2d(0, 1); glVertex3f(1, -1, -1);
-        glTexCoord2d(0, 0); glVertex3f(1, 1, -1);
-        glTexCoord2d(1, 0); glVertex3f(-1, 1, -1);
-        glEnd();
-    
-    //ПРАВАЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(1, -1, -1);
-        glTexCoord2d(0, 1); glVertex3f(1, -1, 1);
-        glTexCoord2d(0, 0); glVertex3f(1, 1, 1);
-        glTexCoord2d(1, 0); glVertex3f(1, 1, -1);
-        glEnd();
-    
-    //ЛЕВАЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, -1, 1);
-        glTexCoord2d(0, 1); glVertex3f(-1, -1, -1);
-        glTexCoord2d(0, 0); glVertex3f(-1, 1, -1);
-        glTexCoord2d(1, 0); glVertex3f(-1, 1, 1);
-        glEnd();
-    //НИЖНЯЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, -1, 1);
-        glTexCoord2d(0, 1); glVertex3f(1, -1, 1);
-        glTexCoord2d(0, 0); glVertex3f(1, -1, -1);
-        glTexCoord2d(1, 0); glVertex3f(-1, -1, -1);
-        glEnd();
-    
-    //ВЕРХНЯЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, 1, -1);
-        glTexCoord2d(0, 1); glVertex3f(1, 1, -1);
-        glTexCoord2d(0, 0); glVertex3f(1, 1, 1);
-        glTexCoord2d(1, 0); glVertex3f(-1, 1, 1);
-        glEnd();
-    
-}
-/**
-    \brief главная функция программы
-
-    циклично вызывается. 1 вызов- 1 кадр. обновляет все, что находится в мире- положение игрока, его угол поворота. так же 
-    обновляет каждым разом мир - рисует его
-
-*/
-void display(){
-    float times;
-        
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
-	glPushMatrix(); // сохраняем систему координат
-    gluLookAt(  steve.PlayerX,          steve.PlayerY + steve.h / 2,        steve.PlayerZ,// координаты игрока
-                steve.PlayerX + lx,     steve.PlayerY + ly + steve.h / 2,   steve.PlayerZ + lz,  // координаты единичного вектора камеры
-                0.0f,                   1.0f,                               0.0f               );// координаты нормального вектора камеры. не трогаем. 
-
-	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
-	//=======================================DRAW================================================
-    newtime = clock();
-    times = newtime - oldtime;
-    oldtime = clock();
-
-
-
-    // цикл для рисования блоков
-	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
-		for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
-                if (mass[x][y][z] == 0) continue;
-
-					glTranslatef(x * cube_size + cube_size/2  , y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
-					Draw_cubes();
-                    glTranslatef(-x * cube_size - cube_size / 2, -y * cube_size - cube_size / 2, -z * cube_size - cube_size / 2);
-				
-					
-            }
-    std::cout << "sss";
-	
-	
-
-
-    steve.update(times); // функция обновления обьекта
-	//=======================================DRAW================================================
-	glPopMatrix(); // загружаем систему коориднат
-    glutPostRedisplay();
-	//glutSwapBuffers(); // меняем буфера
-    
-    glFlush();
-}
-
 /**
     \brief точка входа в программу
 
@@ -572,6 +587,7 @@ int main(int argc, char** argv) {
 	
     glutPassiveMotionFunc(mouseMove); //функция, которая отслеживает мышку в НЕ нажатом состоянии
 	glutMotionFunc(mouseMove); // функция, которая отслеживает мышку в нажатом состоянии
+    
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
 	dirtTextures(width, height); // загружаем текстуру

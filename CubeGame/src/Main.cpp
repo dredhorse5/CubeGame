@@ -16,6 +16,8 @@ const int quantity_cubes_y = 50;  ///< колличество блоков по 
 const int quantity_cubes_z = 250; ///< колличество блоков по оси z
 const int width = 1280; ///< ширина окна
 const int height = 720; ///< высота окна
+int W = width;
+int H = height;
 float lx = 1.0f; ///< x координата единичного вектора направления камеры
 float lz = 0.0f; ///< z координата единичного вектора направления камеры
 float ly = 0.0f; ///< y координата единичного вектора направления камеры
@@ -203,7 +205,7 @@ public:
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
-                    mass[oldX][oldY][oldZ] = 1; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    mass[oldX][oldY][oldZ] = 2; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -282,19 +284,22 @@ Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создае
     принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.
 
 */
-void dirtTextures(int W, int H) {
-	unsigned char* top = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
-	glGenTextures(1, &dirt);
-	glBindTexture(GL_TEXTURE_2D, dirt);
+void load_textures(char *image, GLuint texturesy, bool type) {
+    unsigned char* top = SOIL_load_image(image, &W, &H, 0, SOIL_LOAD_RGBA); // загружаем текстуру в soil
+    glGenTextures(1, &texturesy); // говорим, что начинаем работать с переменной Dirt, чтобы дальше записать в нее текстуру soil
+    glBindTexture(GL_TEXTURE_2D, texturesy); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, W, H, 0, GL_RGB, GL_UNSIGNED_BYTE, top);
-	SOIL_free_image_data(top);
-	glBindTexture(GL_TEXTURE_2D, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    if (type) {
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.8f);
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, top); // загружаем текстуру soil в перменную dirt
+    SOIL_free_image_data(top); // освобождаем текстуру из soil
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
 }
 /**
     \brief функция изменения перспективы при изменении размера окна
@@ -481,8 +486,8 @@ void Draw_cubes() {
 				if (z < 0 || z > quantity_cubes_z) continue;
 				int type = mass[x][y][z];
 				if (!type || (type == mass[x + 1][y][z] && type == mass[x - 1][y][z]
-					&& type == mass[x][y + 1][z] && type == mass[x][y - 1][z]
-					&& type == mass[x][y][z + 1] && type == mass[x][y][z-1]))continue;
+					       && type == mass[x][y + 1][z] && type == mass[x][y - 1][z]
+					       && type == mass[x][y][z + 1] && type == mass[x][y][z-1]  ))continue;
 
 
 
@@ -595,7 +600,7 @@ int main(int argc, char** argv) {
     
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
-	dirtTextures(width, height); // загружаем текстуру
+
 	
 
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш

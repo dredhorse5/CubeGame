@@ -34,6 +34,7 @@ bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
 
+
 /**
     \brief функция для подсвечивания кубов
 
@@ -284,23 +285,29 @@ Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создае
     принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.
 
 */
-void load_textures(char *image, GLuint texturesy, bool type) {
-    unsigned char* top = SOIL_load_image(image, &W, &H, 0, SOIL_LOAD_RGBA); // загружаем текстуру в soil
-    glGenTextures(1, &texturesy); // говорим, что начинаем работать с переменной Dirt, чтобы дальше записать в нее текстуру soil
-    glBindTexture(GL_TEXTURE_2D, texturesy); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
+void dirtTextures(int W, int H) {
+	unsigned char* top = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
+	glGenTextures(1, &dirt);
+	glBindTexture(GL_TEXTURE_2D, dirt);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    if (type) {
-        glEnable(GL_ALPHA_TEST);
-        glAlphaFunc(GL_GREATER, 0.8f);
+    void load_textures(char* image, GLuint texturesy, bool type) {
+        unsigned char* top = SOIL_load_image(image, &W, &H, 0, SOIL_LOAD_RGBA); // загружаем текстуру в soil
+        glGenTextures(1, &texturesy); // говорим, что начинаем работать с переменной Dirt, чтобы дальше записать в нее текстуру soil
+        glBindTexture(GL_TEXTURE_2D,  texturesy); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        if (type) {
+            glEnable(GL_ALPHA_TEST);
+            glAlphaFunc(GL_GREATER, 0.8f);
+        }
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, top); // загружаем текстуру soil в перменную dirt
+        SOIL_free_image_data(top); // освобождаем текстуру из soil
+        glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
     }
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, top); // загружаем текстуру soil в перменную dirt
-    SOIL_free_image_data(top); // освобождаем текстуру из soil
-    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
-}
+
 /**
     \brief функция изменения перспективы при изменении размера окна
 
@@ -600,7 +607,7 @@ int main(int argc, char** argv) {
     
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
-
+    load_textures("textures/dirt.png", &dirt, 0);// загружаем текстуру
 	
 
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш

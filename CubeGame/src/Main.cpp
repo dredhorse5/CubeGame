@@ -34,6 +34,8 @@ bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
 
+#include "The_fucking_mouse_and_keyboard.hpp"
+
 
 /**
     \brief функция для подсвечивания кубов
@@ -331,104 +333,9 @@ void reshape(int w, int h){
     \param[in] y координата y, где произошло нажатие на кнопку
     
 */
-void mouseButton(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON) {
-        switch (state) {
-        case GLUT_DOWN:		//Если нажата
-            mLeft = true;
-            break;
-        case GLUT_UP:      // если опущена
-            mLeft = false;
-            break;
-        }
-    }
-
-    if (button == GLUT_RIGHT_BUTTON) {
-        switch (state) {
-        case GLUT_DOWN:		//Если нажата
-            mRight = true;
-            break;
-        case GLUT_UP:      // если опущена
-            mRight = false;
-            break;
-        }
-    }
-
-}
-/**
-    \brief определяет НАЖАТИЕ клавиш клавиатуры
-
-    вызывается при НАЖАТОЙ кнопки клавиатуры
-
-    \param[in] key передает ASCII код нажатой клавиши
-    \param[in] x положение курсора мыши при нажатии клавиши по оси x 
-    \param[in] y положение курсора мыши при нажатии клавиши по оси y
-
-*/
-void processNormalKeys(unsigned char key, int x, int y) {
-    switch(key) {
-    case 27: // если клавиша esc(27) нажата, то выходим из программы
-        exit(0);
-	case 'W':
-	case 'w':
-		KeyFront = 1;
-		break;
-	case 'S':
-	case 's':
-		KeyFront = -1; 
-		break;
-	case 'D':
-	case 'd':
-		KeySide = 1;
-		break;
-	case 'A':
-	case 'a':
-		KeySide = -1;
-		break;
-    case 32:
-        steve.jump();
-        break;
-    }
-}
-/**
-    \brief определяет ОТЖАТИЕ клавиш клавиатуры
-
-    вызывается при ОТЖАТОЙ кнопки клавиатуры
-
-    \param[in] key передает ASCII код нажатой клавиши
-    \param[in] x положение курсора мыши при отжатии клавиши по оси x
-    \param[in] y положение курсора мыши при отжатии клавиши по оси y
-
-*/
-void processNormalKeysUP(unsigned char key, int x, int y) {
-	switch (key) {
-	case 'W':
-	case 'w':
-		KeyFront = 0;
-		break;
-	case 'S':
-	case 's':
-		KeyFront = 0;
-		break;
-	case 'D':
-	case 'd': 
-		KeySide = 0;
-		break;
-	case 'A':
-	case 'a':
-		KeySide = 0;
-		break;
-	}
-}
 
 
 
-/**
-    \brief рисует куб 
-
-    эта функция рисует куб
-
-*/
 void Draw_cubes(int X, int Y, int Z) {
     glBindTexture(GL_TEXTURE_2D, dirt);
     glBegin(GL_QUADS);
@@ -514,41 +421,41 @@ void Draw_cubes() {
     обновляет каждым разом мир - рисует его
 
 */
-void display(){
-    double times;
-        
+void display() {
+	double times;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
-    glPushMatrix();
+	glPushMatrix();
 
-    gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
-        steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
-        0.0f, 1.0f, 0.0f);
+	gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
+		steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
+		0.0f, 1.0f, 0.0f);
 
-    newtime = clock();
-    times = newtime - oldtime;
-    oldtime = clock();
-    std::cout << 1000/times << std::endl;
-
-     
-    //===============================начало основного цикла================================================================================
+	newtime = clock();
+	times = newtime - oldtime;
+	oldtime = clock();
+	std::cout << 1000 / times << std::endl;
 
 
-    Draw_cubes();
-
-     
-     
-
-    
+	//===============================начало основного цикла================================================================================
 
 
-    steve.update(times);
+	Draw_cubes();
 
 
-    //=================================конец основного цикла===================================================================================
-    glPopMatrix();
 
-    glutPostRedisplay();
-    glFinish();
+
+
+
+
+	steve.update(times);
+
+
+	//=================================конец основного цикла===================================================================================
+	glPopMatrix();
+
+	glutPostRedisplay();
+	glFinish();
 }
 
 /**

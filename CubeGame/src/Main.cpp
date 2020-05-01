@@ -297,6 +297,10 @@ Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создае
     принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.
 
 */
+void dirtTextures(int W, int H) {
+	unsigned char* top = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
+	glGenTextures(1, &dirt);
+	glBindTexture(GL_TEXTURE_2D, dirt);
 
     void load_textures(char* image, GLuint texturesy, bool type) {
         unsigned char* top = SOIL_load_image(image, &W, &H, 0, SOIL_LOAD_RGBA); // загружаем текстуру в soil
@@ -449,7 +453,7 @@ void Draw_cubes(int X, int Y, int Z) {
         glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
     }
     //передняя
-    if (!mass[X][Y][Z - 1]) { // Z == 0 or  { // Z == 0 or 
+    if (!mass[X][Y][Z - 1]) {  
         glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
         glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
         glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
@@ -464,7 +468,7 @@ void Draw_cubes(int X, int Y, int Z) {
         glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
     }
     //ЛЕВАЯ
-    if (!mass[X - 1][Y][Z]) { // X == 0 or 
+    if (!mass[X - 1][Y][Z]) { 
         glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
         glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
         glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
@@ -501,8 +505,8 @@ void Draw_cubes() {
 				if (z < 0 || z > quantity_cubes_z) continue;
 				int type = mass[x][y][z];
 				if (!type || (type == mass[x + 1][y][z] && type == mass[x - 1][y][z]
-					&& type == mass[x][y + 1][z] && type == mass[x][y - 1][z]
-					&& type == mass[x][y][z + 1] && type == mass[x][y][z-1]))continue;
+					       && type == mass[x][y + 1][z] && type == mass[x][y - 1][z]
+					       && type == mass[x][y][z + 1] && type == mass[x][y][z-1]  ))continue;
 
 
 

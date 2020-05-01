@@ -95,6 +95,18 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glColor3d(1, 1, 1);
 
 }
+enum Blocks {
+    AIR,
+    STONE,
+    SUPER_GRASS,
+    DIRT,
+    COBBLESTONE,
+    PLANKS,
+    TREE_OAK,
+    LEAVES,
+    BRICKS
+};
+
 
 class Player {
 public:

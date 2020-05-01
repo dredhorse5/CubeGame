@@ -194,6 +194,7 @@ public:
 
         dx = dz = dSideX = dSideZ = dFrontX = dFrontZ = 0;
     }
+    /////
     /**
         \brief обрабатывает нажатие мыши
 
@@ -429,7 +430,7 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 		break;
 	}
 }
-
+////
 
 
 /**

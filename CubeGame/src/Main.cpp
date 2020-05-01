@@ -598,7 +598,7 @@ void Draw_super_grass(int X, int Y, int Z)
 }
 void Draw_tree_oak(int X, int Y, int Z) {
 
-    glBindTexture(GL_TEXTURE_2D, super_grass);
+    glBindTexture(GL_TEXTURE_2D, tree_oak);
     glBegin(GL_QUADS);
     ///задняя 
     glColor3f(0.8, 0.8, 0.8); // cool glColor3f(1.8, 0.8, 0.8);
@@ -650,7 +650,7 @@ void Draw_tree_oak(int X, int Y, int Z) {
 
 }
 void Draw_leaves(int X, int Y, int Z) {
-    glBindTexture(GL_TEXTURE_2D, super_grass);
+    glBindTexture(GL_TEXTURE_2D, leaves);
     glBegin(GL_QUADS);
     ///задняя 
     glColor3f(0.8, 0.8, 0.8); // cool glColor3f(1.8, 0.8, 0.8);

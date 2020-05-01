@@ -10,6 +10,8 @@
 
 
 GLuint dirt; ///< хранит текстуру
+GLuint stone;
+GLuint super_grass;
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
 const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
@@ -302,6 +304,18 @@ void dirtTextures(int W, int H) {
 	glGenTextures(1, &dirt);
 	glBindTexture(GL_TEXTURE_2D, dirt);
 
+    void Super_GrassTextures(int W, int H) {
+        unsigned char* top = SOIL_load_image("textures/Super_Grass.png", &W, &H, 0, SOIL_LOAD_RGB);
+        glGenTextures(1, &Super_Grass);
+        glBindTexture(GL_TEXTURE_2D, Super_Grass);
+
+        void stoneTextures(int W, int H) {
+            unsigned char* top = SOIL_load_image("textures/stone.png", &W, &H, 0, SOIL_LOAD_RGB);
+            glGenTextures(1, &stone);
+            glBindTexture(GL_TEXTURE_2D, stone);
+
+
+
     void load_textures(char* image, GLuint texturesy, bool type) {
         unsigned char* top = SOIL_load_image(image, &W, &H, 0, SOIL_LOAD_RGBA); // загружаем текстуру в soil
         glGenTextures(1, &texturesy); // говорим, что начинаем работать с переменной Dirt, чтобы дальше записать в нее текстуру soil
@@ -441,8 +455,10 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
     эта функция рисует куб
 
 */
-void Draw_cubes(int X, int Y, int Z) {
-    glBindTexture(GL_TEXTURE_2D, dirt);
+
+
+void Draw_stone(int X, int Y, int Z) {
+    glBindTexture(GL_TEXTURE_2D, stone);
     glBegin(GL_QUADS);
     ///задняя
     glColor3f(0.8, 0.8, 0.8);
@@ -493,6 +509,109 @@ void Draw_cubes(int X, int Y, int Z) {
     glEnd();
 }
 
+void Draw_dirt(int X, int Y, int Z) {
+    glBindTexture(GL_TEXTURE_2D, dirt);
+    glBegin(GL_QUADS);
+    ///задняя
+    glColor3f(0.8, 0.8, 0.8);
+    if (!mass[X][Y][Z + 1]) {
+        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    //передняя
+    if (!mass[X][Y][Z - 1]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+    }
+    //ПРАВАЯ
+    glColor3f(0.7, 0.7, 0.7);
+    if (!mass[X + 1][Y][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+    }
+    //ЛЕВАЯ
+    if (!mass[X - 1][Y][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    glColor3f(0.5, 0.5, 0.5);
+    //НИЖНЯЯ
+    if (!mass[X][Y - 1][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+    }
+    glColor3f(1, 1, 1);
+    //ВЕРХНЯЯ
+    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    glEnd();
+}
+
+void Draw_super_grass(int X, int Y, int Z) {
+    glBindTexture(GL_TEXTURE_2D, super_grass);
+    glBegin(GL_QUADS);
+    ///задняя
+    glColor3f(0.8, 0.8, 0.8);
+    if (!mass[X][Y][Z + 1]) {
+        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    //передняя
+    if (!mass[X][Y][Z - 1]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+    }
+    //ПРАВАЯ
+    glColor3f(0.7, 0.7, 0.7);
+    if (!mass[X + 1][Y][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+    }
+    //ЛЕВАЯ
+    if (!mass[X - 1][Y][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    glColor3f(0.5, 0.5, 0.5);
+    //НИЖНЯЯ
+    if (!mass[X][Y - 1][Z]) {
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
+    }
+    glColor3f(1, 1, 1);
+    //ВЕРХНЯЯ
+    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
+        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
+        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
+        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
+    }
+    glEnd();
+}
 
 void Draw_cubes() {
     // цикл для рисования блоков
@@ -513,7 +632,10 @@ void Draw_cubes() {
                 glPushMatrix();
 
                 glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
-                Draw_cubes(x, y, z);
+                switch (type) {
+                case 1: Draw_stone(x, y, z);
+                case 2: Draw_dirt(x, y, z);
+                case 3: Draw_super_grass(x, y, z);
 
                 glPopMatrix();
 
@@ -620,7 +742,8 @@ int main(int argc, char** argv) {
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
     load_textures("textures/dirt.png", &dirt, 0);// загружаем текстуру
-	
+    load_textures("textures/stone.png", &stone, 0);
+    load_textures("textures/Super_Grass.png", &super_grass, 0);
 
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
@@ -631,7 +754,10 @@ int main(int argc, char** argv) {
         for (int z = 0; z < quantity_cubes_z; z++) {
             int c = im.getPixel(x, z).r / 10 + 10;
             for (int y = 0; y <= c; y++) {
-                mass[x][y][z] = 1;
+
+                if (y == c) mass[x][y][z] = 3;
+                else if (y > c - 4) mass[x][y][z] = 2;
+                else mass[x][y][z] = 1;
             }
         }
 

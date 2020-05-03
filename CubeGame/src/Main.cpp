@@ -37,8 +37,8 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
+#include "draw.hpp"
 
-#include "The_fucking_mouse_and_keyboard.hpp"
 
 
 /**
@@ -112,8 +112,6 @@ enum Blocks {
     LEAVES,
     BRICKS
 };
-
-
 class Player {
 public:
     float PlayerX; ///< Координата игрока по оси X
@@ -300,29 +298,6 @@ public:
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
 /**
-    \brief загружает текстуры
-    принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.
-
-*/
-void load_textures(const char* image, GLuint* texturesy, bool type) {
-    unsigned char* top = SOIL_load_image(image, &W, &H, 0, SOIL_LOAD_RGBA); // загружаем текстуру в soil
-    glGenTextures(1, texturesy); // говорим, что начинаем работать с переменной Dirt, чтобы дальше записать в нее текстуру soil
-    glBindTexture(GL_TEXTURE_2D, *texturesy); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    if (type) {
-        glEnable(GL_ALPHA_TEST);
-        glAlphaFunc(GL_GREATER, 0.8f);
-    }
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, top); // загружаем текстуру soil в перменную dirt
-    SOIL_free_image_data(top); // освобождаем текстуру из soil
-    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
-}
-
-/**
     \brief функция изменения перспективы при изменении размера окна
 
     на вход принимает текущие размеры окна, чтобы по ним определить перспективу
@@ -336,228 +311,6 @@ void reshape(int w, int h){
 	glMatrixMode(GL_MODELVIEW);
 
 }
-/**
-    \brief обрабатывает нажатие мыши
-
-    \param[in] button определяет, какая именно кнопка нажата- правая, левая или средняя
-    \param[in] state состояние этой кнопки - нажата или разжата
-    \param[in] x координата x, где произошло нажатие на кнопку
-    \param[in] y координата y, где произошло нажатие на кнопку
-    
-*/
-
-
-
-void Draw_cubes(int X, int Y, int Z) {
-    glBindTexture(GL_TEXTURE_2D, dirt);
-    glBegin(GL_QUADS);
-    ///задняя
-    glColor3f(0.8, 0.8, 0.8);
-    if (!mass[X][Y][Z + 1]) {
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    //передняя
-    if (!mass[X][Y][Z - 1]) {
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    //ПРАВАЯ
-    glColor3f(0.7, 0.7, 0.7);
-    if (!mass[X + 1][Y][Z]) {
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    //ЛЕВАЯ
-    if (!mass[X - 1][Y][Z]) {
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glColor3f(0.5, 0.5, 0.5);
-    //НИЖНЯЯ
-    if (!mass[X][Y - 1][Z]) {
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-    }
-    glColor3f(1, 1, 1);
-    //ВЕРХНЯЯ
-    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glEnd();
-}
-void Draw_super_grass(int X, int Y, int Z)
-{
-
-    glBindTexture(GL_TEXTURE_2D, super_grass);
-    glBegin(GL_QUADS);
-    ///задняя 
-    glColor3f(0.8, 0.8, 0.8); // cool glColor3f(1.8, 0.8, 0.8);
-    if (!mass[X][Y][Z + 1]) {
-        glTexCoord2d(1, 0.5); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 0.5); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    //передняя
-    if (!mass[X][Y][Z - 1]) { // Z == 0 or 
-        glTexCoord2d(1, 0.5); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0.5); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    glColor3f(0.7, 0.7, 0.7);
-    //ПРАВАЯ
-    if (!mass[X + 1][Y][Z]) {
-        glTexCoord2d(1, 0.5); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 0.5); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    //ЛЕВАЯ
-    if (!mass[X - 1][Y][Z]) { // X == 0 or 
-        glTexCoord2d(1, 0.5); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0.5); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glColor3f(0.5, 0.5, 0.5);
-    //НИЖНЯЯ
-    if (!mass[X][Y - 1][Z]) {
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0.5); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0.5); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-    }
-    //ВЕРХНЯЯ
-    glColor3f(1, 1, 1);
-    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
-        glTexCoord2d(1, 0.5); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0.5); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glEnd();
-}
-void Draw_tree_oak(int X, int Y, int Z) {
-
-    glBindTexture(GL_TEXTURE_2D, tree_oak);
-    glBegin(GL_QUADS);
-    ///задняя 
-    glColor3f(0.8, 0.8, 0.8); // cool glColor3f(1.8, 0.8, 0.8);
-    if (!mass[X][Y][Z + 1]) {
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    //передняя
-    if (!mass[X][Y][Z - 1]) { // Z == 0 or 
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    glColor3f(0.7, 0.7, 0.7);
-    //ПРАВАЯ
-    if (!mass[X + 1][Y][Z]) {
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    //ЛЕВАЯ
-    if (!mass[X - 1][Y][Z]) { // X == 0 or 
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glColor3f(0.5, 0.5, 0.5);
-    //НИЖНЯЯ
-    if (!mass[X][Y - 1][Z]) {
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-    }
-    //ВЕРХНЯЯ
-    glColor3f(1, 1, 1);
-    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
-        glTexCoord2d(0.5, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(0.5, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glEnd();
-
-}
-void Draw_leaves(int X, int Y, int Z) {
-    glBindTexture(GL_TEXTURE_2D, leaves);
-    glBegin(GL_QUADS);
-    ///задняя 
-    glColor3f(0.8, 0.8, 0.8); // cool glColor3f(1.8, 0.8, 0.8);
-    if (!mass[X][Y][Z + 1]) {
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    //передняя
-    if (!mass[X][Y][Z - 1]) { // Z == 0 or 
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    glColor3f(0.7, 0.7, 0.7);
-    //ПРАВАЯ
-    if (!mass[X + 1][Y][Z]) {
-        glTexCoord2d(1, 1); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-    }
-    //ЛЕВАЯ
-    if (!mass[X - 1][Y][Z]) { // X == 0 or 
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glColor3f(0.5, 0.5, 0.5);
-    //НИЖНЯЯ
-    if (!mass[X][Y - 1][Z]) {
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, -cube_size / 2, cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, -cube_size / 2, -cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, -cube_size / 2, -cube_size / 2);
-    }
-    //ВЕРХНЯЯ
-    glColor3f(1, 1, 1);
-    if (!mass[X][Y + 1][Z]) { // Y == 0 or 
-        glTexCoord2d(1, 1); glVertex3f(-cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 1); glVertex3f(cube_size / 2, cube_size / 2, -cube_size / 2);
-        glTexCoord2d(0, 0); glVertex3f(cube_size / 2, cube_size / 2, cube_size / 2);
-        glTexCoord2d(1, 0); glVertex3f(-cube_size / 2, cube_size / 2, cube_size / 2);
-    }
-    glEnd();
-}
-
-
 void Draw_cubes() {
     // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - 50; x < steve.PlayerX / 2 + 50; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
@@ -578,11 +331,11 @@ void Draw_cubes() {
 
                 glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
                 switch (type){
-                    case STONE: Draw_stone(x, y, z);
-                    case DIRT: Draw_dirt(x, y, z);
-                    case SUPER_GRASS: Draw_super_grass(x, y, z);
-                    case TREE_OAK: Draw_tree_oak(x, y, z);
-                    case LEAVES: Draw_leaves(x, y, z);
+                    case STONE:         Draw_one_tex_blocks(&stone,     x, y, z);
+                    case DIRT:          Draw_one_tex_blocks(&dirt,      x, y, z);
+                    case SUPER_GRASS:   Draw_super_grass(               x, y, z);
+                    case TREE_OAK:      Draw_tree_oak(                  x, y, z);
+                    case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z);
                 }
 
                 glPopMatrix();
@@ -633,36 +386,8 @@ void display() {
 	glFinish();
 }
 
-/**
-    \brief мониторит координаты мыши в окне
-
-    функция вызывается при изменении координат мыши, и соотвественно передает их. используется в данном случае для изменения
-    угла поворота камеры
-
-*/
-void mouseMove(int x, int y) {
-    if (mouseXOld != 0 || mouseYOld != 0) {
-        angleX -= mouseXOld * 0.001f;
-        angleY -= mouseYOld * 0.001f;
-
-        if (angleY > 3.14 / 2) angleY = 3.14 / 2;
-        if (angleY < -3.14 / 2) angleY = -3.14 / 2;
-
-        mouseXOld = 0; mouseYOld = 0;
-
-        // update camera's direction
-        lx = float(sin(angleX));
-        lz = float(-cos(angleX));
-        ly = float(-tan(angleY));
-
-    }
-    else {
-
-        mouseXOld = (width / 2) - x;
-        mouseYOld = (height / 2) - y;
-        glutWarpPointer((width / 2), (height / 2));
-    }
-}
+#include "load_textures.hpp"
+#include "mouse_and_keyboard.hpp"
 /**
     \brief точка входа в программу
 
@@ -689,11 +414,7 @@ int main(int argc, char** argv) {
     
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
-    load_textures("textures/dirt.png", &dirt, 0);// загружаем текстуру
-    load_textures("textures/stone.png", &stone, 0);// загружаем текстуру
-    load_textures("textures/super_grass.png", &super_grass, 0);// загружаем текстуру
-    load_textures("textures/leaves.png", &leaves, 0);
-    load_textures("textures/tree_oak.png", &tree_oak, 0);
+    textures();
 	
 
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш

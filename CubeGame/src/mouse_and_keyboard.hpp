@@ -1,3 +1,12 @@
+/**
+	\brief обрабатывает нажатие мыши
+
+	\param[in] button определ€ет, кака€ именно кнопка нажата- права€, лева€ или средн€€
+	\param[in] state состо€ние этой кнопки - нажата или разжата
+	\param[in] x координата x, где произошло нажатие на кнопку
+	\param[in] y координата y, где произошло нажатие на кнопку
+
+*/
 void mouseButton(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON) {
 		switch (state) {
@@ -32,11 +41,6 @@ void mouseButton(int button, int state, int x, int y) {
 	\param[in] y положение курсора мыши при нажатии клавиши по оси y
 
 */
-
-
-
-
-
 void processNormalKeys(unsigned char key, int x, int y) {
 	switch (key) {
 	case 27: // если клавиша esc(27) нажата, то выходим из программы
@@ -72,9 +76,6 @@ void processNormalKeys(unsigned char key, int x, int y) {
 	\param[in] y положение курсора мыши при отжатии клавиши по оси y
 
 */
-
-
-
 void processNormalKeysUP(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'W':
@@ -95,12 +96,33 @@ void processNormalKeysUP(unsigned char key, int x, int y) {
 		break;
 	}
 }
-
-
-
 /**
-	\brief рисует куб
+	\brief мониторит координаты мыши в окне
 
-	эта функци€ рисует куб
+	функци€ вызываетс€ при изменении координат мыши, и соотвественно передает их. используетс€ в данном случае дл€ изменени€
+	угла поворота камеры
 
 */
+void mouseMove(int x, int y) {
+	if (mouseXOld != 0 || mouseYOld != 0) {
+		angleX -= mouseXOld * 0.001f;
+		angleY -= mouseYOld * 0.001f;
+
+		if (angleY > 3.14 / 2) angleY = 3.14 / 2;
+		if (angleY < -3.14 / 2) angleY = -3.14 / 2;
+
+		mouseXOld = 0; mouseYOld = 0;
+
+		// update camera's direction
+		lx = float(sin(angleX));
+		lz = float(-cos(angleX));
+		ly = float(-tan(angleY));
+
+	}
+	else {
+
+		mouseXOld = (width / 2) - x;
+		mouseYOld = (height / 2) - y;
+		glutWarpPointer((width / 2), (height / 2));
+	}
+}

@@ -8,7 +8,7 @@
 //#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
 
-// комментарий
+
 GLuint dirt; ///< хранит текстуру
 GLuint stone;
 GLuint super_grass;

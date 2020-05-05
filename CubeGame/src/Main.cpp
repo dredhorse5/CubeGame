@@ -37,8 +37,49 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
+char tree_mass[7][5][5] = { {
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 6, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7} },
+{
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 6, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7} },
+{
+{0, 0, 0, 0, 0},
+{0, 7, 7, 7, 0},
+{0, 7, 6, 7, 0},
+{0, 7, 7, 7, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 7, 0, 0},
+{0, 7, 7, 7, 0},
+{0, 0, 7, 0, 0},
+{0, 0, 0, 0, 0} }, };
 #include "draw.hpp"
-
 
 
 /**
@@ -386,6 +427,7 @@ void display() {
 	glFinish();
 }
 
+#include "builders.hpp"
 #include "load_textures.hpp"
 #include "mouse_and_keyboard.hpp"
 /**
@@ -430,7 +472,15 @@ int main(int argc, char** argv) {
                 if(y == c) mass[x][y][z] = SUPER_GRASS;
                 else if(y >= c - 4) mass[x][y][z] = DIRT;
                 else mass[x][y][z] = STONE;
+
             }
+        }
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int z = 0; z < quantity_cubes_z; z++) {
+            int c = im.getPixel(x, z).r / 10 + 10;
+            for (int y = 4; y <= c; y++)
+                if (x > 5 and x < quantity_cubes_x - 5 and z > 5 and x < quantity_cubes_z - 5)
+                    if ((rand()) % 500 == 1)   trees(x, c, z);
         }
 
 	glutMainLoop(); // говорим, что функция display играется циклично

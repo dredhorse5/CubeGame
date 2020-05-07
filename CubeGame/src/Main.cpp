@@ -10,12 +10,18 @@
 
 
 GLuint dirt; ///< хранит текстуру
+GLuint stone;
+GLuint super_grass;
+GLuint leaves;
+GLuint tree_oak;
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
 const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
 const int quantity_cubes_z = 250; ///< колличество блоков по оси z
 const int width = 1280; ///< ширина окна
 const int height = 720; ///< высота окна
+int W = width;
+int H = height;
 float lx = 1.0f; ///< x координата единичного вектора направления камеры
 float lz = 0.0f; ///< z координата единичного вектора направления камеры
 float ly = 0.0f; ///< y координата единичного вектора направления камеры
@@ -31,6 +37,50 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
+char tree_mass[7][5][5] = { {
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 6, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7} },
+{
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 6, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7} },
+{
+{0, 0, 0, 0, 0},
+{0, 7, 7, 7, 0},
+{0, 7, 6, 7, 0},
+{0, 7, 7, 7, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 7, 0, 0},
+{0, 7, 7, 7, 0},
+{0, 0, 7, 0, 0},
+{0, 0, 0, 0, 0} }, };
+#include "draw.hpp"
+
 
 /**
     \brief функция для подсвечивания кубов
@@ -92,7 +142,17 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glColor3d(1, 1, 1);
 
 }
-
+enum Blocks {
+    AIR,
+    STONE,
+    SUPER_GRASS,
+    DIRT,
+    COBBLESTONE,
+    PLANKS,
+    TREE_OAK,
+    LEAVES,
+    BRICKS
+};
 class Player {
 public:
     float PlayerX; ///< Координата игрока по оси X
@@ -177,6 +237,7 @@ public:
 
         dx = dz = dSideX = dSideZ = dFrontX = dFrontZ = 0;
     }
+    /////
     /**
         \brief обрабатывает нажатие мыши
 
@@ -203,7 +264,7 @@ public:
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
-                    mass[oldX][oldY][oldZ] = 1; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    mass[oldX][oldY][oldZ] = TREE_OAK; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -278,25 +339,6 @@ public:
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
 /**
-    \brief загружает текстуры
-    принимает на вход W и H указатели на int в которые будут помещены размеры изображения - высота и ширина.
-
-*/
-void dirtTextures(int W, int H) {
-	unsigned char* top = SOIL_load_image("textures/dirt.png", &W, &H, 0, SOIL_LOAD_RGB);
-	glGenTextures(1, &dirt);
-	glBindTexture(GL_TEXTURE_2D, dirt);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, W, H, 0, GL_RGB, GL_UNSIGNED_BYTE, top);
-	SOIL_free_image_data(top);
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
-/**
     \brief функция изменения перспективы при изменении размера окна
 
     на вход принимает текущие размеры окна, чтобы по ним определить перспективу
@@ -310,245 +352,84 @@ void reshape(int w, int h){
 	glMatrixMode(GL_MODELVIEW);
 
 }
-/**
-    \brief обрабатывает нажатие мыши
-
-    \param[in] button определяет, какая именно кнопка нажата- правая, левая или средняя
-    \param[in] state состояние этой кнопки - нажата или разжата
-    \param[in] x координата x, где произошло нажатие на кнопку
-    \param[in] y координата y, где произошло нажатие на кнопку
-    
-*/
-void mouseButton(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON) {
-        switch (state) {
-        case GLUT_DOWN:		//Если нажата
-            mLeft = true;
-            break;
-        case GLUT_UP:      // если опущена
-            mLeft = false;
-            break;
-        }
-    }
-
-    if (button == GLUT_RIGHT_BUTTON) {
-        switch (state) {
-        case GLUT_DOWN:		//Если нажата
-            mRight = true;
-            break;
-        case GLUT_UP:      // если опущена
-            mRight = false;
-            break;
-        }
-    }
-
-}
-/**
-    \brief определяет НАЖАТИЕ клавиш клавиатуры
-
-    вызывается при НАЖАТОЙ кнопки клавиатуры
-
-    \param[in] key передает ASCII код нажатой клавиши
-    \param[in] x положение курсора мыши при нажатии клавиши по оси x 
-    \param[in] y положение курсора мыши при нажатии клавиши по оси y
-
-*/
-void processNormalKeys(unsigned char key, int x, int y) {
-    switch(key) {
-    case 27: // если клавиша esc(27) нажата, то выходим из программы
-        exit(0);
-	case 'W':
-	case 'w':
-		KeyFront = 1;
-		break;
-	case 'S':
-	case 's':
-		KeyFront = -1; 
-		break;
-	case 'D':
-	case 'd':
-		KeySide = 1;
-		break;
-	case 'A':
-	case 'a':
-		KeySide = -1;
-		break;
-    case 32:
-        steve.jump();
-        break;
-    }
-}
-/**
-    \brief определяет ОТЖАТИЕ клавиш клавиатуры
-
-    вызывается при ОТЖАТОЙ кнопки клавиатуры
-
-    \param[in] key передает ASCII код нажатой клавиши
-    \param[in] x положение курсора мыши при отжатии клавиши по оси x
-    \param[in] y положение курсора мыши при отжатии клавиши по оси y
-
-*/
-void processNormalKeysUP(unsigned char key, int x, int y) {
-	switch (key) {
-	case 'W':
-	case 'w':
-		KeyFront = 0;
-		break;
-	case 'S':
-	case 's':
-		KeyFront = 0;
-		break;
-	case 'D':
-	case 'd': 
-		KeySide = 0;
-		break;
-	case 'A':
-	case 'a':
-		KeySide = 0;
-		break;
-	}
-}
-
-
-
-/**
-    \brief мониторит координаты мыши в окне
-
-    функция вызывается при изменении координат мыши, и соотвественно передает их. используется в данном случае для изменения
-    угла поворота камеры
-
-*/
-void mouseMove(int x, int y) {
-    if (mouseXOld != 0 || mouseYOld != 0) {
-        angleX -= mouseXOld * 0.001f;
-        angleY -= mouseYOld * 0.001f;
-
-        if (angleY > 3.14 / 2) angleY = 3.14 / 2;
-        if (angleY < -3.14 / 2) angleY = -3.14 / 2;
-
-        mouseXOld = 0; mouseYOld = 0;
-
-        // update camera's direction
-        lx = float(sin(angleX));
-        lz = float(-cos(angleX));
-        ly = float(-tan(angleY));
-
-    }
-    else {
-
-        mouseXOld = (width / 2) - x;
-        mouseYOld = (height / 2) - y;
-        glutWarpPointer((width / 2), (height / 2));
-    }
-
-
-}
-/**
-    \brief рисует куб 
-
-    эта функция рисует куб
-
-*/
 void Draw_cubes() {
-    glBindTexture(GL_TEXTURE_2D, dirt);
-	glColor3f(1.0, 1.0, 1.0);
-    ///задняя
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(1, -1, 1);
-        glTexCoord2d(0, 1); glVertex3f(-1, -1, 1);
-        glTexCoord2d(0, 0); glVertex3f(-1, 1, 1);
-        glTexCoord2d(1, 0); glVertex3f(1, 1, 1);
-        glEnd();
-    //передняя
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, -1, -1);
-        glTexCoord2d(0, 1); glVertex3f(1, -1, -1);
-        glTexCoord2d(0, 0); glVertex3f(1, 1, -1);
-        glTexCoord2d(1, 0); glVertex3f(-1, 1, -1);
-        glEnd();
-    
-    //ПРАВАЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(1, -1, -1);
-        glTexCoord2d(0, 1); glVertex3f(1, -1, 1);
-        glTexCoord2d(0, 0); glVertex3f(1, 1, 1);
-        glTexCoord2d(1, 0); glVertex3f(1, 1, -1);
-        glEnd();
-    
-    //ЛЕВАЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, -1, 1);
-        glTexCoord2d(0, 1); glVertex3f(-1, -1, -1);
-        glTexCoord2d(0, 0); glVertex3f(-1, 1, -1);
-        glTexCoord2d(1, 0); glVertex3f(-1, 1, 1);
-        glEnd();
-    //НИЖНЯЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, -1, 1);
-        glTexCoord2d(0, 1); glVertex3f(1, -1, 1);
-        glTexCoord2d(0, 0); glVertex3f(1, -1, -1);
-        glTexCoord2d(1, 0); glVertex3f(-1, -1, -1);
-        glEnd();
-    
-    //ВЕРХНЯЯ
-        glBegin(GL_POLYGON);
-        glTexCoord2d(1, 1); glVertex3f(-1, 1, -1);
-        glTexCoord2d(0, 1); glVertex3f(1, 1, -1);
-        glTexCoord2d(0, 0); glVertex3f(1, 1, 1);
-        glTexCoord2d(1, 0); glVertex3f(-1, 1, 1);
-        glEnd();
-    
+    // цикл для рисования блоков
+    for (int x = steve.PlayerX / 2 - 50; x < steve.PlayerX / 2 + 50; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+        for (int y = 4; y < quantity_cubes_y; y++)
+			for (int z = steve.PlayerZ / 2 - 50; z < steve.PlayerZ / 2 + 50; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+
+
+				if (x < 0 || x > quantity_cubes_x) continue;
+				if (z < 0 || z > quantity_cubes_z) continue;
+				int type = mass[x][y][z];
+				if (!type || (bool(type) == bool(mass[x + 1][y][z]) && bool(type) == bool(mass[x - 1][y][z])
+					       && bool(type) == bool(mass[x][y + 1][z]) && bool(type) == bool(mass[x][y - 1][z])
+					       && bool(type) == bool(mass[x][y][z + 1]) && bool(type) == bool(mass[x][y][z-1])  ))continue;
+
+
+
+                glPushMatrix();
+
+                glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
+                switch (type){
+                    case STONE:         Draw_one_tex_blocks(&stone,     x, y, z);
+                    case DIRT:          Draw_one_tex_blocks(&dirt,      x, y, z);
+                    case SUPER_GRASS:   Draw_super_grass(               x, y, z);
+                    case TREE_OAK:      Draw_tree_oak(                  x, y, z);
+                    case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z);
+                }
+
+                glPopMatrix();
+
+            }
 }
 /**
     \brief главная функция программы
 
-    циклично вызывается. 1 вызов- 1 кадр. обновляет все, что находится в мире- положение игрока, его угол поворота. так же 
+    циклично вызывается. 1 вызов- 1 кадр. обновляет все, что находится в мире- положение игрока, его угол поворота. так же
     обновляет каждым разом мир - рисует его
 
 */
-void display(){
-    float times;
-        
+void display() {
+	double times;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
-	glPushMatrix(); // сохраняем систему координат
-    gluLookAt(  steve.PlayerX,          steve.PlayerY + steve.h / 2,        steve.PlayerZ,// координаты игрока
-                steve.PlayerX + lx,     steve.PlayerY + ly + steve.h / 2,   steve.PlayerZ + lz,  // координаты единичного вектора камеры
-                0.0f,                   1.0f,                               0.0f               );// координаты нормального вектора камеры. не трогаем. 
+	glPushMatrix();
 
-	glClearColor(0.5, 0.5, 0.5, 1.0); // задаем цвет фона R, G, B, а так же альфа компонента(A), которая задает непрозрачность
-	//=======================================DRAW================================================
-    newtime = clock();
-    times = newtime - oldtime;
-    oldtime = clock();
+	gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
+		steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
+		0.0f, 1.0f, 0.0f);
 
-
-
-    // цикл для рисования блоков
-	for (int x = steve.PlayerX/2 - 10; x < steve.PlayerX/2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
-		for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ/2 - 10; z < steve.PlayerZ/2 + 10; z++){// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
-                if (mass[x][y][z] == 0) continue;
-
-					glTranslatef(x * cube_size + cube_size/2  , y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
-					Draw_cubes();
-                    glTranslatef(-x * cube_size - cube_size / 2, -y * cube_size - cube_size / 2, -z * cube_size - cube_size / 2);
-				
-					
-            }
-    std::cout << "sss";
-	
-	
+	newtime = clock();
+	times = newtime - oldtime;
+	oldtime = clock();
+	std::cout << 1000 / times << std::endl;
 
 
-    steve.update(times); // функция обновления обьекта
-	//=======================================DRAW================================================
-	glPopMatrix(); // загружаем систему коориднат
-    glutPostRedisplay();
-	//glutSwapBuffers(); // меняем буфера
-    
-    glFlush();
+	//===============================начало основного цикла================================================================================
+
+
+	Draw_cubes();
+
+
+
+
+
+
+
+	steve.update(times);
+
+
+	//=================================конец основного цикла===================================================================================
+	glPopMatrix();
+
+	glutPostRedisplay();
+	glFinish();
 }
 
+#include "builders.hpp"
+#include "load_textures.hpp"
+#include "mouse_and_keyboard.hpp"
 /**
     \brief точка входа в программу
 
@@ -572,9 +453,10 @@ int main(int argc, char** argv) {
 	
     glutPassiveMotionFunc(mouseMove); //функция, которая отслеживает мышку в НЕ нажатом состоянии
 	glutMotionFunc(mouseMove); // функция, которая отслеживает мышку в нажатом состоянии
+    
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
-	dirtTextures(width, height); // загружаем текстуру
+    textures();
 	
 
     glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
@@ -586,8 +468,19 @@ int main(int argc, char** argv) {
         for (int z = 0; z < quantity_cubes_z; z++) {
             int c = im.getPixel(x, z).r / 10 + 10;
             for (int y = 0; y <= c; y++) {
-                mass[x][y][z] = 1;
+
+                if(y == c) mass[x][y][z] = SUPER_GRASS;
+                else if(y >= c - 4) mass[x][y][z] = DIRT;
+                else mass[x][y][z] = STONE;
+
             }
+        }
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int z = 0; z < quantity_cubes_z; z++) {
+            int c = im.getPixel(x, z).r / 10 + 10;
+            for (int y = 4; y <= c; y++)
+                if (x > 5 and x < quantity_cubes_x - 5 and z > 5 and x < quantity_cubes_z - 5)
+                    if ((rand()) % 500 == 1)   trees(x, c, z);
         }
 
 	glutMainLoop(); // говорим, что функция display играется циклично

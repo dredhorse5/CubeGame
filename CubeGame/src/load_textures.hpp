@@ -27,4 +27,5 @@ void textures() {
     load_textures("textures/super_grass.png", &super_grass, 0);// загружаем текстуру
     load_textures("textures/leaves.png", &leaves, 0);
     load_textures("textures/tree_oak.png", &tree_oak, 0);
+    load_textures("textures/GUI_menu.png", &GUI_tex, 0);
 }

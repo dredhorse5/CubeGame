@@ -8,7 +8,7 @@
 //#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
 
-
+GLuint GUI_tex;
 GLuint dirt; ///< хранит текстуру
 GLuint stone;
 GLuint super_grass;
@@ -80,7 +80,7 @@ char tree_mass[7][5][5] = { {
 {0, 0, 7, 0, 0},
 {0, 0, 0, 0, 0} }, };
 #include "draw.hpp"
-
+#include "GUI.hpp"
 
 /**
     \brief функция для подсвечивания кубов
@@ -354,9 +354,9 @@ void reshape(int w, int h){
 }
 void Draw_cubes() {
     // цикл для рисования блоков
-    for (int x = steve.PlayerX / 2 - 50; x < steve.PlayerX / 2 + 50; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+    for (int x = steve.PlayerX / 2 - 10; x < steve.PlayerX / 2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
         for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ / 2 - 50; z < steve.PlayerZ / 2 + 50; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+			for (int z = steve.PlayerZ / 2 - 10; z < steve.PlayerZ / 2 + 10; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
 				if (x < 0 || x > quantity_cubes_x) continue;
@@ -395,7 +395,7 @@ void display() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix();
-
+    g.update();
 	gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
 		steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
 		0.0f, 1.0f, 0.0f);
@@ -479,7 +479,7 @@ int main(int argc, char** argv) {
         for (int z = 0; z < quantity_cubes_z; z++) {
             int c = im.getPixel(x, z).r / 10 + 10;
             for (int y = 4; y <= c; y++)
-                if (x > 5 and x < quantity_cubes_x - 5 and z > 5 and x < quantity_cubes_z - 5)
+                if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
                     if ((rand()) % 500 == 1)   trees(x, c, z);
         }
 

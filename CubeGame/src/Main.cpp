@@ -395,31 +395,15 @@ void display() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix();
-    g.update();
 	gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
 		steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
 		0.0f, 1.0f, 0.0f);
-
 	newtime = clock();
 	times = newtime - oldtime;
 	oldtime = clock();
-	std::cout << 1000 / times << std::endl;
-
-
 	//===============================начало основного цикла================================================================================
-
-
 	Draw_cubes();
-
-
-
-
-
-
-
 	steve.update(times);
-
-
 	//=================================конец основного цикла===================================================================================
 	glPopMatrix();
 

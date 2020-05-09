@@ -8,6 +8,7 @@
 
 */
 void mouseButton(int button, int state, int x, int y) {
+	std::cout << x << "     " << y << std::endl;
 	if (button == GLUT_LEFT_BUTTON) {
 		switch (state) {
 		case GLUT_DOWN:		//Если нажата

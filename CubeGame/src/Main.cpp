@@ -14,6 +14,7 @@ GLuint stone;
 GLuint super_grass;
 GLuint leaves;
 GLuint tree_oak;
+
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
 const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
@@ -37,6 +38,9 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
+short int IDblocks = 1;
+short int blocks = 8;
+
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
 {0, 0, 0, 0, 0},
@@ -142,6 +146,7 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glColor3d(1, 1, 1);
 
 }
+
 enum Blocks {
     AIR,
     STONE,
@@ -171,8 +176,7 @@ public:
     bool onGround; ///< определяет, косаетесь ли вы пола
     float speed;   ///< скорость игрока
     float View;    ///< угол обзора
-
-    /** 
+    /**
         \brief Конструктор класса
 
         \param[in] x0 координата спавна игрока по оси x
@@ -244,7 +248,7 @@ public:
         эта функция понимает, какая кнопка мыши нажата и за счет этого либо ставит, либо разрушает блоки
 
     */
-    void mousePressed() { 
+    void mousePressed() {
         //if (mRight or mLeft) {
         float mousex = PlayerX;
         float mousey = PlayerY + h / 2;
@@ -252,7 +256,6 @@ public:
         int  X = 0, Y = 0, Z = 0;
         int oldX = 0, oldY = 0, oldZ = 0;
         float dist = 0.0f;
-
         while (dist < 80) {
             dist += 0.2; // пускаем луч из головы , пока он не коснется какого-нибудь блока
             mousex += lx / 50; X = mousex / cube_size;
@@ -260,11 +263,11 @@ public:
             mousez += lz / 50; Z = mousez / cube_size;
 
             if (check(X, Y, Z)) {
-				draw_lines_cubes(cube_size, X, Y, Z);
+                draw_lines_cubes(cube_size, X, Y, Z);
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
-                    mass[oldX][oldY][oldZ] = TREE_OAK; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    mass[oldX][oldY][oldZ] = IDblocks; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -299,13 +302,17 @@ public:
                     break;
                 }
                 break;
+
             }
 
             oldX = X; oldY = Y; oldZ = Z; // записываем старые координаты луча
+
+            
         }
         //}
         mLeft = mRight = false;
     }
+  
     /**
         \brief определяет поведение при столкновении с колизией 
 
@@ -377,12 +384,17 @@ void Draw_cubes() {
                     case SUPER_GRASS:   Draw_super_grass(               x, y, z);
                     case TREE_OAK:      Draw_tree_oak(                  x, y, z);
                     case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z);
+                   
                 }
 
-                glPopMatrix();
+             
+                 glPopMatrix();
 
             }
 }
+
+  
+
 /**
     \brief главная функция программы
 
@@ -459,7 +471,20 @@ int main(int argc, char** argv) {
     textures();
 	
 
-    glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
+    glutKeyboardFunc(processNormalKeys);// функция отработки нажатия(без отжатия) клавиш
+    switch (blocks) {
+    case 'R':
+    case 'r':
+        IDblocks++;
+        if (IDblocks > blocks) IDblocks = 0;
+        break;
+
+    case'f':
+    case'F':
+        IDblocks--;
+        if (IDblocks < 0) IDblocks = blocks;
+        break;
+    }
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 
     sf::Image im; im.loadFromFile("textures/heightmap1.jpg");

@@ -11,8 +11,8 @@ class GUI_touch {
 public:
     GUI_touch(GLuint* tex, int X, int Y, int x, int y) {
         //текстура | смещение по текстуре на X | Y | смещение кнопки на экране по x | y
-        X1 += 100 * 1 / pix * X; X2 += 100 * 1 / pix * X;
-        Y1 += 20 * 1 / pix * Y; Y2 += 20 * 1 / pix * Y;
+        X1 += 100 / pix * X; X2 += 100 / pix * X;
+        Y1 += 20 / pix * Y; Y2 += 20 / pix * Y;
         
         x1 += x * 0.13; y1 += y * 0.03;
         x2 += x * 0.13; y2 += y * 0.03;
@@ -24,22 +24,15 @@ public:
         x *= 0.36; y *= -0.2;
         if (x > x2 && x < x1 && y > y2 && y < y1) {
             light = 1;
-            click_status = click;
+            click = click_status;
         }
         else {
             light = 0;
-            click = 0;
         }
     }
     bool update() {
-        glBindTexture(GL_TEXTURE_2D, *tex);
-        glBegin(GL_QUADS);
-        glTexCoord2d(X2, Y1); glVertex3f(x1, y1, -0.2);
-        glTexCoord2d(X2, Y2); glVertex3f(x1, y2, -0.2);
-        glTexCoord2d(X1, Y2); glVertex3f(x2, y2, -0.2);
-        glTexCoord2d(X1, Y1); glVertex3f(x2, y1, -0.2);
-        glEnd();
-        if (light) {
+        //std::cout << click;
+        if (!light) {
             glBindTexture(GL_TEXTURE_2D, *tex);
             glBegin(GL_QUADS);
             glTexCoord2d(X2, Y1); glVertex3f(x1, y1, -0.2);
@@ -48,7 +41,17 @@ public:
             glTexCoord2d(X1, Y1); glVertex3f(x2, y1, -0.2);
             glEnd();
         }
-        return false;
+        else{
+            glBindTexture(GL_TEXTURE_2D, *tex);
+            glBegin(GL_QUADS);
+            glTexCoord2d(X2 , Y1 + 20 / pix); glVertex3f(x1, y1, -0.2);
+            glTexCoord2d(X2 , Y2 + 20 / pix); glVertex3f(x1, y2, -0.2);
+            glTexCoord2d(X1 , Y2 + 20 / pix); glVertex3f(x2, y2, -0.2);
+            glTexCoord2d(X1 , Y1 + 20 / pix); glVertex3f(x2, y1, -0.2);
+            glEnd();
+        }
+        if (click) return true;
+        else return false;
     }
 };
 class GUI_background {
@@ -86,9 +89,10 @@ public:
 
     }
 };
-GUI_touch g(&GUI_tex, 0,0, 1, 1 );
-GUI_touch gy(&GUI_tex, 0,2, -1, 1);
-GUI_touch gys(&GUI_tex, 0,4, 1, -1);
-GUI_touch gysa(&GUI_tex, 0,6, -1, -1);
+GUI_touch world1(&GUI_tex, 0,0, 1, 1 );
+GUI_touch world2(&GUI_tex, 0,2, -1, 1);
+GUI_touch world3(&GUI_tex, 0,4, 1, -1);
+GUI_touch world4(&GUI_tex, 0,6, -1, -1);
+GUI_touch exit_touch(&GUI_tex, 1, 6, -1, -3);
 
 GUI_background f(1, 1, 1, -0.1, -0.1, 0.1, 0.1);

@@ -37,6 +37,8 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
+int game_now = 1; // состояние игры в данный момент
+bool key_time = 1; // разрешение на обновление персонажа
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
 {0, 0, 0, 0, 0},
@@ -152,6 +154,11 @@ enum Blocks {
     TREE_OAK,
     LEAVES,
     BRICKS
+};
+enum game_types {
+    GAME,
+    GAME_MENU,
+    MAIN_MENU
 };
 class Player {
 public:
@@ -338,6 +345,37 @@ public:
     }
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+void Draw_cubes() {
+    // цикл для рисования блоков
+    for (int x = steve.PlayerX / 2 - 10; x < steve.PlayerX / 2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+        for (int y = 4; y < quantity_cubes_y; y++)
+            for (int z = steve.PlayerZ / 2 - 10; z < steve.PlayerZ / 2 + 10; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+
+
+                if (x < 0 || x > quantity_cubes_x) continue;
+                if (z < 0 || z > quantity_cubes_z) continue;
+                int type = mass[x][y][z];
+                if (!type || (bool(type) == bool(mass[x + 1][y][z]) && bool(type) == bool(mass[x - 1][y][z])
+                    && bool(type) == bool(mass[x][y + 1][z]) && bool(type) == bool(mass[x][y - 1][z])
+                    && bool(type) == bool(mass[x][y][z + 1]) && bool(type) == bool(mass[x][y][z - 1])))continue;
+
+
+
+                glPushMatrix();
+
+                glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
+                switch (type) {
+                case STONE:         Draw_one_tex_blocks(&stone, x, y, z);
+                case DIRT:          Draw_one_tex_blocks(&dirt, x, y, z);
+                case SUPER_GRASS:   Draw_super_grass(x, y, z);
+                case TREE_OAK:      Draw_tree_oak(x, y, z);
+                case LEAVES:        Draw_one_tex_blocks(&leaves, x, y, z);
+                }
+
+                glPopMatrix();
+
+            }
+}
 /**
     \brief функция изменения перспективы при изменении размера окна
 
@@ -352,37 +390,7 @@ void reshape(int w, int h){
 	glMatrixMode(GL_MODELVIEW);
 
 }
-void Draw_cubes() {
-    // цикл для рисования блоков
-    for (int x = steve.PlayerX / 2 - 10; x < steve.PlayerX / 2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
-        for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ / 2 - 10; z < steve.PlayerZ / 2 + 10; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
-
-
-				if (x < 0 || x > quantity_cubes_x) continue;
-				if (z < 0 || z > quantity_cubes_z) continue;
-				int type = mass[x][y][z];
-				if (!type || (bool(type) == bool(mass[x + 1][y][z]) && bool(type) == bool(mass[x - 1][y][z])
-					       && bool(type) == bool(mass[x][y + 1][z]) && bool(type) == bool(mass[x][y - 1][z])
-					       && bool(type) == bool(mass[x][y][z + 1]) && bool(type) == bool(mass[x][y][z-1])  ))continue;
-
-
-
-                glPushMatrix();
-
-                glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
-                switch (type){
-                    case STONE:         Draw_one_tex_blocks(&stone,     x, y, z);
-                    case DIRT:          Draw_one_tex_blocks(&dirt,      x, y, z);
-                    case SUPER_GRASS:   Draw_super_grass(               x, y, z);
-                    case TREE_OAK:      Draw_tree_oak(                  x, y, z);
-                    case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z);
-                }
-
-                glPopMatrix();
-
-            }
-}
+#include "scenes.hpp"
 /**
     \brief главная функция программы
 
@@ -391,20 +399,20 @@ void Draw_cubes() {
 
 */
 void display() {
-	double times;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix();
-	gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
-		steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
-		0.0f, 1.0f, 0.0f);
-	newtime = clock();
-	times = newtime - oldtime;
-	oldtime = clock();
-	//===============================начало основного цикла================================================================================
-	Draw_cubes();
-	steve.update(times);
-	//=================================конец основного цикла===================================================================================
+    switch (game_now) {
+    case GAME:
+        game();
+        break;
+    case GAME_MENU:
+        game_menu();
+        break;
+    case MAIN_MENU:
+        break;
+
+    }
 	glPopMatrix();
 
 	glutPostRedisplay();

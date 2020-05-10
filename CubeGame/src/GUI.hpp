@@ -91,6 +91,71 @@ public:
 
     }
 };
+class GUI_slider {
+    float pix = 500.0f; // колличество пикселей по высоте и ширине в текстуре
+    // задний фон
+    float Gx1 = 0.0f, Gy1 = 0.0f;  /* :. */ // для прямоугольника
+    float Gx2 = 0.0f, Gy2 = 0.0f;  /* ': */ // для прямоугольника
+    float GX1 = 0,         GY1 = 200 / pix;
+    float GX2 = 200 / pix, GY2 = 220 / pix;
+
+    // ползунок
+    float SX1 = 303 / pix, SY1 = 181 / pix;
+    float SX2 = 311 / pix, SY2 = 199 / pix;
+    float Sx1 = Gx2 + 0.05f, Sy1 = Gy2 + 0.1f;  /* :. */ // для прямоугольника
+    float Sx2 = Gx2, Sy2 = Gy2;  /* ': */ // для прямоугольника
+public:
+    bool click = 0;
+    
+    GUI_slider( float Gx1, float Gy1, float Gx2, float Gy2) {
+
+        this->Gx1 = Gx1 ; this->Gx2 = Gx2;
+        this->Gy1 = Gy1 ; this->Gy2 = Gy2;
+
+        Sx1 = Gx2 + 0.02f; Sy1 = Gy2 + 0.042f;  
+        Sx2 = Gx2;         Sy2 = Gy2;       
+    }
+    bool mouse(float x, float y) {
+        x /= width / 2; y /= height / 2;
+        x -= 1; y -= 1;
+        x *= 0.36; y *= -0.2;
+        if (click) {
+            Sx2 = x - 0.01f;
+            Sx1 = x + 0.01f;
+            if (Sx2 < Gx2){
+                Sx2 = Gx2;
+                Sx1 = Sx2 + 0.02f;
+            }
+            else if (Sx1 > Gx1) {
+                Sx1 = Gx1;
+                Sx2 = Sx1 - 0.02f;
+            }
+        }
+        return 0;
+    }
+    void click_status(float x, float y) {
+        x /= width / 2; y /= height / 2;
+        x -= 1; y -= 1;
+        x *= 0.36; y *= -0.2;
+        if (x > Sx2 && x < Sx1 && y  > Sy2 && y < Sy1)  click = 1;
+    }
+    void update() {
+        glBindTexture(GL_TEXTURE_2D, GUI_tex);
+        glBegin(GL_QUADS);
+        glTexCoord2d(SX2, SY1); glVertex3f(Sx1, Sy1, -0.2);
+        glTexCoord2d(SX2, SY2); glVertex3f(Sx1, Sy2, -0.2);
+        glTexCoord2d(SX1, SY2); glVertex3f(Sx2, Sy2, -0.2);
+        glTexCoord2d(SX1, SY1); glVertex3f(Sx2, Sy1, -0.2);
+
+        glTexCoord2d(GX2, GY1); glVertex3f(Gx1, Gy1, -0.2);
+        glTexCoord2d(GX2, GY2); glVertex3f(Gx1, Gy2, -0.2);
+        glTexCoord2d(GX1, GY2); glVertex3f(Gx2, Gy2, -0.2);
+        glTexCoord2d(GX1, GY1); glVertex3f(Gx2, Gy1, -0.2);
+
+        glEnd();
+
+    }
+};
 GUI_touch world1(&GUI_tex, 0,0, 1, 1 );
 GUI_touch world2(&GUI_tex, 0,2, -1, 1);
 GUI_touch world3(&GUI_tex, 0,4, 1, -1);
@@ -100,3 +165,4 @@ GUI_touch exit_touch(&GUI_tex, 1, 6, -1, -3);
 // x край 1.78
 GUI_background hotbar(&GUI_tex, 200, 200, 382, 222, 1, -0.76, -1, -1);
 GUI_background aim(&GUI_tex, 24, 220, 48, 244, 0.05, 0.05, -0.05, -0.05);
+GUI_slider slider(0.25, 0.112, -0.25, 0.07);

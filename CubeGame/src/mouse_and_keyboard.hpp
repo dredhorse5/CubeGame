@@ -109,10 +109,12 @@ void mouseButton(int button, int state, int x, int y) {
 				world3.mouse(x, y, 1);
 				world4.mouse(x, y, 1);
 				if (exit_touch.mouse(x, y, 1)) exit(0);
+				slider.click_status(x, y);
 			}
 			break;
 		case GLUT_UP:      // если опущена
 			mLeft = false;
+			slider.click = false;
 			break;
 		}
 		
@@ -165,5 +167,6 @@ void mouseMove(int x, int y) {
 		world3.mouse(x, y, 0);
 		world4.mouse(x, y, 0);
 		exit_touch.mouse(x, y, 0);
+		slider.mouse(x, y);
 	}
 }

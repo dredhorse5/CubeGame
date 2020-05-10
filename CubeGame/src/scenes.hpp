@@ -14,11 +14,11 @@ void game() {
     steve.update(times);
 }
 void game_menu() {
+    slider.update();
     world1.update();
     world2.update();
     world3.update();
     world4.update();
-
     exit_touch.update();
     
 

@@ -12,9 +12,15 @@
 void processNormalKeys(unsigned char key, int x, int y) {
 	switch (key) {
 	case 27:
-		if (game_now == GAME) game_now = GAME_MENU;
-		else if (game_now == GAME_MENU) game_now = GAME;
-		key_time = false;
+		if (game_now == GAME) {
+			glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+			game_now = GAME_MENU;
+		}
+		else if (game_now == GAME_MENU) {
+			game_now = GAME;
+			glutSetCursor(GLUT_CURSOR_NONE);
+			oldtime = clock(); // обновляем старое время, чтобы игрок не улетел
+		}
 		break;
 	if (game_now == GAME) {
 	case 'W':
@@ -36,6 +42,18 @@ void processNormalKeys(unsigned char key, int x, int y) {
 	case 32:
 		steve.jump();
 		break;
+	case 'R':
+	case 'r':
+		IDblocks++;
+		if (IDblocks > blocks) IDblocks = 0;
+		break;
+
+	case'f':
+	case'F':
+		IDblocks--;
+		if (IDblocks < 0) IDblocks = blocks;
+		break;
+
 		}
 	}
 }
@@ -90,7 +108,7 @@ void mouseButton(int button, int state, int x, int y) {
 				world2.mouse(x, y, 1);
 				world3.mouse(x, y, 1);
 				world4.mouse(x, y, 1);
-				exit_touch.mouse(x, y, 1);
+				if (exit_touch.mouse(x, y, 1)) exit(0);
 			}
 			break;
 		case GLUT_UP:      // если опущена

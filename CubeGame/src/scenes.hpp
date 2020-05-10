@@ -1,15 +1,13 @@
+bool trees(int, int, int); // функция-затычка. обьявляем ее, чтобы в этом файле оня была видна
 void game() {
-    double times;
+    hotbar.update();
+    aim.update();
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
     // start эта часть кода вычисляет время между кадрами, чтобы игрок двигался засчет времени
     newtime = clock();
-    if (key_time) times = newtime - oldtime;
-    else { // key_time нужен для того, чтобы при переключении из меню игры обратно в игру состояние times не увеличивалось
-        times = 0;
-        key_time = true;
-    }
+    double times = newtime - oldtime;
     oldtime = clock();
     // end эта часть кода вычисляет время между кадрами, чтобы игрок двигался засчет времени
     Draw_cubes();
@@ -21,13 +19,34 @@ void game_menu() {
     world3.update();
     world4.update();
 
-    if (exit_touch.update()) {
-        exit(0);
-    }
+    exit_touch.update();
+    
 
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
     Draw_cubes();
     steve.update(0);
+}
+void load_game() {
+    sf::Image im; im.loadFromFile("textures/heightmap1.jpg");
+
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int z = 0; z < quantity_cubes_z; z++) {
+            int c = im.getPixel(x, z).r / 10 + 10;
+            for (int y = 0; y <= c; y++) {
+
+                if (y == c) mass[x][y][z] = SUPER_GRASS;
+                else if (y >= c - 4) mass[x][y][z] = DIRT;
+                else mass[x][y][z] = STONE;
+
+            }
+        }
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int z = 0; z < quantity_cubes_z; z++) {
+            int c = im.getPixel(x, z).r / 10 + 10;
+            for (int y = 4; y <= c; y++)
+                if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
+                    if ((rand()) % 500 == 1)   trees(x, c, z);
+        }
 }

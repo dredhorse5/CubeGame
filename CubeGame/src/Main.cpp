@@ -38,8 +38,8 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
-int game_now = 1; // состояние игры в данный момент
-bool key_time = 1; // разрешение на обновление персонажа
+char game_now = 1; // состояние игры в данный момент
+char world_now = 1; // определят, в каком мире мы играем. в игре 4 мира
 short int IDblocks = 1;
 short int blocks = 8;
 
@@ -163,7 +163,8 @@ enum Blocks {
 enum game_types {
     GAME,
     GAME_MENU,
-    MAIN_MENU
+    MAIN_MENU,
+    LOAD_MENU
 };
 class Player {
 public:
@@ -352,6 +353,7 @@ public:
     }
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+
 void Draw_cubes() {
     // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - 10; x < steve.PlayerX / 2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
@@ -413,7 +415,14 @@ void display() {
 	glutPostRedisplay();
 	glFinish();
 }
-
+void reshape(int w, int h) {
+    float ratio = w * 1.0 / h;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glViewport(0, 0, w, h);
+    gluPerspective(steve.View, ratio, 0.1f, 693.0f);
+    glMatrixMode(GL_MODELVIEW);
+}
 #include "builders.hpp"
 #include "load_textures.hpp"
 #include "mouse_and_keyboard.hpp"
@@ -443,45 +452,15 @@ int main(int argc, char** argv) {
     
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
+    if(game_now == GAME) glutSetCursor(GLUT_CURSOR_NONE);
+    else glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
     textures();
 	
 
     glutKeyboardFunc(processNormalKeys);// функция отработки нажатия(без отжатия) клавиш
-    switch (blocks) {
-    case 'R':
-    case 'r':
-        IDblocks++;
-        if (IDblocks > blocks) IDblocks = 0;
-        break;
-
-    case'f':
-    case'F':
-        IDblocks--;
-        if (IDblocks < 0) IDblocks = blocks;
-        break;
-    }
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 
-    sf::Image im; im.loadFromFile("textures/heightmap1.jpg");
-
-    for (int x = 0; x < quantity_cubes_x; x++)
-        for (int z = 0; z < quantity_cubes_z; z++) {
-            int c = im.getPixel(x, z).r / 10 + 10;
-            for (int y = 0; y <= c; y++) {
-
-                if(y == c) mass[x][y][z] = SUPER_GRASS;
-                else if(y >= c - 4) mass[x][y][z] = DIRT;
-                else mass[x][y][z] = STONE;
-
-            }
-        }
-    for (int x = 0; x < quantity_cubes_x; x++)
-        for (int z = 0; z < quantity_cubes_z; z++) {
-            int c = im.getPixel(x, z).r / 10 + 10;
-            for (int y = 4; y <= c; y++)
-                if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
-                    if ((rand()) % 500 == 1)   trees(x, c, z);
-        }
+    load_game();
 
 	glutMainLoop(); // говорим, что функция display играется циклично
 	return 0; 

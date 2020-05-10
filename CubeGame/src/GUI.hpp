@@ -115,7 +115,7 @@ public:
         Sx1 = Gx2 + 0.02f; Sy1 = Gy2 + 0.042f;  
         Sx2 = Gx2;         Sy2 = Gy2;       
     }
-    bool mouse(float x, float y) {
+    int mouse(float x, float y) { // возвращает значения от 6 до 100
         x /= width / 2; y /= height / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
@@ -129,9 +129,10 @@ public:
             else if (Sx1 > Gx1) {
                 Sx1 = Gx1;
                 Sx2 = Sx1 - 0.02f;
-            }
+            } 
         }
-        return 0;
+        
+        return (((Sx1 + 0.05f) - Gx2) * (100 - 6) / (Gx1 - Gx2) - 6 );
     }
     void click_status(float x, float y) {
         x /= width / 2; y /= height / 2;

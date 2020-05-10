@@ -167,6 +167,6 @@ void mouseMove(int x, int y) {
 		world3.mouse(x, y, 0);
 		world4.mouse(x, y, 0);
 		exit_touch.mouse(x, y, 0);
-		slider.mouse(x, y);
+		visible_range = slider.mouse(x, y);
 	}
 }

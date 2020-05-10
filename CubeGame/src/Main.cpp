@@ -42,6 +42,7 @@ char game_now = 1; // состояние игры в данный момент
 char world_now = 1; // определят, в каком мире мы играем. в игре 4 мира
 short int IDblocks = 1;
 short int blocks = 8;
+int visible_range = 7;
 
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
@@ -356,9 +357,9 @@ Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создае
 
 void Draw_cubes() {
     // цикл для рисования блоков
-    for (int x = steve.PlayerX / 2 - 10; x < steve.PlayerX / 2 + 10; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+    for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
         for (int y = 4; y < quantity_cubes_y; y++)
-            for (int z = steve.PlayerZ / 2 - 10; z < steve.PlayerZ / 2 + 10; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+            for (int z = steve.PlayerZ / 2 - visible_range; z < steve.PlayerZ / 2 + visible_range; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
                 if (x < 0 || x > quantity_cubes_x) continue;

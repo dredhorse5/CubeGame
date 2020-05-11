@@ -8,12 +8,13 @@
 //#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
 
-// комментарий
+GLuint GUI_tex;
 GLuint dirt; ///< хранит текстуру
 GLuint stone;
 GLuint super_grass;
 GLuint leaves;
 GLuint tree_oak;
+
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
 const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
@@ -37,9 +38,56 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
+char game_now = 1; // состояние игры в данный момент
+char world_now = 1; // определят, в каком мире мы играем. в игре 4 мира
+short int IDblocks = 1;
+short int blocks = 8;
+int visible_range = 7;
+
+char tree_mass[7][5][5] = { {
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 6, 0, 0},
+{0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0} },
+{
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 6, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7} },
+{
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 6, 7, 7},
+{7, 7, 7, 7, 7},
+{7, 7, 7, 7, 7} },
+{
+{0, 0, 0, 0, 0},
+{0, 7, 7, 7, 0},
+{0, 7, 6, 7, 0},
+{0, 7, 7, 7, 0},
+{0, 0, 0, 0, 0} },
+{
+{0, 0, 0, 0, 0},
+{0, 0, 7, 0, 0},
+{0, 7, 7, 7, 0},
+{0, 0, 7, 0, 0},
+{0, 0, 0, 0, 0} }, };
 #include "draw.hpp"
-
-
+#include "GUI.hpp"
 
 /**
     \brief функция для подсвечивания кубов
@@ -101,6 +149,7 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glColor3d(1, 1, 1);
 
 }
+
 enum Blocks {
     AIR,
     STONE,
@@ -111,6 +160,12 @@ enum Blocks {
     TREE_OAK,
     LEAVES,
     BRICKS
+};
+enum game_types {
+    GAME,
+    GAME_MENU,
+    MAIN_MENU,
+    LOAD_MENU
 };
 class Player {
 public:
@@ -130,8 +185,7 @@ public:
     bool onGround; ///< определяет, косаетесь ли вы пола
     float speed;   ///< скорость игрока
     float View;    ///< угол обзора
-
-    /** 
+    /**
         \brief Конструктор класса
 
         \param[in] x0 координата спавна игрока по оси x
@@ -203,7 +257,7 @@ public:
         эта функция понимает, какая кнопка мыши нажата и за счет этого либо ставит, либо разрушает блоки
 
     */
-    void mousePressed() { 
+    void mousePressed() {
         //if (mRight or mLeft) {
         float mousex = PlayerX;
         float mousey = PlayerY + h / 2;
@@ -211,7 +265,6 @@ public:
         int  X = 0, Y = 0, Z = 0;
         int oldX = 0, oldY = 0, oldZ = 0;
         float dist = 0.0f;
-
         while (dist < 80) {
             dist += 0.2; // пускаем луч из головы , пока он не коснется какого-нибудь блока
             mousex += lx / 50; X = mousex / cube_size;
@@ -219,11 +272,11 @@ public:
             mousez += lz / 50; Z = mousez / cube_size;
 
             if (check(X, Y, Z)) {
-				draw_lines_cubes(cube_size, X, Y, Z);
+                draw_lines_cubes(cube_size, X, Y, Z);
                 if (mLeft) { mass[X][Y][Z] = 0; break; } // если нажата левая кнопка- уничтожаем блок
                 if (mRight) { // если правая кнопка- ставим блок
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
-                    mass[oldX][oldY][oldZ] = TREE_OAK; // IDblocks // перед столкновением записывали сторые координаты луча.
+                    mass[oldX][oldY][oldZ] = IDblocks; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
                     //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -258,13 +311,17 @@ public:
                     break;
                 }
                 break;
+
             }
 
             oldX = X; oldY = Y; oldZ = Z; // записываем старые координаты луча
+
+            
         }
         //}
         mLeft = mRight = false;
     }
+  
     /**
         \brief определяет поведение при столкновении с колизией 
 
@@ -297,33 +354,20 @@ public:
     }
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
-/**
-    \brief функция изменения перспективы при изменении размера окна
 
-    на вход принимает текущие размеры окна, чтобы по ним определить перспективу
-*/
-void reshape(int w, int h){
-	float ratio = w * 1.0 / h;
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glViewport(0, 0, w, h);
-	gluPerspective(steve.View, ratio, 0.1f, 360.0f);
-	glMatrixMode(GL_MODELVIEW);
-
-}
 void Draw_cubes() {
     // цикл для рисования блоков
-    for (int x = steve.PlayerX / 2 - 50; x < steve.PlayerX / 2 + 50; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
+    for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
         for (int y = 4; y < quantity_cubes_y; y++)
-			for (int z = steve.PlayerZ / 2 - 50; z < steve.PlayerZ / 2 + 50; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
+            for (int z = steve.PlayerZ / 2 - visible_range; z < steve.PlayerZ / 2 + visible_range; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
-				if (x < 0 || x > quantity_cubes_x) continue;
-				if (z < 0 || z > quantity_cubes_z) continue;
-				int type = mass[x][y][z];
-				if (!type || (bool(type) == bool(mass[x + 1][y][z]) && bool(type) == bool(mass[x - 1][y][z])
-					       && bool(type) == bool(mass[x][y + 1][z]) && bool(type) == bool(mass[x][y - 1][z])
-					       && bool(type) == bool(mass[x][y][z + 1]) && bool(type) == bool(mass[x][y][z-1])  ))continue;
+                if (x < 0 || x > quantity_cubes_x) continue;
+                if (z < 0 || z > quantity_cubes_z) continue;
+                int type = mass[x][y][z];
+                if (!type || (bool(type) == bool(mass[x + 1][y][z]) && bool(type) == bool(mass[x - 1][y][z])
+                    && bool(type) == bool(mass[x][y + 1][z]) && bool(type) == bool(mass[x][y - 1][z])
+                    && bool(type) == bool(mass[x][y][z + 1]) && bool(type) == bool(mass[x][y][z - 1])))continue;
 
 
 
@@ -336,12 +380,15 @@ void Draw_cubes() {
                     case SUPER_GRASS:   Draw_super_grass(               x, y, z);
                     case TREE_OAK:      Draw_tree_oak(                  x, y, z);
                     case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z);
+                   
                 }
 
-                glPopMatrix();
+             
+                 glPopMatrix();
 
             }
 }
+#include "scenes.hpp"
 /**
     \brief главная функция программы
 
@@ -350,42 +397,34 @@ void Draw_cubes() {
 
 */
 void display() {
-	double times;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix();
+    switch (game_now) {
+    case GAME:
+        game();
+        break;
+    case GAME_MENU:
+        game_menu();
+        break;
+    case MAIN_MENU:
+        break;
 
-	gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
-		steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
-		0.0f, 1.0f, 0.0f);
-
-	newtime = clock();
-	times = newtime - oldtime;
-	oldtime = clock();
-	std::cout << 1000 / times << std::endl;
-
-
-	//===============================начало основного цикла================================================================================
-
-
-	Draw_cubes();
-
-
-
-
-
-
-
-	steve.update(times);
-
-
-	//=================================конец основного цикла===================================================================================
+    }
 	glPopMatrix();
 
 	glutPostRedisplay();
 	glFinish();
 }
-
+void reshape(int w, int h) {
+    float ratio = w * 1.0 / h;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glViewport(0, 0, w, h);
+    gluPerspective(steve.View, ratio, 0.1f, 693.0f);
+    glMatrixMode(GL_MODELVIEW);
+}
+#include "builders.hpp"
 #include "load_textures.hpp"
 #include "mouse_and_keyboard.hpp"
 /**
@@ -422,24 +461,15 @@ int main(int argc, char** argv) {
     
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
+    if(game_now == GAME) glutSetCursor(GLUT_CURSOR_NONE);
+    else glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
     textures();
 	
 
-    glutKeyboardFunc(processNormalKeys); // функция отработки нажатия(без отжатия) клавиш
+    glutKeyboardFunc(processNormalKeys);// функция отработки нажатия(без отжатия) клавиш
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
     // цикл для заполнения массива 
-    sf::Image im; im.loadFromFile("textures/heightmap1.jpg");
-
-    for (int x = 0; x < quantity_cubes_x; x++)
-        for (int z = 0; z < quantity_cubes_z; z++) {
-            int c = im.getPixel(x, z).r / 10 + 10;
-            for (int y = 0; y <= c; y++) {
-
-                if(y == c) mass[x][y][z] = SUPER_GRASS;
-                else if(y >= c - 4) mass[x][y][z] = DIRT;
-                else mass[x][y][z] = STONE;
-            }
-        }
+    load_game();
 
 	glutMainLoop(); // говорим, что функция display играется циклично
 	return 0; 

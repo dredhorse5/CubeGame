@@ -28,3 +28,4 @@ void textures() {
     load_textures("textures/leaves.png", &leaves, 0);
     load_textures("textures/tree_oak.png", &tree_oak, 0);
 }
+

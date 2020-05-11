@@ -394,6 +394,14 @@ void display() {
     устанавливает все настройки библиотеки GLUT, а так же заполняет массив , по которому будет в дальнейшем строиться мир
 
 */
+
+
+
+
+
+
+
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
 	glutInitWindowSize(width, height); // задает размеры окна

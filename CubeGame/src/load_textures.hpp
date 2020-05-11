@@ -28,4 +28,10 @@ void textures() {
     load_textures("textures/leaves.png", &leaves, 0);
     load_textures("textures/tree_oak.png", &tree_oak, 0);
     load_textures("textures/GUI.png", &GUI_tex, 1);
+
+    load_textures("textures/icons/dirt.png", &dirt_icon_tex, 1);
+    load_textures("textures/icons/stone.png", &stone_icon_tex, 1);
+    load_textures("textures/icons/super_grass.png", &super_grass_icon_tex, 1);
+    load_textures("textures/icons/leaves.png", &leaves_icon_tex, 1);
+    load_textures("textures/icons/tree_oak.png", &tree_oak_icon_tex, 1);
 }

@@ -15,13 +15,8 @@ void game() {
 }
 void game_menu() {
     slider.update();
-    world1.update();
-    world2.update();
-    world3.update();
-    world4.update();
     exit_touch.update();
-    
-
+    exit_and_save.update();
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
@@ -49,4 +44,18 @@ void load_game() {
                 if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
                     if ((rand()) % 500 == 1)   trees(x, c, z);
         }
+}
+void main_menu() {
+    world1.update();
+    world2.update();
+    world3.update();
+    world4.update();
+    exit_touch.update();
+    background_main_menu.update();
+
+    gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
+        steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
+        0.0f, 1.0f, 0.0f);
+    steve.update(0);
+    glColor3f(1, 1, 1);
 }

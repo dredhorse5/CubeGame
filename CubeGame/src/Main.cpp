@@ -7,13 +7,14 @@
 #include <SFML/Graphics.hpp>
 //#include <SFML/OpenGL.hpp>
 #pragma comment(lib, "SOIL.lib")
-
+#pragma warning(disable : 26451)
+#pragma warning(disable : 26495)
 GLuint GUI_tex;
-GLuint dirt; ///< хранит текстуру
-GLuint stone;
-GLuint super_grass;
-GLuint leaves;
-GLuint tree_oak;
+GLuint dirt, dirt_icon_tex;
+GLuint stone, stone_icon_tex;
+GLuint super_grass, super_grass_icon_tex;
+GLuint leaves, leaves_icon_tex;
+GLuint tree_oak, tree_oak_icon_tex;
 
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
@@ -38,11 +39,11 @@ bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1;
 time_t newtime = 1;
-char game_now = 1; // состояние игры в данный момент
-char world_now = 1; // определят, в каком мире мы играем. в игре 4 мира
+char game_now = 2; // состояние игры в данный момент
+char world_now = 0; // определят, в каком мире мы играем. в игре 4 мира
 short int IDblocks = 1;
 short int blocks = 8;
-int visible_range = 7;
+int visible_range = 40;
 
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
@@ -89,66 +90,6 @@ char tree_mass[7][5][5] = { {
 #include "draw.hpp"
 #include "GUI.hpp"
 
-/**
-    \brief функция для подсвечивания кубов
-
-    Эта функция подсвечивает кубы, получая для этого координаты, блока, на который смотрит игрок
-    Мы увеличиваем немного размер куба локально для этой функции, чтобы линии строились немного поверх куба, в не в нем. 
-    Потом с помощью   glTranslatef() мы подгоняем , где будут рисоваться лини.
-
-    \param[in] cube_size передаем размер куба, чтобы локально его увеличить
-    \param[in] X координата X, куда смотрит игрок
-    \param[in] Y координата Y, куда смотрит игрок
-    \param[in] Z координата Z, куда смотрит игрок
-*/
-void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
-    glLineWidth(2);
-    glTranslatef(X * cube_size + cube_size/2, Y * cube_size + cube_size / 2, Z * cube_size + cube_size / 2);
-    cube_size = cube_size / 2 + 0.004;
-    glBegin(GL_LINES);
-    glColor3d(0, 0, 0);
-
-    glVertex3f(-cube_size, -cube_size, -cube_size);
-    glVertex3f(-cube_size, cube_size, -cube_size);
-
-    glVertex3f(cube_size, -cube_size, -cube_size);
-    glVertex3f(cube_size, cube_size, -cube_size);
-
-    glVertex3f(cube_size, -cube_size, cube_size);
-    glVertex3f(cube_size, cube_size, cube_size);
-
-    glVertex3f(-cube_size, -cube_size, cube_size);
-    glVertex3f(-cube_size, cube_size, cube_size);
-
-    glVertex3f(-cube_size, -cube_size, -cube_size);
-    glVertex3f(cube_size, -cube_size, -cube_size);
-
-    glVertex3f(cube_size, -cube_size, -cube_size);
-    glVertex3f(cube_size, -cube_size, cube_size);
-
-    glVertex3f(cube_size, -cube_size, cube_size);
-    glVertex3f(-cube_size, -cube_size, cube_size);
-
-    glVertex3f(-cube_size, -cube_size, cube_size);
-    glVertex3f(-cube_size, -cube_size, -cube_size);
-
-    glVertex3f(-cube_size, cube_size, -cube_size);
-    glVertex3f(cube_size, cube_size, -cube_size);
-
-    glVertex3f(cube_size, cube_size, -cube_size);
-    glVertex3f(cube_size, cube_size, cube_size);
-
-    glVertex3f(cube_size, cube_size, cube_size);
-    glVertex3f(-cube_size, cube_size, cube_size);
-
-    glVertex3f(-cube_size, cube_size, cube_size);
-    glVertex3f(-cube_size, cube_size, -cube_size);
-
-    glEnd();
-    glTranslatef(-X * cube_size - cube_size / 2, -Y * cube_size - cube_size / 2, -Z * cube_size - cube_size / 2);
-    glColor3d(1, 1, 1);
-
-}
 
 enum Blocks {
     AIR,
@@ -354,7 +295,6 @@ public:
     }
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
-
 void Draw_cubes() {
     // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
@@ -365,9 +305,9 @@ void Draw_cubes() {
                 if (x < 0 || x > quantity_cubes_x) continue;
                 if (z < 0 || z > quantity_cubes_z) continue;
                 int type = mass[x][y][z];
-                if (!type || (bool(type) == bool(mass[x + 1][y][z]) && bool(type) == bool(mass[x - 1][y][z])
-                    && bool(type) == bool(mass[x][y + 1][z]) && bool(type) == bool(mass[x][y - 1][z])
-                    && bool(type) == bool(mass[x][y][z + 1]) && bool(type) == bool(mass[x][y][z - 1])))continue;
+                if (!type || ((mass[x + 1][y][z] && mass[x - 1][y][z]
+                            && mass[x][y + 1][z] && mass[x][y - 1][z])
+                            && mass[x][y][z + 1] && mass[x][y][z - 1]))continue;
 
 
 
@@ -400,6 +340,7 @@ void display() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
 	glPushMatrix();
+
     switch (game_now) {
     case GAME:
         game();
@@ -408,11 +349,10 @@ void display() {
         game_menu();
         break;
     case MAIN_MENU:
+        main_menu();
         break;
-
     }
 	glPopMatrix();
-
 	glutPostRedisplay();
 	glFinish();
 }
@@ -460,8 +400,6 @@ int main(int argc, char** argv) {
 
     glutKeyboardFunc(processNormalKeys);// функция отработки нажатия(без отжатия) клавиш
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
-    // цикл для заполнения массива 
-    load_game();
 
 	glutMainLoop(); // говорим, что функция display играется циклично
 	return 0; 

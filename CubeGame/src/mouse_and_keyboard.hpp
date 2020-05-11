@@ -12,17 +12,17 @@
 void processNormalKeys(unsigned char key, int x, int y) {
 	switch (key) {
 	case 27:
-		if (game_now == GAME) {
-			glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-			game_now = GAME_MENU;
-		}
-		else if (game_now == GAME_MENU) {
-			game_now = GAME;
-			glutSetCursor(GLUT_CURSOR_NONE);
-			oldtime = clock(); // обновляем старое время, чтобы игрок не улетел
-		}
-		break;
-	if (game_now == GAME) {
+if (game_now == GAME) {
+	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+	game_now = GAME_MENU;
+}
+else if (game_now == GAME_MENU) {
+	game_now = GAME;
+	glutSetCursor(GLUT_CURSOR_NONE);
+	oldtime = clock(); // обновляем старое время, чтобы игрок не улетел
+}
+break;
+if (game_now == GAME) {
 	case 'W':
 	case 'w':
 		KeyFront = 1;
@@ -54,7 +54,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
 		if (IDblocks < 0) IDblocks = blocks;
 		break;
 
-		}
+}
 	}
 }
 /**
@@ -69,7 +69,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
 */
 void processNormalKeysUP(unsigned char key, int x, int y) {
 	switch (key) {
-	if (game_now == GAME) {
+		if (game_now == GAME) {
 	case 'W':
 	case 'w':
 		KeyFront = 0;
@@ -108,8 +108,36 @@ void mouseButton(int button, int state, int x, int y) {
 				world2.mouse(x, y, 1);
 				world3.mouse(x, y, 1);
 				world4.mouse(x, y, 1);
-				if (exit_touch.mouse(x, y, 1)) exit(0);
+				exit_and_save.mouse(x, y, 1);
+				if (exit_touch.mouse(x, y, 1)) game_now = MAIN_MENU;
 				slider.click_status(x, y);
+			}
+			else if (game_now == MAIN_MENU) {
+				if (world1.mouse(x, y, 1)) {
+					world_now = 1;
+					game_now = GAME;
+					load_game();
+					glutSetCursor(GLUT_CURSOR_NONE);
+				}
+				else if (world2.mouse(x, y, 1)) {
+					world_now = 2;
+					game_now = GAME;
+					load_game();
+					glutSetCursor(GLUT_CURSOR_NONE);
+				}
+				else if (world3.mouse(x, y, 1)) {
+					world_now = 3;
+					game_now = GAME;
+					load_game();
+					glutSetCursor(GLUT_CURSOR_NONE);
+				}
+				else if (world4.mouse(x, y, 1)) {
+					world_now = 4;
+					game_now = GAME;
+					load_game();
+					glutSetCursor(GLUT_CURSOR_NONE);
+				}
+				else if (exit_touch.mouse(x, y, 1)) exit(0);
 			}
 			break;
 		case GLUT_UP:      // если опущена
@@ -162,11 +190,15 @@ void mouseMove(int x, int y) {
 		}
 	}
 	else if (game_now == GAME_MENU) {
+		exit_touch.mouse(x, y, 0);
+		exit_and_save.mouse(x, y, 0);
+		visible_range = slider.mouse(x, y);
+	}
+	else if (game_now == MAIN_MENU) {
 		world1.mouse(x, y, 0);
 		world2.mouse(x, y, 0);
 		world3.mouse(x, y, 0);
 		world4.mouse(x, y, 0);
 		exit_touch.mouse(x, y, 0);
-		visible_range = slider.mouse(x, y);
 	}
 }

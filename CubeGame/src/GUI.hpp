@@ -65,13 +65,14 @@ class GUI_background {
     GLuint *tex; // обычная текстура. создаем НЕ указатель из-за того, что мы можем не обьявить текстуру,
     //если бы мы не обьявили текстуру при указателе, то при бинде этой текстуры программа давала бы сбой
 public:
-    GUI_background(GLuint *tex, float X1, float Y1, float X2, float Y2, float x1, float y1, float x2, float y2) {
+    GUI_background(GLuint *tex, float X1, float Y1, float X2, float Y2, float x1, float y1, float x2, float y2, float light) {
         this->X1 = X1 / pix; this->X2 = X2 / pix;
         this->Y1 = Y1 / pix; this->Y2 = Y2 / pix;
 
         this->x1 = (x1 * 0.2); this->x2 = (x2 * 0.2);
         this->y1 = (y1 * 0.2); this->y2 = (y2 * 0.2);
         this->tex = tex;
+        r = g = b = light;
     }
     GUI_background(float r, float g, float b, float x2, float y2, float x1, float y1) {
         this->r = r; this->g = g; this->b = b;
@@ -93,6 +94,7 @@ public:
 };
 class GUI_slider {
     float pix = 500.0f; // колличество пикселей по высоте и ширине в текстуре
+    
     // задний фон
     float Gx1 = 0.0f, Gy1 = 0.0f;  /* :. */ // для прямоугольника
     float Gx2 = 0.0f, Gy2 = 0.0f;  /* ': */ // для прямоугольника
@@ -103,6 +105,11 @@ class GUI_slider {
     float SX1 = 303 / pix, SY1 = 181 / pix;
     float SX2 = 311 / pix, SY2 = 199 / pix;
     float Sx1 = Gx2 + 0.05f, Sy1 = Gy2 + 0.1f;  /* :. */ // для прямоугольника
+
+    // текст
+    float Tx1 = 100 / pix, Ty1 = 1 / pix;
+    float Tx2 = 165 / pix, Ty2 = 10 / pix;
+
     float Sx2 = Gx2, Sy2 = Gy2;  /* ': */ // для прямоугольника
 public:
     bool click = 0;
@@ -114,6 +121,13 @@ public:
 
         Sx1 = Gx2 + 0.02f; Sy1 = Gy2 + 0.042f;  
         Sx2 = Gx2;         Sy2 = Gy2;       
+    }
+    void text_draw(int text) {
+        glTexCoord2d(Tx2, Ty1); glVertex3f(Gx1 - 0.16, Gy1 - 0.01, -0.2);
+        glTexCoord2d(Tx2, Ty2); glVertex3f(Gx1 - 0.16, Gy2 + 0.01, -0.2);
+        glTexCoord2d(Tx1, Ty2); glVertex3f(Gx2 + 0.16, Gy2 + 0.01, -0.2);
+        glTexCoord2d(Tx1, Ty1); glVertex3f(Gx2 + 0.16, Gy1 - 0.01, -0.2);
+        
     }
     int mouse(float x, float y) { // возвращает значения от 6 до 100
         x /= width / 2; y /= height / 2;
@@ -138,11 +152,18 @@ public:
         x /= width / 2; y /= height / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
-        if (x > Sx2 && x < Sx1 && y  > Sy2 && y < Sy1)  click = 1;
+        if (x > Gx2 && x < Gx1 && y  > Gy2 && y < Gy1){
+            click = 1;
+            Sx2 = x - 0.01f;
+            Sx1 = x + 0.01f;
+        }
     }
     void update() {
         glBindTexture(GL_TEXTURE_2D, GUI_tex);
         glBegin(GL_QUADS);
+
+        text_draw(visible_range);
+
         glTexCoord2d(SX2, SY1); glVertex3f(Sx1, Sy1, -0.2);
         glTexCoord2d(SX2, SY2); glVertex3f(Sx1, Sy2, -0.2);
         glTexCoord2d(SX1, SY2); glVertex3f(Sx2, Sy2, -0.2);
@@ -162,8 +183,16 @@ GUI_touch world2(&GUI_tex, 0,2, -1, 1);
 GUI_touch world3(&GUI_tex, 0,4, 1, -1);
 GUI_touch world4(&GUI_tex, 0,6, -1, -1);
 GUI_touch exit_touch(&GUI_tex, 1, 6, -1, -3);
+GUI_touch exit_and_save(&GUI_tex, 1, 4, 1, -3);
+GUI_slider slider(0.25, 0.112, -0.25, 0.07);
 // y край 1
 // x край 1.78
-GUI_background hotbar(&GUI_tex, 200, 200, 382, 222, 1, -0.76, -1, -1);
-GUI_background aim(&GUI_tex, 24, 220, 48, 244, 0.05, 0.05, -0.05, -0.05);
-GUI_slider slider(0.25, 0.112, -0.25, 0.07);
+GUI_background hotbar(&GUI_tex, 200, 200, 382, 222, 1, -0.76, -1, -1, 1);
+GUI_background aim(&GUI_tex, 24, 220, 48, 244, 0.05, 0.05, -0.05, -0.05 , 1);
+GUI_background background_main_menu(&dirt, 0, 0, 8000, 5000, 1.78, 1, -1.78, -1, 0.5);
+
+GUI_background dirt_icon(&dirt_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
+GUI_background stone_icon(&stone_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
+GUI_background super_grass_icon(&super_grass_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
+GUI_background leaves_icon(&leaves_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
+GUI_background tree_oak_icon(&tree_oak_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);

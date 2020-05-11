@@ -1,3 +1,64 @@
+
+/**
+    \brief функци€ дл€ подсвечивани€ кубов
+
+    Ёта функци€ подсвечивает кубы, получа€ дл€ этого координаты, блока, на который смотрит игрок
+    ћы увеличиваем немного размер куба локально дл€ этой функции, чтобы линии строились немного поверх куба, в не в нем.
+    ѕотом с помощью   glTranslatef() мы подгон€ем , где будут рисоватьс€ лини.
+
+    \param[in] cube_size передаем размер куба, чтобы локально его увеличить
+    \param[in] X координата X, куда смотрит игрок
+    \param[in] Y координата Y, куда смотрит игрок
+    \param[in] Z координата Z, куда смотрит игрок
+*/
+void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
+    glLineWidth(2);
+    glTranslatef(X * cube_size + cube_size / 2, Y * cube_size + cube_size / 2, Z * cube_size + cube_size / 2);
+    cube_size = cube_size / 2 + 0.004;
+    glBegin(GL_LINES);
+    glColor3d(0, 0, 0);
+
+    glVertex3f(-cube_size, -cube_size, -cube_size);
+    glVertex3f(-cube_size, cube_size, -cube_size);
+
+    glVertex3f(cube_size, -cube_size, -cube_size);
+    glVertex3f(cube_size, cube_size, -cube_size);
+
+    glVertex3f(cube_size, -cube_size, cube_size);
+    glVertex3f(cube_size, cube_size, cube_size);
+
+    glVertex3f(-cube_size, -cube_size, cube_size);
+    glVertex3f(-cube_size, cube_size, cube_size);
+
+    glVertex3f(-cube_size, -cube_size, -cube_size);
+    glVertex3f(cube_size, -cube_size, -cube_size);
+
+    glVertex3f(cube_size, -cube_size, -cube_size);
+    glVertex3f(cube_size, -cube_size, cube_size);
+
+    glVertex3f(cube_size, -cube_size, cube_size);
+    glVertex3f(-cube_size, -cube_size, cube_size);
+
+    glVertex3f(-cube_size, -cube_size, cube_size);
+    glVertex3f(-cube_size, -cube_size, -cube_size);
+
+    glVertex3f(-cube_size, cube_size, -cube_size);
+    glVertex3f(cube_size, cube_size, -cube_size);
+
+    glVertex3f(cube_size, cube_size, -cube_size);
+    glVertex3f(cube_size, cube_size, cube_size);
+
+    glVertex3f(cube_size, cube_size, cube_size);
+    glVertex3f(-cube_size, cube_size, cube_size);
+
+    glVertex3f(-cube_size, cube_size, cube_size);
+    glVertex3f(-cube_size, cube_size, -cube_size);
+
+    glEnd();
+    glTranslatef(-X * cube_size - cube_size / 2, -Y * cube_size - cube_size / 2, -Z * cube_size - cube_size / 2);
+    glColor3d(1, 1, 1);
+
+}
 void Draw_one_tex_blocks(GLuint *tex, int X, int Y, int Z) {
     glBindTexture(GL_TEXTURE_2D, *tex);
     glBegin(GL_QUADS);

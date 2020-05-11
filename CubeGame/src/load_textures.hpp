@@ -34,4 +34,6 @@ void textures() {
     load_textures("textures/icons/super_grass.png", &super_grass_icon_tex, 1);
     load_textures("textures/icons/leaves.png", &leaves_icon_tex, 1);
     load_textures("textures/icons/tree_oak.png", &tree_oak_icon_tex, 1);
+	load_textures("textures/skybox.jpg", &skybox_tex, 1);
 }
+

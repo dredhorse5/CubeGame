@@ -15,6 +15,7 @@ GLuint stone, stone_icon_tex;
 GLuint super_grass, super_grass_icon_tex;
 GLuint leaves, leaves_icon_tex;
 GLuint tree_oak, tree_oak_icon_tex;
+GLuint skybox_tex;
 
 int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
@@ -44,6 +45,7 @@ char world_now = 0; // определят, в каком мире мы игра�
 short int IDblocks = 1;
 short int blocks = 8;
 int visible_range = 40;
+
 
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
@@ -87,7 +89,7 @@ char tree_mass[7][5][5] = { {
 {0, 7, 7, 7, 0},
 {0, 0, 7, 0, 0},
 {0, 0, 0, 0, 0} }, };
-#include "draw.hpp"
+void draw_lines_cubes(float , int , int , int );
 #include "GUI.hpp"
 
 
@@ -295,6 +297,7 @@ public:
     }
 };
 Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+#include "draw.hpp"
 void Draw_cubes() {
     // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока

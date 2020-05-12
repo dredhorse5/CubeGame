@@ -190,6 +190,7 @@ GUI_slider slider(0.25, 0.112, -0.25, 0.07);
 GUI_background hotbar(&GUI_tex, 200, 200, 382, 222, 1, -0.76, -1, -1, 1);
 GUI_background aim(&GUI_tex, 24, 220, 48, 244, 0.05, 0.05, -0.05, -0.05 , 1);
 GUI_background background_main_menu(&dirt, 0, 0, 8000, 5000, 1.78, 1, -1.78, -1, 0.5);
+GUI_background save_icon(&GUI_tex, 156, 22, 170, 36, 0.15, 0.15, -0.15, -0.15, 1);
 
 GUI_background dirt_icon(&dirt_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
 GUI_background stone_icon(&stone_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);

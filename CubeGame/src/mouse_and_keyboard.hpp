@@ -103,15 +103,23 @@ void mouseButton(int button, int state, int x, int y) {
 		switch (state) {
 		case GLUT_DOWN:		//Если нажата
 			if (game_now == GAME) mLeft = true;
+
+
 			else if (game_now == GAME_MENU) {
-				world1.mouse(x, y, 1);
-				world2.mouse(x, y, 1);
-				world3.mouse(x, y, 1);
-				world4.mouse(x, y, 1);
-				exit_and_save.mouse(x, y, 1);
-				if (exit_touch.mouse(x, y, 1)) game_now = MAIN_MENU;
+				if (exit_and_save.mouse(x, y, 1)) {
+					game_now = LOAD_MENU;
+					std::string g = "world" + std::to_string(world_now) + ".txt";
+					std::thread th(close_and_save_game, g);
+					th.detach();
+				}
+				if (exit_touch.mouse(x, y, 1)) {
+					game_now = MAIN_MENU;
+					close_game();
+				}
 				slider.click_status(x, y);
 			}
+
+
 			else if (game_now == MAIN_MENU) {
 				if (world1.mouse(x, y, 1)) {
 					world_now = 1;
@@ -139,6 +147,8 @@ void mouseButton(int button, int state, int x, int y) {
 				}
 				else if (exit_touch.mouse(x, y, 1)) exit(0);
 			}
+
+
 			break;
 		case GLUT_UP:      // если опущена
 			mLeft = false;

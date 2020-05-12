@@ -1,6 +1,9 @@
 ﻿#include <cmath>
 #include <stdio.h>
 #include <iostream>
+#include <thread>
+#include <iostream>
+#include <fstream>
 #include "glut.h" 
 #include "SOIL.h"
 #include <ctime>
@@ -45,8 +48,6 @@ char world_now = 0; // определят, в каком мире мы игра�
 short int IDblocks = 1;
 short int blocks = 8;
 int visible_range = 40;
-
-
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
 {0, 0, 0, 0, 0},
@@ -89,10 +90,10 @@ char tree_mass[7][5][5] = { {
 {0, 7, 7, 7, 0},
 {0, 0, 7, 0, 0},
 {0, 0, 0, 0, 0} }, };
+
+
 void draw_lines_cubes(float , int , int , int );
 #include "GUI.hpp"
-
-
 enum Blocks {
     AIR,
     STONE,
@@ -296,8 +297,32 @@ public:
         }
     }
 };
-Player steve(quantity_cubes_x/ 2 + 2, 60, quantity_cubes_z / 2); // создаем обьект
+Player steve(quantity_cubes_x, 60, quantity_cubes_z); // создаем обьект
 #include "draw.hpp"
+void close_and_save_game(std::string file) {
+
+    FILE* pFile;
+    fopen_s(&pFile, file.c_str(), "w");
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int y = 4; y < quantity_cubes_y; y++)
+            for (int z = 0; z < quantity_cubes_z; z++) {
+                fprintf(pFile, "%i", mass[x][y][z]);
+            }
+    fclose(pFile);
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int y = 4; y < quantity_cubes_y; y++)
+            for (int z = 0; z < quantity_cubes_z; z++) {
+                mass[x][y][z] = 0;
+            }
+    game_now = MAIN_MENU;
+}
+void close_game() {
+    for (int x = 0; x < quantity_cubes_x; x++)
+        for (int y = 4; y < quantity_cubes_y; y++)
+            for (int z = 0; z < quantity_cubes_z; z++) {
+                mass[x][y][z] = 0;
+            }
+}
 void Draw_cubes() {
     // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
@@ -318,11 +343,11 @@ void Draw_cubes() {
 
                 glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
                 switch (type){
-                    case STONE:         Draw_one_tex_blocks(&stone,     x, y, z);
-                    case DIRT:          Draw_one_tex_blocks(&dirt,      x, y, z);
-                    case SUPER_GRASS:   Draw_super_grass(               x, y, z);
-                    case TREE_OAK:      Draw_tree_oak(                  x, y, z);
-                    case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z);
+                case STONE:         Draw_one_tex_blocks(&stone,     x, y, z); break;
+                case DIRT:          Draw_one_tex_blocks(&dirt,      x, y, z); break;
+                case SUPER_GRASS:   Draw_super_grass(               x, y, z); break;
+                case TREE_OAK:      Draw_tree_oak(                  x, y, z); break;
+                case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z); break;
                    
                 }
 
@@ -332,6 +357,7 @@ void Draw_cubes() {
             }
 }
 #include "scenes.hpp"
+
 /**
     \brief главная функция программы
 
@@ -353,6 +379,9 @@ void display() {
         break;
     case MAIN_MENU:
         main_menu();
+        break;
+    case LOAD_MENU:
+        load_menu();
         break;
     }
 	glPopMatrix();

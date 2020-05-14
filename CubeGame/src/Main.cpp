@@ -4,11 +4,14 @@
 #include <thread>
 #include <iostream>
 #include <fstream>
+#include <ctime>
+#include <string>
+#include <SFML/Graphics.hpp>
+//#include "alut.h"
 #include "glut.h" 
 #include "SOIL.h"
-#include <ctime>
-#include <SFML/Graphics.hpp>
-//#include <SFML/OpenGL.hpp>
+//#pragma comment(lib, "alut.lib")
+//#pragma comment(lib, "OpenAL32.lib")
 #pragma comment(lib, "SOIL.lib")
 #pragma warning(disable : 26451)
 #pragma warning(disable : 26495)
@@ -16,6 +19,9 @@ GLuint GUI_tex;
 GLuint dirt, dirt_icon_tex;
 GLuint stone, stone_icon_tex;
 GLuint super_grass, super_grass_icon_tex;
+GLuint cobblestone;
+GLuint planks;
+GLuint bricks;
 GLuint leaves, leaves_icon_tex;
 GLuint tree_oak, tree_oak_icon_tex;
 GLuint skybox_tex;
@@ -93,6 +99,7 @@ char tree_mass[7][5][5] = { {
 
 
 void draw_lines_cubes(float , int , int , int );
+bool trees(int, int, int);
 #include "GUI.hpp"
 enum Blocks {
     AIR,
@@ -167,7 +174,6 @@ public:
             PlayerY = 20 * cube_size;
             dy = 0;
         }
-
         mousePressed();
 
         if (KeyFront) {
@@ -193,6 +199,7 @@ public:
 
 
         dx = dz = dSideX = dSideZ = dFrontX = dFrontZ = 0;
+        
     }
     /////
     /**
@@ -202,6 +209,7 @@ public:
 
     */
     void mousePressed() {
+        glPushMatrix();
         //if (mRight or mLeft) {
         float mousex = PlayerX;
         float mousey = PlayerY + h / 2;
@@ -264,6 +272,7 @@ public:
         }
         //}
         mLeft = mRight = false;
+        glPopMatrix();
     }
   
     /**
@@ -275,8 +284,7 @@ public:
         for (int X = (PlayerX - w) / cube_size; X < (PlayerX + w) / cube_size; X++)
             for (int Y = (PlayerY - h) / cube_size; Y < (PlayerY + h) / cube_size; Y++)
                 for (int Z = (PlayerZ - d) / cube_size; Z < (PlayerZ + d) / cube_size; Z++)
-                    if (check(X, Y, Z))
-                    {
+                    if (check(X, Y, Z)){
                         if (Dx > 0) PlayerX = X * cube_size - w;
                         if (Dx < 0) PlayerX = X * cube_size + cube_size + w;
 
@@ -297,7 +305,151 @@ public:
         }
     }
 };
-Player steve(quantity_cubes_x, 60, quantity_cubes_z); // создаем обьект
+class Animal {
+public:
+    float AnimalX; ///< Координата игрока по оси X
+    float AnimalY; ///< Координата игрока по оси Y
+    float AnimalZ; ///< Координата игрока по оси Z
+    float dx;      ///< Общая скорость игрока по оси x
+    float dy;      ///< Общая скорость игрока по оси y
+    float dz;      ///< Общая скорость игрока по оси z
+    float w;       ///< ширина игрока
+    float h;       ///< высота игрока
+    float d;       ///< Глубина игрока
+    bool onGround; ///< определяет, косаетесь ли вы пола
+    float speed;   ///< скорость игрока
+    float Alx;
+    float Alz;
+    /**
+        \brief Конструктор класса
+
+        \param[in] x0 координата спавна игрока по оси x
+        \param[in] y0 координата спавна игрока по оси y
+        \param[in] z0 координата спавна игрока по оси z
+    */
+    Animal(float x0, float y0, float z0) {
+        AnimalX = x0; AnimalY = y0; AnimalZ = z0;
+        dx = 0; dy = 0; dz = 0;
+        w = 0.5f; h = 0.9f; d = 0.5f; speed = 0.5;
+        onGround = false;
+    }
+    /**
+        \brief проверяет на столкновение
+    */
+    bool check(int x, int y, int z) {
+        if ((x < 0) || (x > quantity_cubes_x) ||
+            (y < 0) || (y > quantity_cubes_y) ||
+            (z < 0) || (z > quantity_cubes_z)) return false;
+        return mass[x][y][z];
+
+
+    }
+    void draw() {
+        glBindTexture(GL_TEXTURE_2D, GLU_NONE);
+        glColor3f(0.8, 0.8, 0.8);
+        glBegin(GL_QUADS);
+        glVertex3f(AnimalX + w , AnimalY - h, AnimalZ + d );
+        glVertex3f(AnimalX - w , AnimalY - h, AnimalZ + d );
+        glVertex3f(AnimalX - w , AnimalY + h, AnimalZ + d );
+        glVertex3f(AnimalX + w , AnimalY + h, AnimalZ + d );
+        //передняя
+        glVertex3f(AnimalX - w, AnimalY - h, AnimalZ - d );
+        glVertex3f(AnimalX + w, AnimalY - h, AnimalZ - d );
+        glVertex3f(AnimalX + w, AnimalY + h, AnimalZ - d );
+        glVertex3f(AnimalX - w, AnimalY + h, AnimalZ - d );
+        //ПРАВАЯ
+        glColor3f(1, 1, 0);
+        glVertex3f(AnimalX + w , AnimalY - h, AnimalZ - d );
+        glVertex3f(AnimalX + w , AnimalY - h, AnimalZ + d );
+        glVertex3f(AnimalX + w , AnimalY + h, AnimalZ + d );
+        glVertex3f(AnimalX + w , AnimalY + h, AnimalZ - d );
+        //ЛЕВАЯ
+        glVertex3f(AnimalX - w, AnimalY - h, AnimalZ + d );
+        glVertex3f(AnimalX - w, AnimalY - h, AnimalZ - d );
+        glVertex3f(AnimalX - w , AnimalY + h, AnimalZ - d );
+        glVertex3f(AnimalX - w, AnimalY + h, AnimalZ + d );
+        glColor3f(0.5, 0.5, 0.5);
+        //НИЖНЯЯ
+        glVertex3f(AnimalX - w, AnimalY - h, AnimalZ + d );
+        glVertex3f(AnimalX + w, AnimalY - h, AnimalZ + d );
+        glVertex3f(AnimalX + w, AnimalY - h, AnimalZ - d );
+        glVertex3f(AnimalX - w, AnimalY - h , AnimalZ - d );
+        //верхняя
+        glVertex3f(AnimalX - w, AnimalY + h, AnimalZ - d );
+        glVertex3f(AnimalX + w, AnimalY + h, AnimalZ - d );
+        glVertex3f(AnimalX + w , AnimalY + h, AnimalZ + d );
+        glVertex3f(AnimalX - w , AnimalY + h, AnimalZ + d );
+        glEnd();
+    }
+    /**
+        \brief основаня функцию обновления игрока
+
+        \param[in] time время 1 кадра
+    */
+    void update(float time, float PX, float PZ) {
+        draw();
+
+        Alx = PX - AnimalX;
+        Alz = PZ - AnimalZ;
+        float score = sqrt((Alx * Alx) + (Alz * Alz));
+
+        if (AnimalY < 0) {
+            AnimalY = 20 * cube_size;
+            dy = 0;
+        }
+
+
+        dy -= 0.12 * (time / 50);
+        onGround = 0;
+
+
+        AnimalY += dy * (time / 50);
+        collision(0, dy, 0);
+
+        dx = (Alx / score) * (time / 200);
+        AnimalX += dx;
+        collision(dx, 0, 0);
+
+        dz = (Alz / score) * (time / 200);
+        AnimalZ += dz;
+        collision(0, 0, dz);
+
+    }
+   
+
+    /**
+        \brief определяет поведение при столкновении с колизией
+
+        эта функция принимает на вход скорости по осям игрока, и при столкновении с клизией определяет, как должен вести себя игрок
+    */
+    void collision(float Dx, float Dy, float Dz) {
+        for (int X = (AnimalX - w) / cube_size; X < (AnimalX + w) / cube_size; X++)
+            for (int Y = (AnimalY - h) / cube_size; Y < (AnimalY + h) / cube_size; Y++)
+                for (int Z = (AnimalZ - d) / cube_size; Z < (AnimalZ + d) / cube_size; Z++)
+                    if (check(X, Y, Z))
+                    {
+                        if (Dx > 0) { AnimalX = X * cube_size - w;  jump();}
+                        if (Dx < 0) { AnimalX = X * cube_size + cube_size + w; jump(); }
+
+                        if (Dy > 0) { AnimalY = Y * cube_size - h; dy = 0; }
+                        if (Dy < 0) { AnimalY = Y * cube_size + cube_size + h; onGround = true; dy = 0; }
+
+                        if (Dz > 0) { AnimalZ = Z * cube_size - d; jump(); }
+                        if (Dz < 0) { AnimalZ = Z * cube_size + cube_size + d;jump(); }
+
+                    }
+    }
+
+    /// прыжок игрока
+    void jump() {
+        if (onGround) {
+            onGround = false;
+            dy = 0.8;
+        }
+    }
+};
+Player steve(10, 60, 10); // создаем обьект
+Animal pig(11, 60, 11);
 #include "draw.hpp"
 void close_and_save_game(std::string file) {
 
@@ -323,6 +475,46 @@ void close_game() {
                 mass[x][y][z] = 0;
             }
 }
+void load_game() {
+    std::ifstream fout("world" + std::to_string(world_now) + ".txt", std::ifstream::binary);
+    char n;
+
+    if (fout) {
+        for (int x = 0; x < quantity_cubes_x; x++)
+            for (int y = 4; y < quantity_cubes_y; y++)
+                for (int z = 0; z < quantity_cubes_z; z++) {
+                    fout.get(n);
+                    mass[x][y][z] = int(n) - 48;
+                }
+    }
+    else {
+        time_t seed;
+        seed = time(NULL);
+        sf::Image im; im.loadFromFile("textures/heightmap.png");
+        for (int x = 0; x < quantity_cubes_x; x++)
+            for (int z = 0; z < quantity_cubes_z; z++) {
+                int c = im.getPixel(x, z).r / 10 + 10;
+                for (int y = 0; y <= c; y++) {
+
+                    if (y == c)         mass[x][y][z] = Blocks::SUPER_GRASS;
+                    else if (y > c - 3) mass[x][y][z] = Blocks::DIRT;
+                    else                mass[x][y][z] = Blocks::STONE;
+                }
+            }
+
+        for (int x = 0; x < quantity_cubes_x; x++)
+            for (int z = 0; z < quantity_cubes_z; z++) {
+                int c = im.getPixel(x, z).r / 10 + 10;
+                for (int y = 4; y <= c; y++)
+                    if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
+                        if ((rand() + seed) % 500 == 1)   trees(x, c, z);
+
+
+            }
+    }
+    fout.close();
+    game_now = GAME;
+}
 void Draw_cubes() {
     // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
@@ -343,11 +535,14 @@ void Draw_cubes() {
 
                 glTranslatef(x * cube_size + cube_size / 2, y * cube_size + cube_size / 2, z * cube_size + cube_size / 2);
                 switch (type){
-                case STONE:         Draw_one_tex_blocks(&stone,     x, y, z); break;
-                case DIRT:          Draw_one_tex_blocks(&dirt,      x, y, z); break;
-                case SUPER_GRASS:   Draw_super_grass(               x, y, z); break;
-                case TREE_OAK:      Draw_tree_oak(                  x, y, z); break;
-                case LEAVES:        Draw_one_tex_blocks(&leaves,    x, y, z); break;
+                case STONE:         Draw_one_tex_blocks(&stone,         x, y, z); break;
+                case DIRT:          Draw_one_tex_blocks(&dirt,          x, y, z); break;
+                case SUPER_GRASS:   Draw_super_grass(                   x, y, z); break;
+                case TREE_OAK:      Draw_tree_oak(                      x, y, z); break;
+                case LEAVES:        Draw_one_tex_blocks(&leaves,        x, y, z); break;
+                case COBBLESTONE:   Draw_one_tex_blocks(&cobblestone,   x, y, z); break;
+                case PLANKS:        Draw_one_tex_blocks(&planks,        x, y, z); break;
+                case BRICKS:        Draw_one_tex_blocks(&bricks, x, y, z); break;
                    
                 }
 
@@ -405,16 +600,14 @@ void reshape(int w, int h) {
     устанавливает все настройки библиотеки GLUT, а так же заполняет массив , по которому будет в дальнейшем строиться мир
 
 */
-
-
-
-
-
-
-
-
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
+    /*ALuint helloBuffer, helloSource;
+    alutInit(&argc, argv);
+    helloBuffer = alutCreateBufferHelloWorld();
+    alGenSources(1, &helloSource);
+    alSourcei(helloSource, AL_BUFFER, helloBuffer);
+    alSourcePlay(helloSource);*/
 	glutInitWindowSize(width, height); // задает размеры окна
 	glutInitDisplayMode(GLUT_RGBA /*| GLUT_DOUBLE*/); // включаем цвет RGBA и двойную буферизацию
 	glutCreateWindow("mass"); // создаем окно
@@ -440,7 +633,9 @@ int main(int argc, char** argv) {
 
     glutKeyboardFunc(processNormalKeys);// функция отработки нажатия(без отжатия) клавиш
 	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
-
+    visible_range = slider.mouse(0, 0);
 	glutMainLoop(); // говорим, что функция display играется циклично
+    /*alutSleep(1);
+    alutExit();*/
 	return 0; 
 }

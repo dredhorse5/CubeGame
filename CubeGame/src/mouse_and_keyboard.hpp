@@ -123,25 +123,26 @@ void mouseButton(int button, int state, int x, int y) {
 			else if (game_now == MAIN_MENU) {
 				if (world1.mouse(x, y, 1)) {
 					world_now = 1;
-					game_now = GAME;
-					load_game();
+					game_now = LOAD_MENU;
+					std::thread th(load_game);
+					th.detach();
 					glutSetCursor(GLUT_CURSOR_NONE);
 				}
 				else if (world2.mouse(x, y, 1)) {
 					world_now = 2;
-					game_now = GAME;
+					game_now = LOAD_MENU;
 					load_game();
 					glutSetCursor(GLUT_CURSOR_NONE);
 				}
 				else if (world3.mouse(x, y, 1)) {
 					world_now = 3;
-					game_now = GAME;
+					game_now = LOAD_MENU;
 					load_game();
 					glutSetCursor(GLUT_CURSOR_NONE);
 				}
 				else if (world4.mouse(x, y, 1)) {
 					world_now = 4;
-					game_now = GAME;
+					game_now = LOAD_MENU;
 					load_game();
 					glutSetCursor(GLUT_CURSOR_NONE);
 				}

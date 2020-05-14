@@ -119,8 +119,8 @@ public:
         this->Gx1 = Gx1 ; this->Gx2 = Gx2;
         this->Gy1 = Gy1 ; this->Gy2 = Gy2;
 
-        Sx1 = Gx2 + 0.02f; Sy1 = Gy2 + 0.042f;  
-        Sx2 = Gx2;         Sy2 = Gy2;       
+        Sx1 = Gx2 / 2 + 0.02f; Sy1 = Gy2 + 0.042f;
+        Sx2 = Gx2 / 2;         Sy2 = Gy2;       
     }
     void text_draw(int text) {
         glTexCoord2d(Tx2, Ty1); glVertex3f(Gx1 - 0.16, Gy1 - 0.01, -0.2);

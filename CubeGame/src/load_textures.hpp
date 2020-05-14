@@ -27,6 +27,9 @@ void textures() {
     load_textures("textures/super_grass.png", &super_grass, 0);// загружаем текстуру
     load_textures("textures/leaves.png", &leaves, 0);
     load_textures("textures/tree_oak.png", &tree_oak, 0);
+    load_textures("textures/cobblestone.png", &cobblestone, 0);
+    load_textures("textures/planks.png", &planks, 0);
+    load_textures("textures/bricks.png", &bricks, 0);
     load_textures("textures/GUI.png", &GUI_tex, 1);
 
     load_textures("textures/icons/dirt.png", &dirt_icon_tex, 1);

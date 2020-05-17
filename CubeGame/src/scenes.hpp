@@ -16,6 +16,12 @@ void game() {
     steve.update(times);
 
 }
+
+/**
+	/brief игровое меню
+
+
+*/
 void game_menu() {
     slider.update();
     exit_touch.update();
@@ -29,6 +35,13 @@ void game_menu() {
     pig.update(0, steve.PlayerX, steve.PlayerZ);
     glColor3f(1, 1, 1);
 }
+
+/**
+	/brief меню загрузки мира
+
+	активно при загрузки мира 
+
+*/
 void load_menu() {
 
     static float angle = 0.0f;
@@ -43,6 +56,14 @@ void load_menu() {
         0.0f, 1.0f, 0.0f);
     angle += 0.1;
 }
+
+/**
+	/brief главное меню
+
+	меню с выбором миров(карт)
+
+
+*/
 void main_menu() {
     world1.update();
     world2.update();

@@ -110,6 +110,12 @@ void Draw_one_tex_blocks(GLuint* tex, int X, int Y, int Z) {
     }
     glEnd();
 }
+
+/**
+	/brief рисование блоков с травой 
+
+
+*/
 void Draw_super_grass(int X, int Y, int Z)
 {
 
@@ -163,6 +169,13 @@ void Draw_super_grass(int X, int Y, int Z)
     }
     glEnd();
 }
+
+
+/**
+	/brief функция рисующая деревья 
+
+
+*/
 void Draw_tree_oak(int X, int Y, int Z) {
 
     glBindTexture(GL_TEXTURE_2D, tree_oak);
@@ -217,6 +230,12 @@ void Draw_tree_oak(int X, int Y, int Z) {
 
 }
 
+
+/**
+	/brief рисование skybox
+
+
+*/
 void drawSkybox()
 {
 	glTranslatef(steve.PlayerX, steve.PlayerY, steve.PlayerZ);

@@ -32,8 +32,8 @@ const int quantity_cubes_y = 50;  ///< колличество блоков по 
 const int quantity_cubes_z = 250; ///< колличество блоков по оси z
 const int width = 1280; ///< ширина окна
 const int height = 720; ///< высота окна
-int W = width;
-int H = height;
+int W = width; ///< ширина
+int H = height; ///< высота 
 float lx = 1.0f; ///< x координата единичного вектора направления камеры
 float lz = 0.0f; ///< z координата единичного вектора направления камеры
 float ly = 0.0f; ///< y координата единичного вектора направления камеры
@@ -101,6 +101,14 @@ char tree_mass[7][5][5] = { {
 void draw_lines_cubes(float , int , int , int );
 bool trees(int, int, int);
 #include "GUI.hpp"
+
+/*
+	/brief названия блоков 
+
+	функция, дающая имена блокам
+
+
+*/
 enum Blocks {
     AIR,
     STONE,
@@ -118,6 +126,15 @@ enum game_types {
     MAIN_MENU,
     LOAD_MENU
 };
+
+/*
+	/brief переменные класса 
+	
+	переменные класса игрока, принимающее какое-либо значение 
+
+
+*/
+
 class Player {
 public:
     float PlayerX; ///< Координата игрока по оси X
@@ -344,6 +361,12 @@ public:
 
 
     }
+/*
+	/brief фунция рисования кубов
+	
+
+
+*/
     void draw() {
         glBindTexture(GL_TEXTURE_2D, GLU_NONE);
         glColor3f(0.8, 0.8, 0.8);
@@ -451,6 +474,12 @@ public:
 Player steve(10, 60, 10); // создаем обьект
 Animal pig(11, 60, 11);
 #include "draw.hpp"
+
+/*
+	/brief функция выхода и сохранения игры
+
+
+*/
 void close_and_save_game(std::string file) {
 
     FILE* pFile;
@@ -515,8 +544,15 @@ void load_game() {
     fout.close();
     game_now = GAME;
 }
+
+/*
+	/brief цикл рисования блоков 
+	
+	массив проверяется на наличие в в данной точке 1 и по бокам этой точки
+
+
+*/
 void Draw_cubes() {
-    // цикл для рисования блоков
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
         for (int y = 4; y < quantity_cubes_y; y++)
             for (int z = steve.PlayerZ / 2 - visible_range; z < steve.PlayerZ / 2 + visible_range; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока

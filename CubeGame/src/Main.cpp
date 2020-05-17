@@ -47,8 +47,8 @@ int cube_size = 2; ///< размер куба
 int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z]; ///< массив мира, по которому строится сам мир
 bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
-time_t oldtime = 1;
-time_t newtime = 1;
+time_t oldtime = 1, Aoldtime = 1;
+time_t newtime = 1, Anewtime = 1;
 char game_now = 2; // состояние игры в данный момент
 char world_now = 0; // определят, в каком мире мы играем. в игре 4 мира
 short int IDblocks = 1;
@@ -327,10 +327,10 @@ public:
         \param[in] y0 координата спавна игрока по оси y
         \param[in] z0 координата спавна игрока по оси z
     */
-    Animal(float x0, float y0, float z0) {
+    Animal(float x0, float y0, float z0, float speed) {
         AnimalX = x0; AnimalY = y0; AnimalZ = z0;
         dx = 0; dy = 0; dz = 0;
-        w = 0.5f; h = 0.9f; d = 0.5f; speed = 0.5;
+        w = 0.5f; h = 0.9f; d = 0.5f; this->speed = speed ;
         onGround = false;
     }
     /**
@@ -381,6 +381,23 @@ public:
         glVertex3f(AnimalX - w , AnimalY + h, AnimalZ + d );
         glEnd();
     }
+    void walking() {
+        Anewtime = clock();
+        if (Anewtime - Aoldtime > 2000) {
+            Aoldtime = clock();
+        }
+    }
+
+    void walking_for_player(float time, float PX, float PZ) {
+        Alx = PX - AnimalX;
+        Alz = PZ - AnimalZ;
+        float score = sqrt((Alx * Alx) + (Alz * Alz));
+        if (score > 0.5)dx = (Alx / score) * speed * (time / 200);
+        else dx = 0;
+        if (score > 0.5)dz = (Alz / score) * speed * (time / 200);
+        else dz = 0;
+    }
+
     /**
         \brief основаня функцию обновления игрока
 
@@ -388,10 +405,6 @@ public:
     */
     void update(float time, float PX, float PZ) {
         draw();
-
-        Alx = PX - AnimalX;
-        Alz = PZ - AnimalZ;
-        float score = sqrt((Alx * Alx) + (Alz * Alz));
 
         if (AnimalY < 0) {
             AnimalY = 20 * cube_size;
@@ -406,11 +419,11 @@ public:
         AnimalY += dy * (time / 50);
         collision(0, dy, 0);
 
-        dx = (Alx / score) * (time / 200);
+        //walking_for_player(time, PX, PZ);
+        walking();
+
         AnimalX += dx;
         collision(dx, 0, 0);
-
-        dz = (Alz / score) * (time / 200);
         AnimalZ += dz;
         collision(0, 0, dz);
 
@@ -449,7 +462,7 @@ public:
     }
 };
 Player steve(10, 60, 10); // создаем обьект
-Animal pig(11, 60, 11);
+Animal pig(11, 60, 3, 1.5 );
 #include "draw.hpp"
 void close_and_save_game(std::string file) {
 
@@ -493,7 +506,7 @@ void load_game() {
         sf::Image im; im.loadFromFile("textures/heightmap.png");
         for (int x = 0; x < quantity_cubes_x; x++)
             for (int z = 0; z < quantity_cubes_z; z++) {
-                int c = im.getPixel(x, z).r / 10 + 10;
+                int c = im.getPixel(x, z).r / 15 + 10;
                 for (int y = 0; y <= c; y++) {
 
                     if (y == c)         mass[x][y][z] = Blocks::SUPER_GRASS;
@@ -504,7 +517,7 @@ void load_game() {
 
         for (int x = 0; x < quantity_cubes_x; x++)
             for (int z = 0; z < quantity_cubes_z; z++) {
-                int c = im.getPixel(x, z).r / 10 + 10;
+                int c = im.getPixel(x, z).r / 15 + 10;
                 for (int y = 4; y <= c; y++)
                     if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
                         if ((rand() + seed) % 500 == 1)   trees(x, c, z);
@@ -585,6 +598,7 @@ void display() {
 }
 void reshape(int w, int h) {
     float ratio = w * 1.0 / h;
+    W = w; H = h;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, w, h);

@@ -195,9 +195,9 @@ void mouseMove(int x, int y) {
 			ly = float(-tan(angleY));
 		}
 		else {
-			mouseXOld = (width / 2) - x;
-			mouseYOld = (height / 2) - y;
-			glutWarpPointer((width / 2), (height / 2));
+			mouseXOld = (W / 2) - x;
+			mouseYOld = (H / 2) - y;
+			glutWarpPointer((W / 2), (H / 2));
 		}
 	}
 	else if (game_now == GAME_MENU) {

@@ -19,7 +19,7 @@ public:
         this->tex = tex;
     }
     bool mouse(float x, float y, int click_status) {
-        x /= width / 2; y /= height / 2;
+        x /= W / 2; y /= H / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
         if (x > x2 && x < x1 && y > y2 && y < y1) {
@@ -130,7 +130,7 @@ public:
         
     }
     int mouse(float x, float y) { // возвращает значения от 6 до 100
-        x /= width / 2; y /= height / 2;
+        x /= W / 2; y /= H / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
         if (click) {
@@ -149,7 +149,7 @@ public:
         return (((Sx1 + 0.05f) - Gx2) * (100 - 6) / (Gx1 - Gx2) - 6 );
     }
     void click_status(float x, float y) {
-        x /= width / 2; y /= height / 2;
+        x /= W / 2; y /= H / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
         if (x > Gx2 && x < Gx1 && y  > Gy2 && y < Gy1){

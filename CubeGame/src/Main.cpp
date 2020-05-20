@@ -96,10 +96,82 @@ char tree_mass[7][5][5] = { {
 {0, 7, 7, 7, 0},
 {0, 0, 7, 0, 0},
 {0, 0, 0, 0, 0} }, };
-
-
+char monument_mass[12][5][6] = { {
+{1, 1, 4, 4, 1, 0},
+{1, 1, 1, 1, 4, 0},
+{4, 1, 1, 1, 1, 0},
+{4, 1, 1, 1, 4, 0},
+{1, 4, 1, 4, 4, 0}},
+{
+{1, 1, 4, 4, 1, 0},
+{1, 1, 1, 1, 4, 0},
+{4, 1, 1, 1, 1, 0},
+{4, 1, 1, 1, 4, 0},
+{1, 4, 1, 4, 4, 0}},
+{
+{1, 1, 4, 4, 1, 0},
+{1, 1, 1, 1, 4, 1},
+{4, 1, 1, 1, 1, 1},
+{4, 1, 1, 1, 4, 1},
+{1, 4, 1, 4, 4, 0}},
+{
+{1, 1, 4, 4, 1, 0},
+{1, 1, 1, 1, 1, 0},
+{1, 1, 1, 1, 1, 1},
+{1, 1, 1, 1, 1, 0},
+{1, 1, 1, 4, 4, 0}},
+{
+{4, 4, 1, 4, 4, 0},
+{4, 1, 1, 1, 4, 0},
+{1, 1, 1, 1, 1, 4},
+{1, 1, 1, 1, 1, 0},
+{4, 1, 1, 1, 1, 0}},
+{
+{1, 1, 1, 1, 0, 0},
+{1, 1, 1, 1, 0, 0},
+{1, 1, 1, 1, 4, 1},
+{4, 1, 1, 1, 0, 0},
+{1, 1, 1, 4, 0, 0}},
+{
+{1, 4, 1, 1, 1, 1},
+{4, 1, 1, 1, 1, 1},
+{1, 1, 1, 1, 1, 1},
+{1, 1, 1, 1, 1, 4},
+{4, 1, 1, 4, 1, 1}},
+{
+{1, 4, 1, 1, 1, 0},
+{4, 1, 1, 1, 4, 0},
+{1, 1, 1, 1, 1, 0},
+{1, 1, 1, 1, 1, 0},
+{1, 4, 1, 1, 4, 0}},
+{
+{1, 1, 4, 4, 1, 0},
+{1, 1, 1, 1, 1, 0},
+{1, 1, 1, 1, 1, 0},
+{1, 1, 1, 1, 4, 0},
+{1, 4, 1, 4, 1, 0}},
+{
+{1, 4, 4, 1, 1, 0},
+{4, 1, 1, 1, 1, 0},
+{4, 1, 1, 1, 4, 0},
+{4, 1, 1, 1, 1, 0},
+{1, 1, 4, 1, 1, 0}},
+{
+{1, 4, 1, 1, 1, 0},
+{4, 1, 1, 1, 1, 0},
+{1, 1, 1, 1, 1, 0},
+{1, 1, 1, 1, 1, 0},
+{4, 1, 1, 4, 1, 0}},
+{
+{0, 0, 0, 0, 0, 0},
+{0, 1, 1, 1, 0, 0},
+{0, 1, 1, 1, 0, 0},
+{0, 4, 4, 1, 0, 0},
+{0, 0, 0, 0, 0, 0}},
+};
 void draw_lines_cubes(float , int , int , int );
 bool trees(int, int, int);
+bool head_monument(int, int, int);
 #include "GUI.hpp"
 
 /**
@@ -530,6 +602,13 @@ void load_game() {
                     else                mass[x][y][z] = Blocks::STONE;
                 }
             }
+        for (int x = 0; x < quantity_cubes_x; x++)
+            for (int z = 0; z < quantity_cubes_z; z++) {
+                int c = im.getPixel(x, z).r / 10 + 10;
+                for (int y = 4; y <= c; y++)
+                    if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
+                        if ((rand() * rand() + seed) % 100000 == 1) head_monument(x, c, z);
+            }
 
         for (int x = 0; x < quantity_cubes_x; x++)
             for (int z = 0; z < quantity_cubes_z; z++) {
@@ -598,9 +677,8 @@ void Draw_cubes() {
 */
 void display() {
 
-    std::thread th (glClear, GL_COLOR_BUFFER_BIT);
+   glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
-    th.join();
 	glPushMatrix();
 
     switch (game_now) {
@@ -618,9 +696,9 @@ void display() {
         break;
     }
 	glPopMatrix();
-    std:: thread g (glutPostRedisplay);
+    glutPostRedisplay();
     glFinish();
-    g.join();
+   
 }
 void reshape(int w, int h) {
     float ratio = w * 1.0 / h;

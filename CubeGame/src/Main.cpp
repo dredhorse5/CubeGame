@@ -598,7 +598,9 @@ void Draw_cubes() {
 */
 void display() {
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
+    std::thread th (glClear, GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
+    th.join();
 	glPushMatrix();
 
     switch (game_now) {
@@ -616,8 +618,9 @@ void display() {
         break;
     }
 	glPopMatrix();
-	glutPostRedisplay();
-	glFinish();
+    std:: thread g (glutPostRedisplay);
+    glFinish();
+    g.join();
 }
 void reshape(int w, int h) {
     float ratio = w * 1.0 / h;

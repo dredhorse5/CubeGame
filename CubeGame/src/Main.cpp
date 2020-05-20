@@ -15,18 +15,22 @@
 #pragma comment(lib, "SOIL.lib")
 #pragma warning(disable : 26451)
 #pragma warning(disable : 26495)
-GLuint GUI_tex;
-GLuint dirt, dirt_icon_tex;
-GLuint stone, stone_icon_tex;
-GLuint super_grass, super_grass_icon_tex;
-GLuint cobblestone;
-GLuint planks;
-GLuint bricks;
-GLuint leaves, leaves_icon_tex;
-GLuint tree_oak, tree_oak_icon_tex;
-GLuint skybox_tex;
+GLuint GUI_tex; ///< переменная, которая хранит текстуру GUI 
+GLuint dirt;///< переменная, которая хранит текстуру земли
+GLuint dirt_icon_tex; ///< переменная, которая хранит иконку земли
+GLuint stone;///< переменная, которая хранит текстуру камня
+GLuint stone_icon_tex;///< переменная, которая хранит иконку камня
+GLuint super_grass;///< переменная, которая хранит текстуру земли с травой
+GLuint super_grass_icon_tex;///< переменная, которая хранит иконку земли с травой
+GLuint cobblestone;///< переменная, которая хранит текстуру булыжника
+GLuint planks;///< переменная, которая хранит текстуру досок
+GLuint bricks;///< переменная, которая хранит текстуру кирпичей
+GLuint leaves;///< переменная, которая хранит текстуру листьев
+GLuint leaves_icon_tex;///< переменная, которая хранит иконку листьев
+GLuint tree_oak;///< переменная, которая хранит текстуру дерева
+GLuint tree_oak_icon_tex;///< переменная, которая хранит иконку дерева
+GLuint skybox_tex;///< переменная, которая хранит текстуру скайбокса
 
-int FPS = 60; ///< ограничение по FPS
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
 const int quantity_cubes_y = 50;  ///< колличество блоков по оси y
 const int quantity_cubes_z = 250; ///< колличество блоков по оси z
@@ -44,16 +48,16 @@ int mouseYOld = 1; ///< старая y координата мыши
 float KeyFront = 0; ///< ключ к изменению скорости вперед/назад
 float KeySide = 0; ///< ключ к изменению скорости вбок
 int cube_size = 2; ///< размер куба
-int mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z]; ///< массив мира, по которому строится сам мир
+char mass[quantity_cubes_x][quantity_cubes_y][quantity_cubes_z]; ///< массив, по которому строится мир
 bool mLeft = 0; ///< состояние левой кнопки мыши
 bool mRight = 0; ///< состояние правой кнопки мыши
 time_t oldtime = 1, Aoldtime = 1;
 time_t newtime = 1, Anewtime = 1;
-char game_now = 2; // состояние игры в данный момент
-char world_now = 0; // определят, в каком мире мы играем. в игре 4 мира
-short int IDblocks = 1;
-short int blocks = 8;
-int visible_range = 40;
+char game_now = 2; ///< состояние игры в данный момент
+char world_now = 0; ///< определят, в каком мире мы играем. в игре 4 мира
+short int IDblocks = 1; ///< ID блока, который у нас в руках
+short int blocks = 8;///< колличество разновидностей блоков
+int visible_range = 40;///< дальность видимости
 char tree_mass[7][5][5] = { {
 {0, 0, 0, 0, 0},
 {0, 0, 0, 0, 0},
@@ -95,7 +99,7 @@ char tree_mass[7][5][5] = { {
 {0, 0, 7, 0, 0},
 {0, 7, 7, 7, 0},
 {0, 0, 7, 0, 0},
-{0, 0, 0, 0, 0} }, };
+{0, 0, 0, 0, 0} }, }; ///< массив, по которому строится дерево
 
 
 void draw_lines_cubes(float , int , int , int );
@@ -120,13 +124,19 @@ enum Blocks {
     LEAVES,
     BRICKS
 };
+/**
+    /brief названия сцен
+
+    функция, дающая имена сценам
+
+
+*/
 enum game_types {
     GAME,
     GAME_MENU,
     MAIN_MENU,
     LOAD_MENU
 };
-
 /**
 	/brief переменные класса 
 	
@@ -134,7 +144,6 @@ enum game_types {
 
 
 */
-
 class Player {
 public:
     float PlayerX; ///< Координата игрока по оси X
@@ -322,27 +331,35 @@ public:
         }
     }
 };
+/**
+    /brief класс для животных
+
+    можно создавать с помощью этого класса животных. поведение у них примитивное- пока что
+    они просто ходят за игроком
+
+
+*/
 class Animal {
 public:
-    float AnimalX; ///< Координата игрока по оси X
-    float AnimalY; ///< Координата игрока по оси Y
-    float AnimalZ; ///< Координата игрока по оси Z
-    float dx;      ///< Общая скорость игрока по оси x
-    float dy;      ///< Общая скорость игрока по оси y
-    float dz;      ///< Общая скорость игрока по оси z
-    float w;       ///< ширина игрока
-    float h;       ///< высота игрока
-    float d;       ///< Глубина игрока
-    bool onGround; ///< определяет, косаетесь ли вы пола
-    float speed;   ///< скорость игрока
-    float Alx;
-    float Alz;
+    float AnimalX; ///< Координата животного по оси X
+    float AnimalY; ///< Координата животного по оси Y
+    float AnimalZ; ///< Координата животного по оси Z
+    float dx;      ///< Общая скорость животного по оси x
+    float dy;      ///< Общая скорость животного по оси y
+    float dz;      ///< Общая скорость животного по оси z
+    float w;       ///< ширина животного
+    float h;       ///< высота животного
+    float d;       ///< Глубина животного
+    bool onGround; ///< определяет, стоит ли животное на полу
+    float speed;   ///< скорость животного
+    float Alx; ///< x координата вектора, задающий направление до игрока
+    float Alz; ///< y координата вектора, задающий направление до игрока
     /**
         \brief Конструктор класса
 
-        \param[in] x0 координата спавна игрока по оси x
-        \param[in] y0 координата спавна игрока по оси y
-        \param[in] z0 координата спавна игрока по оси z
+        \param[in] x0 координата спавна животного по оси x
+        \param[in] y0 координата спавна животного по оси y
+        \param[in] z0 координата спавна животного по оси z
     */
     Animal(float x0, float y0, float z0, float speed) {
         AnimalX = x0; AnimalY = y0; AnimalZ = z0;
@@ -361,11 +378,10 @@ public:
 
 
     }
-/**
-	/brief фунция рисования кубов
-	
+    /**
+	\brief рисует самого животного
 
-
+    пока что рисует просто прямоугольник- обычный box животного
 */
     void draw() {
         glBindTexture(GL_TEXTURE_2D, GLU_NONE);
@@ -404,13 +420,22 @@ public:
         glVertex3f(AnimalX - w , AnimalY + h, AnimalZ + d );
         glEnd();
     }
+    /**
+    /brief задает случайное направление движения
+    */
     void walking() {
         Anewtime = clock();
         if (Anewtime - Aoldtime > 2000) {
             Aoldtime = clock();
         }
     }
+    /**
+    /brief определяет, где находится игрок и задает направление до него
 
+        \param[in] time время 1 кадра
+        \param[in] PX X координата игрока
+        \param[in] PZ Z координата игрока
+    */
     void walking_for_player(float time, float PX, float PZ) {
         Alx = PX - AnimalX;
         Alz = PZ - AnimalZ;
@@ -422,9 +447,11 @@ public:
     }
 
     /**
-        \brief основаня функцию обновления игрока
+        \brief основаня функцию обновления животного
 
         \param[in] time время 1 кадра
+        \param[in] PX X координата игрока
+        \param[in] PZ Z координата игрока
     */
     void update(float time, float PX, float PZ) {
         draw();
@@ -456,7 +483,7 @@ public:
     /**
         \brief определяет поведение при столкновении с колизией
 
-        эта функция принимает на вход скорости по осям игрока, и при столкновении с клизией определяет, как должен вести себя игрок
+        эта функция принимает на вход скорости по осям игрока, и при столкновении с колизией определяет, как должен вести себя игрок
     */
     void collision(float Dx, float Dy, float Dz) {
         for (int X = (AnimalX - w) / cube_size; X < (AnimalX + w) / cube_size; X++)
@@ -476,7 +503,7 @@ public:
                     }
     }
 
-    /// прыжок игрока
+    /// прыжок животного
     void jump() {
         if (onGround) {
             onGround = false;
@@ -484,14 +511,14 @@ public:
         }
     }
 };
-Player steve(10, 60, 10); // создаем обьект
+Player steve(10, 60, 10); 
 Animal pig(11, 60, 3, 1.5 );
 #include "draw.hpp"
 
 /**
-	/brief функция выхода и сохранения игры
+	\brief функция выхода и сохранения игры
 
-
+    \param[in] file название мира для сохранения
 */
 void close_and_save_game(std::string file) {
 
@@ -510,6 +537,10 @@ void close_and_save_game(std::string file) {
             }
     game_now = MAIN_MENU;
 }
+/**
+    \brief функция выхода из игры
+
+*/
 void close_game() {
     for (int x = 0; x < quantity_cubes_x; x++)
         for (int y = 4; y < quantity_cubes_y; y++)
@@ -517,6 +548,11 @@ void close_game() {
                 mass[x][y][z] = 0;
             }
 }
+/**
+    \brief функция для загрузки мира
+
+    если есть файл этого мира, то функция загружает его. если нет, то она создает новый мир
+*/
 void load_game() {
     std::ifstream fout("world" + std::to_string(world_now) + ".txt", std::ifstream::binary);
     char n;
@@ -557,13 +593,10 @@ void load_game() {
     fout.close();
     game_now = GAME;
 }
-
 /**
-	/brief цикл рисования блоков 
+	/brief функция для рисования блоков
 	
-	массив проверяется на наличие в в данной точке 1 и по бокам этой точки
-
-
+	вызывается с каждым кадром и рисует каждый блок на карте, который виден игроку.
 */
 void Draw_cubes() {
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
@@ -611,7 +644,7 @@ void Draw_cubes() {
 */
 void display() {
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
 
     switch (game_now) {
@@ -632,6 +665,15 @@ void display() {
 	glutPostRedisplay();
 	glFinish();
 }
+/**
+    \brief функция для изменения окна игры
+
+    задает перспективу камеры для измененного окна. вызывается при включении программы и при изменении
+    размера окна
+
+    \param[in] w ширина нового окна
+    \param[in] h высота нового окна
+*/
 void reshape(int w, int h) {
     float ratio = w * 1.0 / h;
     W = w; H = h;
@@ -647,7 +689,7 @@ void reshape(int w, int h) {
 /**
     \brief точка входа в программу
 
-    устанавливает все настройки библиотеки GLUT, а так же заполняет массив , по которому будет в дальнейшем строиться мир
+    устанавливает все настройки библиотеки GLUT, далее вызывается с каждым кадром функция display
 
 */
 int main(int argc, char** argv) {

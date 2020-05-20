@@ -59,6 +59,7 @@ void draw_lines_cubes(float cube_size, int X, int Y, int Z) {
     glColor3d(1, 1, 1);
 
 }
+
 void Draw_one_tex_blocks(GLuint* tex, int X, int Y, int Z) {
 	glBindTexture(GL_TEXTURE_2D, *tex);
 	glBegin(GL_QUADS);
@@ -170,7 +171,6 @@ void Draw_super_grass(int X, int Y, int Z)
     glEnd();
 }
 
-
 /**
 	/brief функция рисующая деревья 
 
@@ -229,7 +229,6 @@ void Draw_tree_oak(int X, int Y, int Z) {
     glEnd();
 
 }
-
 
 /**
 	/brief рисование skybox

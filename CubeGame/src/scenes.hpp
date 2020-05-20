@@ -1,4 +1,9 @@
 bool trees(int, int, int); // функция-затычка. обьявляем ее, чтобы в этом файле оня была видна
+/**
+    /brief функция для игры
+
+    она обрабатывает все механики игры
+*/
 void game() {
     hotbar.update();
     aim.update();
@@ -16,7 +21,6 @@ void game() {
     steve.update(times);
 
 }
-
 /**
 	/brief игровое меню
 
@@ -35,7 +39,6 @@ void game_menu() {
     pig.update(0, steve.PlayerX, steve.PlayerZ);
     glColor3f(1, 1, 1);
 }
-
 /**
 	/brief меню загрузки мира
 

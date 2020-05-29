@@ -1,15 +1,14 @@
-﻿#include <cmath>
+﻿#include <cmath> // Библиотека математики
 #include <stdio.h>
-#include <iostream>
-#include <thread>
-#include <iostream>
-#include <fstream>
-#include <ctime>
-#include <string>
+#include <iostream> // библиотека для работы с файлами для чтения
+#include <thread> // библиотека для многопоточности
+#include <fstream> // библиотека для работы с файлами для записи
+#include <ctime> // библиотека для рабоыт со временем
+#include <string> // библиотека для работы со строками
 #include <SFML/Graphics.hpp>
 //#include "alut.h"
-#include "glut.h" 
-#include "SOIL.h"
+#include "glut.h" // самая главная библиотека
+#include "SOIL.h" // нужна для загрузки текстур 
 //#pragma comment(lib, "alut.lib")
 //#pragma comment(lib, "OpenAL32.lib")
 #pragma comment(lib, "SOIL.lib")
@@ -337,21 +336,13 @@ public:
                     // перед этим проверяем, чтобы блоки не поставились в "игроке"
                     mass[oldX][oldY][oldZ] = IDblocks; // IDblocks // перед столкновением записывали сторые координаты луча.
                     //если столкнулись с блоком- ставим блок на предыдущих координатах, где луч еще "шел"
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    //mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
-                    //mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2)] = 0;
+                  
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 + h / 2 - 0.05)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
 
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    //mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
-                    //mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2)] = 0;
+                    
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
@@ -361,11 +352,6 @@ public:
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
                     mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
                     mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 + d / 2 - 0.01)] = 0;
-                    //mass[int(PlayerX / 2)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2 - d / 2 + 0.01)] = 0;
-                    //mass[int(PlayerX / 2 + w / 2 - 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
-                    //mass[int(PlayerX / 2 - w / 2 + 0.01)][int(PlayerY / 2 - h / 2 + 0.01)][int(PlayerZ / 2)] = 0;
 
                     break;
                 }
@@ -688,7 +674,7 @@ void load_game() {
 */
 void Draw_cubes() {
     for (int x = steve.PlayerX / 2 - visible_range; x < steve.PlayerX / 2 + visible_range; x++) // строим блоки  на расстоянии 10 блоков в обе стороны от координаты X игрока
-        for (int y = 4; y < quantity_cubes_y; y++)
+        for (int y = 4; y < quantity_cubes_y; y++) // начинаем считать от 4, потому что на 3 блоке баг.
             for (int z = steve.PlayerZ / 2 - visible_range; z < steve.PlayerZ / 2 + visible_range; z++) {// строим блоки  на расстоянии 10 блоков в обе стороны от координаты Z игрока
 
 
@@ -732,9 +718,10 @@ void Draw_cubes() {
 */
 void display() {
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPushMatrix();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфера цвета и глубины
+	glPushMatrix(); // создаем новую систему координат, чтобы в ней рисовать
 
+    // выбирираем, что нам рисовать
     switch (game_now) {
     case GAME:
         game();
@@ -749,9 +736,9 @@ void display() {
         load_menu();
         break;
     }
-	glPopMatrix();
-    glutPostRedisplay();
-    glFinish();
+	glPopMatrix(); // сбрасываем систему координат
+    glutPostRedisplay(); // обновляем экран
+    glFinish(); // завершаем рисование
    
 }
 /**
@@ -764,7 +751,7 @@ void display() {
     \param[in] h высота нового окна
 */
 void reshape(int w, int h) {
-    float ratio = w * 1.0 / h;
+    float ratio = w *1.0f / h;
     W = w; H = h;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -790,14 +777,14 @@ int main(int argc, char** argv) {
     alSourcei(helloSource, AL_BUFFER, helloBuffer);
     alSourcePlay(helloSource);*/
 	glutInitWindowSize(width, height); // задает размеры окна
-	glutInitDisplayMode(GLUT_RGBA /*| GLUT_DOUBLE*/); // включаем цвет RGBA и двойную буферизацию
-	glutCreateWindow("mass"); // создаем окно
+	glutInitDisplayMode(GLUT_RGBA); // включаем цвет RGBA
+	glutCreateWindow("game"); // создаем окно
 	glEnable(GL_DEPTH_TEST); // включаем тест глубины 
 	glEnable(GL_TEXTURE_2D); // включаем 2D текстуры
 	
     glEnable(GL_CULL_FACE); // включаем режим, в котором мы рисуем стороны куба либо по часовой, либо против часовой стрелки
     glFrontFace(GL_CCW);  // говорим, что идем против часовой стрелки.
-	glCullFace(GL_FRONT); // не рисуем переднюю часть. будет видна только задняя. почему отсекаем передню, а не заднюю? легче было так сделать)
+	glCullFace(GL_FRONT); // рисуем только 1 сторону, которая лицом к нам ===================== не рисуем переднюю часть. будет видна только задняя. почему отсекаем передню, а не заднюю? легче было так сделать)
 	
     glutDisplayFunc(display); // основная функция рисования
 	glutReshapeFunc(reshape); // функция, вызываеая при обновлении окна. нужна для правильного показа окна
@@ -814,8 +801,8 @@ int main(int argc, char** argv) {
 	
 
     glutKeyboardFunc(processNormalKeys);// функция отработки нажатия(без отжатия) клавиш
-	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавишь
-    visible_range = slider.mouse(0, 0);
+	glutKeyboardUpFunc(processNormalKeysUP); // функция отжатия клавиш
+    visible_range = slider.mouse(0, 0); 
 	glutMainLoop(); // говорим, что функция display играется циклично
     /*alutSleep(1);
     alutExit();*/

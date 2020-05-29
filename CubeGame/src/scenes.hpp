@@ -42,21 +42,21 @@ void hotbar_func() {
     она обрабатывает все механики игры
 */
 void game() {
-    hotbar_func();
-    aim.update();
+    hotbar_func(); // рисуем хотбар
+    aim.update(); // рисуем крестик на экране(прицел)
 
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
-        0.0f, 1.0f, 0.0f);
-	drawSkybox();
+        0.0f, 1.0f, 0.0f); //функци€ дл€ обновлени€ камеры
+	drawSkybox(); // рисуем небо
     // start эта часть кода вычисл€ет врем€ между кадрами, чтобы игрок двигалс€ засчет времени
     newtime = clock();
-    double times = newtime - oldtime;
+    double times = newtime - oldtime; //узнаем врем€ между кадрами
     oldtime = clock();
     // end эта часть кода вычисл€ет врем€ между кадрами, чтобы игрок двигалс€ засчет времени
-    Draw_cubes();
-    pig.update(times, steve.PlayerX, steve.PlayerZ);
-    steve.update(times);
+    Draw_cubes(); // функци€, котора€ рисует сам мир
+    pig.update(times, steve.PlayerX, steve.PlayerZ); // ќбвновл€ем свинку
+    steve.update(times); // обвновл€ем все, что св€звно с игроком
 
 }
 /**
@@ -75,7 +75,7 @@ void game_menu() {
     Draw_cubes();
     steve.update(0);
     pig.update(0, steve.PlayerX, steve.PlayerZ);
-    glColor3f(1, 1, 1);
+    glColor3f(1, 1, 1); // костыль
 }
 /**
 	/brief меню загрузки мира
@@ -116,5 +116,5 @@ void main_menu() {
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
     steve.update(0);
-    glColor3f(1, 1, 1);
+    glColor3f(1, 1, 1); // костыль
 }

@@ -27,7 +27,6 @@ public:
         x /= W / 2; y /= H / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
-        std::cout << x << "  " << y << std::endl;
         if (x > x2 && x < x1 && y > y2 && y < y1) {
             light = 1;
             click = click_status;
@@ -424,21 +423,21 @@ GUI_background bricks_icon      (&bricks_icon_tex,      0, 0, 500, 500, 0.08, 0.
 //
 //    }
 //};
-class area {
-    float x1, x2;
-    float y1, y2;
-public:
-    area(float x1, float y1, float x2, float y2) {
-        this->x1 = x1; this->x2 = x2;
-        this->y1 = y1; this->y2 = y2;
-    }
-    //
-    // *   ----1 точка
-    //   * --------2 точка
-    //
-    bool update() {
-        if (x1 < steve.PlayerX && x2 > steve.PlayerX && y1 < steve.PlayerY && y2 > steve.PlayerY)
-            return true;
-        else return false;
-    }
-};
+//class area {
+//    float x1, x2;
+//    float y1, y2;
+//public:
+//    area(float x1, float y1, float x2, float y2) {
+//        this->x1 = x1; this->x2 = x2;
+//        this->y1 = y1; this->y2 = y2;
+//    }
+//    //
+//    // *   ----1 точка
+//    //   * --------2 точка
+//    //
+//    bool update() {
+//        if (x1 < steve.PlayerX && x2 > steve.PlayerX && y1 < steve.PlayerY && y2 > steve.PlayerY)
+//            return true;
+//        else return false;
+//    }
+//};

@@ -10,7 +10,7 @@ void game() {
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
-	drawSkybox();
+	//drawSkybox();
     // start эта часть кода вычисляет время между кадрами, чтобы игрок двигался засчет времени
     newtime = clock();
     double times = newtime - oldtime;
@@ -33,7 +33,7 @@ void game_menu() {
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
-	drawSkybox();
+	//drawSkybox();
     Draw_cubes();
     steve.update(0);
     pig.update(0, steve.PlayerX, steve.PlayerZ);

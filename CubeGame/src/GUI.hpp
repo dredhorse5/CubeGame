@@ -27,6 +27,7 @@ public:
         x /= W / 2; y /= H / 2;
         x -= 1; y -= 1;
         x *= 0.36; y *= -0.2;
+        std::cout << x << "  " << y << std::endl;
         if (x > x2 && x < x1 && y > y2 && y < y1) {
             light = 1;
             click = click_status;
@@ -196,98 +197,138 @@ GUI_background hotbar(&GUI_tex, 200, 200, 382, 222, 1, -0.76, -1, -1, 1);
 GUI_background aim(&GUI_tex, 24, 220, 48, 244, 0.05, 0.05, -0.05, -0.05 , 1);
 GUI_background background_main_menu(&dirt, 0, 0, 8000, 5000, 1.78, 1, -1.78, -1, 0.5);
 GUI_background save_icon(&GUI_tex, 156, 22, 170, 36, 0.15, 0.15, -0.15, -0.15, 1);
+GUI_background icon_selecter(&GUI_tex, 0, 220, 24, 244, 0.13, 0.13, -0.13, -0.13, 1);
 
-GUI_background dirt_icon(&dirt_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
-GUI_background stone_icon(&stone_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
-GUI_background super_grass_icon(&super_grass_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
-GUI_background leaves_icon(&leaves_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
-GUI_background tree_oak_icon(&tree_oak_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1, -0.1, 1);
-
-
-//class GUI_touch {
-//
-//    float X1 = 0 * 1 / pix, Y1 = 0 * 1 / pix;            /* .: */  // для текстуры 
-//    float x1 = 0.12f, y1 = 0.022f;                 /* :. */ // для прямоугольника
-//    float X2 = 100.0f * 1 / pix, Y2 = 20.0f * 1 / pix;  /* :' */ // для текстуры
-//    float x2 = -0.12f, y2 = -0.022f;                /* ': */ // для прямоугольника
+GUI_background dirt_icon        (&dirt_icon_tex,        0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background stone_icon       (&stone_icon_tex,       0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background super_grass_icon (&super_grass_icon_tex, 0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background tree_oak_icon    (&tree_oak_icon_tex,    0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background leaves_icon      (&leaves_icon_tex,      0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background cobblestone_icon (&cobblestone_icon_tex, 0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background planks_icon      (&planks_icon_tex,      0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+GUI_background bricks_icon      (&bricks_icon_tex,      0, 0, 500, 500, 0.08, 0.08, -0.08, -0.08, 1);
+//class GUI_touch1 {
+//    int pix = 500;
+//    float X1 = 0, Y1 = 0;/* .: */ // для текстуры 
+//    float x1 = 0, y1 = 0;/* :. */ // для прямоугольника
+//    float X2 = 0, Y2 = 0;/* :' */ // для текстуры
+//    float x2 = 0, y2 = 0;/* ': */ // для прямоугольника
 //    GLuint* tex; // указатель на текстуру
 //    bool light = 0; // состояние подсветки кнопки
 //    bool click = 0; // состояние кнопки
 //public:
-//    GUI_touch(GLuint* tex, int X, int Y, int x, int y) {
-//        //текстура | смещение по текстуре на X | Y | смещение кнопки на экране по x | y
-//        X1 += 100 / pix * X; X2 += 100 / pix * X;
-//        Y1 += 20 / pix * Y; Y2 += 20 / pix * Y;
+//    /*
+//    GLuint* tex - указатель на текстуру,
+//    int pix- высота текстуры
+//    int X - x координата правого нижнего угла используемого куска текстуры
+//    int Y - y координата правого нижнего угла используемого куска текстуры
+//    float x1, float y1 - координаты правого верхнего угла прямоугольника, который будет рисоваться
+//    float x2, float y2 - координаты левого нижнего угла прямоугольника, который будет рисоваться
+//    */
+//    GUI_touch1(GLuint* tex, int pix, float X, float Y, float x1, float y1, float x2, float y2) {
+//        X2 = X/pix;
+//        Y2 = Y/pix;
 //
-//        x1 += x * 0.13; y1 += y * 0.03;
-//        x2 += x * 0.13; y2 += y * 0.03;
+//        this->x1 = x1; this->x2 = x2;
+//        this->y1 = y1; this->y2 = y2;
+//
 //        this->tex = tex;
+//        this->pix = pix;
 //    }
+//    /**
+//        /brief функция обработки мыши
+//
+//        вызывается в функиях, где брабатывается мышка. в зависимости от функции(функция нажатия или функция движения мыши)
+//        мы передаем статус клика. если же мы в эту функцию передаем нажатие кнопки единицу, то она возвращает 1 и
+//        дальше мы уже можем определять, что делать.
+//
+//        x - координата мыши по оси x
+//        y - координата мыши по оси y
+//        click_status - передаем, нажата ли кнопка мыши
+//
+//    */
 //    bool mouse(float x, float y, int click_status) {
-//        x /= W / 2; y /= H / 2;
+//        // изменяем координаты мыши. изначально ее координаты определяются как высота и ширина в пикселях,
+//        // но координаты кнопки в других значениях - к ним и приводим
+//        x /= W / 2; y /= H / 2; 
 //        x -= 1; y -= 1;
 //        x *= 0.36; y *= -0.2;
+//        // смотрим, попадает ли мышка в кнопку
 //        if (x > x2 && x < x1 && y > y2 && y < y1) {
-//            light = 1;
-//            click = click_status;
-//            return click_status;
+//            light = 1; // включаем подсветку
+//            click = click_status; // передаем, нажата ли мышка
+//            return click_status; // возвращаем клик. если мы нажали, то можно сравнить эту функцию там, где мы ее вызываем
+//            // и дальше уже задавать поведение. эта функция равна 1 - что-то печатаем или делаем
 //        }
 //        else {
-//            light = 0;
+//            light = 0; // не подсвечиваем
 //            return 0;
 //        }
 //    }
+//    /**
+//        /brief рисуем кнопку. эта функция вызывается ДО glulookat и в функции, отвечающая за рисование.
+//    */
 //    void update() {
-//        //std::cout << click;
+//        glBindTexture(GL_TEXTURE_2D, *tex);
+//        glBegin(GL_QUADS);
 //        if (!light) {
-//            glBindTexture(GL_TEXTURE_2D, *tex);
-//            glBegin(GL_QUADS);
 //            glTexCoord2d(X2, Y1); glVertex3f(x1, y1, -0.2);
 //            glTexCoord2d(X2, Y2); glVertex3f(x1, y2, -0.2);
 //            glTexCoord2d(X1, Y2); glVertex3f(x2, y2, -0.2);
 //            glTexCoord2d(X1, Y1); glVertex3f(x2, y1, -0.2);
-//            glEnd();
 //        }
 //        else {
-//            glBindTexture(GL_TEXTURE_2D, *tex);
-//            glBegin(GL_QUADS);
-//            glTexCoord2d(X2, Y1 + 20 / pix); glVertex3f(x1, y1, -0.2);
-//            glTexCoord2d(X2, Y2 + 20 / pix); glVertex3f(x1, y2, -0.2);
-//            glTexCoord2d(X1, Y2 + 20 / pix); glVertex3f(x2, y2, -0.2);
-//            glTexCoord2d(X1, Y1 + 20 / pix); glVertex3f(x2, y1, -0.2);
-//            glEnd();
+//            glTexCoord2d(X2, Y1 * 2); glVertex3f(x1, y1, -0.2);
+//            glTexCoord2d(X2, Y2 * 2); glVertex3f(x1, y2, -0.2);
+//            glTexCoord2d(X1, Y2 * 2); glVertex3f(x2, y2, -0.2);
+//            glTexCoord2d(X1, Y1 * 2); glVertex3f(x2, y1, -0.2);
 //        }
+//        glEnd();
 //    }
 //};
-//class GUI_background {
+//class GUI_background1 {
 //    float pix = 500.0f; // колличество пикселей по высоте и ширине в текстуре
 //    float X1 = 0.0f, Y1 = 0.0f;  /* .: */ // для текстуры 
 //    float x1 = 0.0f, y1 = 0.0f;  /* :. */ // для прямоугольника
 //    float X2 = 0.0f, Y2 = 0.0f;  /* :' */ // для текстуры
 //    float x2 = 0.0f, y2 = 0.0f;  /* ': */ // для прямоугольника
-//    float r = 1, g = 1, b = 1;
-//    bool tex_key = 1;
-//    GLuint* tex; // обычная текстура. создаем НЕ указатель из-за того, что мы можем не обьявить текстуру,
-//    //если бы мы не обьявили текстуру при указателе, то при бинде этой текстуры программа давала бы сбой
+//    GLuint* tex; 
+//    bool key = 1; // состояние текстуры- она есть или нет
 //public:
-//    GUI_background(GLuint* tex, float X1, float Y1, float X2, float Y2, float x1, float y1, float x2, float y2, float light) {
-//        this->X1 = X1 / pix; this->X2 = X2 / pix;
-//        this->Y1 = Y1 / pix; this->Y2 = Y2 / pix;
+//    /**
+//        /brief конструктор класса, где мы можем задать все границы для текстуры и прямоугольника
+//
+//        GLuint* tex - указатель на текстуру,
+//        int pix- высота текстуры
+//        int X2 - x координата правого нижнего угла используемого куска текстуры
+//        int Y2 - y координата правого нижнего угла используемого куска текстуры
+//        float x1, float y1 - координаты правого верхнего угла прямоугольника, который будет рисоваться
+//        float x2, float y2 - координаты левого нижнего угла прямоугольника, который будет рисоваться
+//    */
+//    GUI_background1(GLuint* tex, int pix, float X2, float Y2, float x1, float y1, float x2, float y2) {
+//        this->X2 = X2 / pix;
+//        this->Y2 = Y2 / pix;
 //
 //        this->x1 = (x1 * 0.2); this->x2 = (x2 * 0.2);
 //        this->y1 = (y1 * 0.2); this->y2 = (y2 * 0.2);
 //        this->tex = tex;
-//        r = g = b = light;
+//        this->pix = pix;
 //    }
-//    GUI_background(float r, float g, float b, float x2, float y2, float x1, float y1) {
-//        this->r = r; this->g = g; this->b = b;
+//    /**
+//        /brief конструктор класса, где мы можем задать все границы для прямоугольника без текстуры
+//
+//        float x1, float y1 - координаты правого верхнего угла прямоугольника, который будет рисоваться
+//        float x2, float y2 - координаты левого нижнего угла прямоугольника, который будет рисоваться
+//    */
+//    GUI_background1(float x2, float y2, float x1, float y1) {
 //        this->x1 = (x1 * 0.2); this->x2 = (x2 * 0.2);
 //        this->y1 = (y1 * 0.2); this->y2 = (y2 * 0.2);
-//        tex_key = false;
+//        key = 0; // если вызываем этот конструктор, то 
 //    }
 //    void update() {
-//        if (tex_key)glBindTexture(GL_TEXTURE_2D, *tex);
-//        glColor3f(r, g, b);
+//        if(key)glBindTexture(GL_TEXTURE_2D, *tex);  //  если нет текстуры- не биндим ее
+//        else glBindTexture(GL_TEXTURE_2D, GLU_NONE); // а биндим ничего.пустоту. дыру
+//
 //        glBegin(GL_QUADS);
 //        glTexCoord2d(X2, Y1); glVertex3f(x1, y1, -0.2);
 //        glTexCoord2d(X2, Y2); glVertex3f(x1, y2, -0.2);
@@ -297,7 +338,7 @@ GUI_background tree_oak_icon(&tree_oak_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1,
 //
 //    }
 //};
-//class GUI_slider {
+//class GUI_slider1 {
 //    float pix = 500.0f; // колличество пикселей по высоте и ширине в текстуре
 //
 //    // задний фон
@@ -319,7 +360,7 @@ GUI_background tree_oak_icon(&tree_oak_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1,
 //public:
 //    bool click = 0;
 //
-//    GUI_slider(float Gx1, float Gy1, float Gx2, float Gy2) {
+//    GUI_slider1(float Gx1, float Gy1, float Gx2, float Gy2) {
 //
 //        this->Gx1 = Gx1; this->Gx2 = Gx2;
 //        this->Gy1 = Gy1; this->Gy2 = Gy2;
@@ -383,3 +424,21 @@ GUI_background tree_oak_icon(&tree_oak_icon_tex, 0, 0, 500, 500, 0.1, 0.1, -0.1,
 //
 //    }
 //};
+class area {
+    float x1, x2;
+    float y1, y2;
+public:
+    area(float x1, float y1, float x2, float y2) {
+        this->x1 = x1; this->x2 = x2;
+        this->y1 = y1; this->y2 = y2;
+    }
+    //
+    // *   ----1 точка
+    //   * --------2 точка
+    //
+    bool update() {
+        if (x1 < steve.PlayerX && x2 > steve.PlayerX && y1 < steve.PlayerY && y2 > steve.PlayerY)
+            return true;
+        else return false;
+    }
+};

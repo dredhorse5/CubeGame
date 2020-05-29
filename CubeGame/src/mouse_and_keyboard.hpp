@@ -103,8 +103,6 @@ void mouseButton(int button, int state, int x, int y) {
 		switch (state) {
 		case GLUT_DOWN:		//Если нажата
 			if (game_now == GAME) mLeft = true;
-
-
 			else if (game_now == GAME_MENU) {
 				if (exit_and_save.mouse(x, y, 1)) {
 					game_now = LOAD_MENU;
@@ -118,8 +116,6 @@ void mouseButton(int button, int state, int x, int y) {
 				}
 				slider.click_status(x, y);
 			}
-
-
 			else if (game_now == MAIN_MENU) {
 				if (world1.mouse(x, y, 1)) {
 					world_now = 1;
@@ -148,8 +144,6 @@ void mouseButton(int button, int state, int x, int y) {
 				}
 				else if (exit_touch.mouse(x, y, 1)) exit(0);
 			}
-
-
 			break;
 		case GLUT_UP:      // если опущена
 			mLeft = false;

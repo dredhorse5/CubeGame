@@ -18,17 +18,28 @@
 GLuint GUI_tex; ///< переменная, которая хранит текстуру GUI 
 GLuint dirt;///< переменная, которая хранит текстуру земли
 GLuint dirt_icon_tex; ///< переменная, которая хранит иконку земли
+
 GLuint stone;///< переменная, которая хранит текстуру камня
 GLuint stone_icon_tex;///< переменная, которая хранит иконку камня
+
 GLuint super_grass;///< переменная, которая хранит текстуру земли с травой
 GLuint super_grass_icon_tex;///< переменная, которая хранит иконку земли с травой
+
 GLuint cobblestone;///< переменная, которая хранит текстуру булыжника
+GLuint cobblestone_icon_tex;///< переменная, которая хранит иконку булыжника
+
 GLuint planks;///< переменная, которая хранит текстуру досок
+GLuint planks_icon_tex;///< переменная, которая хранит иконку досок
+
 GLuint bricks;///< переменная, которая хранит текстуру кирпичей
+GLuint bricks_icon_tex;///< переменная, которая хранит иконку кирпичей
+
 GLuint leaves;///< переменная, которая хранит текстуру листьев
 GLuint leaves_icon_tex;///< переменная, которая хранит иконку листьев
+
 GLuint tree_oak;///< переменная, которая хранит текстуру дерева
 GLuint tree_oak_icon_tex;///< переменная, которая хранит иконку дерева
+
 GLuint skybox_tex;///< переменная, которая хранит текстуру скайбокса
 
 const int quantity_cubes_x = 250; ///< колличество блоков по оси x
@@ -182,8 +193,6 @@ bool head_monument(int, int, int);
 	/brief названия блоков 
 
 	функция, дающая имена блокам
-
-
 */
 enum Blocks {
     AIR,
@@ -436,7 +445,7 @@ public:
     Animal(float x0, float y0, float z0, float speed) {
         AnimalX = x0; AnimalY = y0; AnimalZ = z0;
         dx = 0; dy = 0; dz = 0;
-        w = 0.5f; h = 0.9f; d = 0.5f; this->speed = speed ;
+        w = 0.5; h = 0.9; d = 0.5; this->speed = speed ;
         onGround = false;
     }
     /**
@@ -541,8 +550,8 @@ public:
         AnimalY += dy * (time / 50);
         collision(0, dy, 0);
 
-        //walking_for_player(time, PX, PZ);
-        walking();
+        walking_for_player(time, PX, PZ);
+        //walking();
 
         AnimalX += dx;
         collision(dx, 0, 0);
@@ -583,8 +592,8 @@ public:
         }
     }
 };
-Player steve(10, 60, 10); 
-Animal pig(11, 60, 3, 1.5 );
+Player steve(quantity_cubes_x, 60, quantity_cubes_z);
+Animal pig(quantity_cubes_x, 60, quantity_cubes_z, 1.5 );
 #include "draw.hpp"
 
 /**
@@ -646,14 +655,14 @@ void load_game() {
                 int c = im.getPixel(x, z).r / 15 + 10;
                 for (int y = 0; y <= c; y++) {
 
-                    if (y == c)         mass[x][y][z] = Blocks::SUPER_GRASS;
-                    else if (y > c - 3) mass[x][y][z] = Blocks::DIRT;
-                    else                mass[x][y][z] = Blocks::STONE;
+                    if (y == c)         mass[x][y][z] = SUPER_GRASS;
+                    else if (y > c - 3) mass[x][y][z] = DIRT;
+                    else                mass[x][y][z] = STONE;
                 }
             }
         for (int x = 0; x < quantity_cubes_x; x++)
             for (int z = 0; z < quantity_cubes_z; z++) {
-                int c = im.getPixel(x, z).r / 10 + 10;
+                int c = im.getPixel(x, z).r / 15 + 10;
                 for (int y = 4; y <= c; y++)
                     if (x > 5 && x < quantity_cubes_x - 5 && z > 5 && x < quantity_cubes_z - 5)
                         if ((rand() * rand() + seed) % 100000 == 1) head_monument(x, c, z);
@@ -796,6 +805,7 @@ int main(int argc, char** argv) {
     glutPassiveMotionFunc(mouseMove); //функция, которая отслеживает мышку в НЕ нажатом состоянии
 	glutMotionFunc(mouseMove); // функция, которая отслеживает мышку в нажатом состоянии
     
+
     glutMouseFunc(mouseButton); // Обрабатываем нажатие мыши
 
     if(game_now == GAME) glutSetCursor(GLUT_CURSOR_NONE);

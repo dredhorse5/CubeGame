@@ -1,16 +1,54 @@
-bool trees(int, int, int); // функция-затычка. обьявляем ее, чтобы в этом файле оня была видна
+void hotbar_func() {
+    glPushMatrix();
+    for (int i = 0; i <= blocks; i++) {
+        glTranslatef(-0.177 + i * 0.04411, -0.1759, 0);
+        if(i == IDblocks)
+            icon_selecter.update();
+
+        switch (i) {
+        case STONE:
+            stone_icon.update();
+            break;
+        case SUPER_GRASS:
+            super_grass_icon.update();
+            break;
+        case DIRT:
+            dirt_icon.update();
+            break;
+        case COBBLESTONE:
+            cobblestone_icon.update();
+            break;
+        case PLANKS:
+            planks_icon.update();
+            break;
+        case TREE_OAK:
+            tree_oak_icon.update();
+            break;
+        case LEAVES:
+            leaves_icon.update();
+            break;
+        case BRICKS:
+            bricks_icon.update();
+            break;
+        }
+        glTranslatef(0.177 - i * 0.04411, 0.1759, 0);
+    }
+    glPopMatrix();
+    hotbar.update();
+}
 /**
     /brief функция для игры
 
     она обрабатывает все механики игры
 */
 void game() {
-    hotbar.update();
+    hotbar_func();
     aim.update();
+
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
-	//drawSkybox();
+	drawSkybox();
     // start эта часть кода вычисляет время между кадрами, чтобы игрок двигался засчет времени
     newtime = clock();
     double times = newtime - oldtime;
@@ -33,7 +71,7 @@ void game_menu() {
     gluLookAt(steve.PlayerX, steve.PlayerY + steve.h / 2, steve.PlayerZ,
         steve.PlayerX + lx, steve.PlayerY + ly + steve.h / 2, steve.PlayerZ + lz,
         0.0f, 1.0f, 0.0f);
-	//drawSkybox();
+	drawSkybox();
     Draw_cubes();
     steve.update(0);
     pig.update(0, steve.PlayerX, steve.PlayerZ);
@@ -59,7 +97,6 @@ void load_menu() {
         0.0f, 1.0f, 0.0f);
     angle += 0.1;
 }
-
 /**
 	/brief главное меню
 
